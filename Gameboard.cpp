@@ -14,7 +14,7 @@ GameBoard::~GameBoard(){
 }
 
 
-void GameBoard::initializeGameBoard(unsigned int playerNo, unsigned int provinceNo=4){
+void GameBoard::initializeGameBoard(unsigned int playerNo){
 	// Prepare the board for a game by creating the players
 	if(playerNo>1&&playerNo<9){	// Check the player number is in the set range
 		player_amount=playerNo;
