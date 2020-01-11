@@ -18,7 +18,6 @@ void GameBoard::initializeGameBoard(unsigned int playerNo, unsigned int province
 	// Prepare the board for a game by creating the players
 	if(playerNo>1&&playerNo<9){	// Check the player number is in the set range
 		player_amount=playerNo;
-		province_amount=provinceNo;
 		player=new Player[player_amount];
 		cout << " > Game board initialized succesfully!" << endl;
 	}
@@ -81,6 +80,5 @@ void GameBoard::print(){
 		return;
 	}
 	cout << "    Number of players: " << player_amount << endl;
-	cout << "    Each player starts with: " << province_amount << " provinces" << endl;
 	return;
 }
