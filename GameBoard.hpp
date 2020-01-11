@@ -11,7 +11,7 @@ public:
 	~GameBoard();
 
 	// Main public class functionality
-	void initializeGameBoard(unsigned int playerNo, unsigned int provinceNo=4); // Initialize the game board with your prefered values
+	void initializeGameBoard(unsigned int playerNo); // Initialize the game board with your prefered values
 	void printGameStatistics(); // Print the game state and statistics
 	void gameplay(); // Enter the main gameplay loop
 
@@ -20,7 +20,6 @@ public:
 private:
 	// The game board components
 	unsigned int player_amount;
-	unsigned int province_amount;
 	// The Array of players
 	Player *player;
 
