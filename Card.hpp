@@ -38,7 +38,7 @@ public:
 	~BlackCard();
 
 protected:
-	bool isReleaved;
+	bool isRevealed;
 
 };
 
