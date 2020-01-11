@@ -12,19 +12,20 @@ public:
 	revealProvince();
 	printHand();
 	printProvinces();
-
+	print();
 
 protected:
 	unsigned int numberOfProvinces;
 	list<GreenCard *>* fateDeck;
 	list<BlackCard *>* dynastyDeck;
 
-	list<Card *> provinces;
-	list<GreenCard *> hand;
-	list<BlackCard *> holdings;
-	list<BlackCard *> holdings;
-	Stronghold stonghold;
-	
+	list<BlackCard *> provinces;
+	GreenCard *hand[6];
+	list<Holding *> holdings;
+	list<Personality *> army;
+	Strong stronghold;
+private:
+	DeckBuilder my_deck;
 };
 
 #endif
