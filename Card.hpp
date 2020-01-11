@@ -51,6 +51,6 @@ public:
 protected:
 	Card *attached;
 
-}
+};
 
 #endif
