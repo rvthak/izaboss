@@ -10,7 +10,6 @@ GameBoard::~GameBoard(){
 	if(player!=NULL){
 		delete[] player;
 	}
-	return;
 }
 
 
