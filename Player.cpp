@@ -13,7 +13,7 @@ Player::Player()
 		itb = dynastyDeck->begin();
 	}
 	for(int i=0;i<6;i++)
-		hand[i];
+		hand[i]=NULL;
 }
 
 Player::~Player(){
