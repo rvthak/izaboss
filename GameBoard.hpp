@@ -22,6 +22,8 @@ private:
 	unsigned int player_amount;
 	// The Array of players
 	Player *player;
+	// The player turn buffer
+	int *buf;
 
 	// Internally used functions
 	// Used in gameplay() | The five gameplay phases + The win condition function
