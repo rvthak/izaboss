@@ -42,11 +42,11 @@ void GameBoard::initializeGameBoard(unsigned int playerNo){
 		// We pass the initial values to both arrays
 		for (int i=0; i<player_amount; i++){
 			buf[i]=i;
-	    	bufval[i]=player[i].getHonour();
-	    }
-	    // sort the buf according to the bufval values
-	    sort(buf, bufval, player_amount);
-	    delete []bufval;
+	    		bufval[i]=player[i].getHonour();
+	    	}
+		// sort the buf according to the bufval values
+		sort(buf, bufval, player_amount);
+		delete []bufval;
 		cout << " > Game board initialized succesfully!" << endl;
 	}
 	else{
@@ -88,17 +88,17 @@ void GameBoard::gameplay(){
 
 void GameBoard::startingPhase(){
 	for(int i=0; i<player_amount; i++){
-    	player[i].untapEverything();
-    	player[i].drawFateCard();
+    		player[i].untapEverything();
+    		player[i].drawFateCard();
   	 	player[i].revealProvinces();
-    	player[i].printHand();
-    	player[i].printProvinces();
+    		player[i].printHand();
+    		player[i].printProvinces();
     }
 }
 void GameBoard::equipPhase(){
 	for(int i=0; i<player_amount; i++){
 		
-    }
+    	}
 }
 void GameBoard::battlePhase(){
 
