@@ -8,15 +8,23 @@ class Personality : public BlackCard
 	public:
 		Personality();
 		~Personality();
-
+		unsigned int getHonour(){
+			return honour;
+		};
+		void equip(Follower *f){
+			followers.push_back(f);
+		};
+		void equip(Item *i){
+			items.push_back(i);
+		};
 	private:
 		unsigned int attack;
 		unsigned int defence;
 		unsigned int honour;
 		bool isDead;
 
-		Follower *;
-		Item *;
+		list<Follower *> followers;
+		list<Item *> items;
 	
 };
 

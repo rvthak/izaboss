@@ -9,7 +9,20 @@ public:
 	void untap(){
 		isTapped = 0;
 	};
+	int tap(){
+		if(isTapped){
+			cout<<"Already tapped"<<endl;
+			return 0;
+		}
+		else{
+			isTapped=1;
+			return 1;
+		}
+	};
 	virtual void print()=0;
+	unsigned int getCost(){
+		return cost;
+	};
 protected:
 	std::sting name;
 	unsigned int cost;
@@ -25,9 +38,16 @@ public:
 
 	effectBonus(); // call on card upgrade?
 	virtual void print();
+	unsigned int getHonour(){
+		return min_honour;
+	};
+	unsigned int getEffectCost(){
+		return effectCost;
+	};
 protected:
 	int attackBonus;
 	int defenceBonus;
+	unsigned int min_honour;
 	unsigned int cardText;
 	unsigned int effectCost;
 	unsigned int durability;
