@@ -6,6 +6,8 @@ class Player
 public:
 	Player();
 	~Player();
+	
+	bool checkWinningCondition();
 
 	void untapEverything();
 	void drawFateCard();
