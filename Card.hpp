@@ -25,9 +25,10 @@ public:
 protected:
 	int attackBonus;
 	int defenceBonus;
-	unsigned int cardText;
+	unsigned int minimumHonor;
+	unsigned int effectBonus;
 	unsigned int effectCost;
-	unsigned int durability;
+	std::string cardText;
 
 };
 

@@ -24,6 +24,7 @@ private:
 	Player *player;
 	// The player turn buffer
 	int *buf;
+	bool running;
 
 	// Internally used functions
 	// Used in gameplay() | The five gameplay phases + The win condition function
@@ -32,7 +33,7 @@ private:
 	void battlePhase();
 	void economyPhase();
 	void finalPhase();
-	bool checkWinningCondition();	// Returns 0 if we have a winner and the game is over
+	bool checkWinningCondition(unsigned int i);	// Returns 0 if we have a winner and the game is over
 
 };
 
