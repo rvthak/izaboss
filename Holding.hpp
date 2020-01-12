@@ -8,6 +8,9 @@ class Holding : public BlackCard
 	public:
 		Holding();
 		~Holding();
+		unsigned int getHarvestValue(){
+			return harvestValue;
+		};
 	protected:
 		unsigned int harvestValue;
 		Holding *upperHolding;
@@ -23,6 +26,9 @@ class Stronghold : public Holding
 		~Stronghold();
 		unsigned int getHonour(){
 			return honour;
+		};
+		unsigned int getMoney(){
+			return money;
 		};
 	private:
 		const unsigned int honour;
