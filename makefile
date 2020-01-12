@@ -1,5 +1,5 @@
 OUT=oop3
-OBJS=main.o GameBoard.o Player.o Card.o Item.o Follower.o Holding.o Personality.o DeckBuilder.o TypeConverter.o
+OBJS=main.o GameBoard.o Player.o Card.o Item.o Follower.o Holding.o Personality.o DeckBuilder.o TypeConverter.o inputMgr.o
 CC=g++
 COMPILATION_PARAMETERS=
 EXECUTION_PARAMETERS=
