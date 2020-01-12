@@ -6,11 +6,14 @@ class Card
 public:
 	Card();
 	~Card();
-
+	void untap(){
+		isTapped = 0;
+	};
+	virtual void print()=0;
 protected:
 	std::sting name;
 	unsigned int cost;
-	bool isTagged;
+	bool isTapped;
 };
 
 
@@ -21,7 +24,7 @@ public:
 	~GreenCard();
 
 	effectBonus(); // call on card upgrade?
-
+	virtual void print();
 protected:
 	int attackBonus;
 	int defenceBonus;
@@ -36,18 +39,22 @@ class BlackCard : public Card
 public:
 	BlackCard();
 	~BlackCard();
+	void revealCard(){
+		isRevealed = 1;
+	};
+	virtual void print();
 
 protected:
 	bool isRevealed;
 
 };
 
-class Province : public Card
+class Province : public BlackCard
 {
 public:
 	Province();
 	~Province();
-	
+	void print();
 protected:
 	Card *attached;
 
