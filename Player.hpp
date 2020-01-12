@@ -7,19 +7,22 @@ public:
 	Player();
 	~Player();
 
-	untapEverything();
-	drawFateCard();
-	revealProvince();
-	printHand();
-	printProvinces();
+	void untapEverything();
+	void drawFateCard();
+	void revealProvince();
+	void printHand();
+	void printProvinces();
 	print();
+	unsigned int getHonour(){
+		return stronghold.getHonour();
+	};
 
 protected:
 	unsigned int numberOfProvinces;
 	list<GreenCard *>* fateDeck;
 	list<BlackCard *>* dynastyDeck;
 
-	list<BlackCard *> provinces;
+	list<Province *> provinces;
 	GreenCard *hand[6];
 	list<Holding *> holdings;
 	list<Personality *> army;
