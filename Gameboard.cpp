@@ -220,7 +220,7 @@ void GameBoard::battlePhase(){
 					}
 					else{
 						cout << " > ATTACK " << endl;
-						player[buf[i]].attack[targetplay , targetprov]; // remember to print the attack results
+						player[buf[i]].attack(player[buf[targetplay]], targetprov); // remember to print the attack results
 						return;
 					}
 				}
