@@ -8,6 +8,7 @@ class Item : public GreenCard
 	public:
 		Item();
 		~Item();
+		virtual int getType(){ return 4; }
 
 	private:
 	

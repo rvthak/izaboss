@@ -26,6 +26,7 @@ public:
 	bool tapped(){
 			return isTapped;
 	};
+	virtual int getType()=0;
 protected:
 	std::sting name;
 	unsigned int cost;
@@ -47,6 +48,7 @@ public:
 	unsigned int getEffectCost(){
 		return effectCost;
 	};
+	virtual int getType()=0;
 protected:
 	int attackBonus;
 	int defenceBonus;
@@ -66,6 +68,7 @@ public:
 		isRevealed = 1;
 	};
 	virtual void print();
+	virtual int getType()=0;
 
 protected:
 	bool isRevealed;
@@ -90,6 +93,7 @@ public:
 	BlackCard *getAttachedCard(){
 		return attached;
 	};
+	virtual int getType(){}
 protected:
 	BlackCard *attached;
 
