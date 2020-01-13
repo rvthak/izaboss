@@ -9,7 +9,7 @@ public:
 	void untap(){
 		isTapped = 0;
 	};
-	int tap(){
+	bool tap(){
 		if(isTapped){
 			isTapped=0;
 			return 0;
@@ -22,6 +22,9 @@ public:
 	virtual void print()=0;
 	unsigned int getCost(){
 		return cost;
+	};
+	bool tapped(){
+			return isTapped;
 	};
 protected:
 	std::sting name;

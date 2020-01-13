@@ -17,6 +17,8 @@ class Personality : public BlackCard
 		void equip(Item *i){
 			items.push_back(i);
 		};
+		void print();
+		
 	private:
 		unsigned int attack;
 		unsigned int defence;
