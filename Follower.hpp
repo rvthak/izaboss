@@ -8,6 +8,7 @@ class Follower : public GreenCard
 	public:
 		Follower();
 		~Follower();
+		virtual int getType(){ return 3; }
 
 	private:
 		

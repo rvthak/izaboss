@@ -11,6 +11,7 @@ class Holding : public BlackCard
 		unsigned int getHarvestValue(){
 			return harvestValue;
 		};
+		virtual int getType(){ return 2; }
 	protected:
 		unsigned int harvestValue;
 		Holding *upperHolding;
