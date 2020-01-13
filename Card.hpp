@@ -11,7 +11,7 @@ public:
 	};
 	int tap(){
 		if(isTapped){
-			cout<<"Already tapped"<<endl;
+			isTapped=0;
 			return 0;
 		}
 		else{

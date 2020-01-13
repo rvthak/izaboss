@@ -179,7 +179,7 @@ void GameBoard::battlePhase(){
 				cout << " > Which one of your army members do you want to tap?" << endl;
 				unsigned int sol = choosefrom(player[buf[i]].ActiveArmyCardsNo());
 				player[buf[i]].AddToAttackForce(sol);
-				player[buf[i]].printUnTapArmy(); // print only the untapped cards
+				player[buf[i]].printUnTapArmy();
 			}
 
 			cout << " --- War --- " << endl;
@@ -240,54 +240,33 @@ void GameBoard::economyPhase(){
 	cout << "                   Economy Phase                  " << endl;
 	cout << " ================================================ " << endl;
 	for(int i=0; i<player_amount; i++){ // !!! each player can buy only one card in this phase
-		cout << endl << " > Player's " << i+1 << " turn: " << endl;
-		// Print his army and holdings
-		player[buf[i]].printArmy();
-		player[buf[i]].printHoldings();
-		// Then print the provinces he can choose from
-		player[buf[i]].printProvinces();
+		cout << endl << " > Player's " << i+1 << " turn: " << endl;	
+		while(1){
+			// Print his army and holdings
+			player[buf[i]].printArmy();
+			player[buf[i]].printHoldings();
+			// Then print the provinces he can choose from
+			player[buf[i]].printProvinces();
 
-		unsigned int tmp=player[buf[i]].GetProvinceAmount();
-		cout << " > Choose one of the available options:" << endl;
-		cout << " - Province number to choose it [1, " << tmp << "]" << endl;
-		cout << " - Type " << tmp+1 << " to pass this phase " << endl;
-		unsigned int choice=choosefrom(tmp+1);
-		if(choice!=tmp+2){
-			player[buf[i]].buyAndUse(choice-1);
-
-			/* for buyAndUse() + remember to draw a new black card to replace the old one
-			Personality **person;
-			Holding **hold;
-			// find the card type
-			getCorrectType(player[buf[i]].getProvince(choice-1), person, hold );
-			if(*person!=NULL){ // the chosen card is a personality
-				
+			unsigned int tmp=player[buf[i]].GetProvinceAmount();
+			cout << " > Choose one of the available options:" << endl;
+			cout << " - Province number to choose it [1, " << tmp << "]" << endl;
+			cout << " - Type " << tmp+1 << " to pass this phase " << endl;
+			unsigned int choice=choosefrom(tmp+1);
+			if(choice!=tmp+1){
+				if( player[buf[i]].getMoney() => player[buf[i]].GetProvinceCardCost(choice) ){
+					player[buf[i]].buyAndUse(choice);
+					cout << " > Transaction successful" << endl;
+					break;
+				}
+				else{
+					cout << " > Not enough money please try again" << endl;
+				}
 			}
-			else{ // the chosen card is a holding
-
-			}*/
-			
-			/* for buyAndAssign()
-			Follower **follow;
-			Item **item;
-			// find the card type
-			getCorrectType(player[buf[i]].getHandChoice(handCardNumber), follow, item );
-			if(*follow!=NULL){ // the chosen card is a follower
-				
+			else{
+				cout << " > Phase passed!" << endl;
+				break;
 			}
-			else{ // the chosen card is a item
-
-			}*/
-			
-			
-			
-			
-				
-				
-
-		}
-		else{
-			cout << " > Phase passed!" << endl;
 		}
 	}
 }
@@ -322,7 +301,6 @@ bool GameBoard::checkWinningCondition(unsigned int i){
 				}
 			}
 		}
-
 		if(flag){
 			running=0;
 			return 1;
