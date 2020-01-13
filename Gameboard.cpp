@@ -179,7 +179,7 @@ void GameBoard::battlePhase(){
 				cout << " > Which one of your army members do you want to tap?" << endl;
 				unsigned int sol = choosefrom(player[buf[i]].ActiveArmyCardsNo());
 				player[buf[i]].AddToAttackForce(sol);
-				player[buf[i]].printUnTapArmy();
+				player[buf[i]].printUnTapArmy(); // print only the untapped cards
 			}
 
 			cout << " --- War --- " << endl;
