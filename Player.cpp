@@ -1,4 +1,5 @@
 #include "Player.hpp"
+#include "inputMgr.hpp"
 
 Player::Player()
 :numberOfProvinces(4),stronghold(5,5,5){
@@ -187,14 +188,30 @@ void Player::printTapArmy(){
 	}
 }
 
-void Player::TapArmyCard(unsigned int ano){
-	list<Personality *>::iterator ita;
-	for(int i=0;i<ano && ita != army.end();i++)
+void Player::buyAndAssign(unsigned int hno, unsigned int ano){
+	int j=0;
+	unsigned int index;
+	int cost = GetHandCardCost(hno);
+	pay_cost(cost);
+	list<Army *>::iterator ita;
+	ita = army.begin();
+	for(int i=1;i<ano && ita != army.end();i++)
 		ita++;
-	if(!((*ita)->tap())){
-		cout<<"This card is already tapped"<<endl;
-		(*ita)->tap();
+	for(int i=0;i<hno && j<7;j++){
+		if(hand[j] != NULL)
+			i++;
 	}
+	if(getDesision("Do you want to upgrade your new card? (y/n)"))
+		if(getMoney()>=(cost = hand[j-1]->getEffectCost())){
+			hand[j-1]->effectBonus();
+			pay_cost(cost);
+		}else
+			cout<<"You don't have the money to upgrade teme"<<endl;
+	Follower **follow;
+	Item **item;
+	getCorrectType(hand[j-1],follow,item)
+	if(*follow != NULL)
+		(*ita)->equip(*follow);
+	else
+		(*ita)->equip(*item);
 }
-
-void Player::

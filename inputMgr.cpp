@@ -11,7 +11,7 @@ unsigned int choosefrom(unsigned int n){
 		cout << " > Type a number in [1, " << n << "]" << endl;
 		cin >> input;
 	}
-	return input;
+	return input-1;
 }
 
 bool getDesision(const string msg){
