@@ -237,6 +237,25 @@ void GameBoard::economyPhase(){
 			else{ // the chosen card is a holding
 
 			}*/
+			
+			/* for buyAndAssign()
+			Follower **follow;
+			Item **item;
+			// find the card type
+			getCorrectType(player[buf[i]].getHandChoice(handCardNumber), follow, item );
+			if(*follow!=NULL){ // the chosen card is a follower
+				
+			}
+			else{ // the chosen card is a item
+
+			}*/
+			
+			
+			
+			
+				
+				
+
 		}
 		else{
 			cout << " > Phase passed!" << endl;
