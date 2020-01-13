@@ -145,7 +145,7 @@ void Player::buyAndAssign(unsigned int hno, unsigned int ano){
 			i++;
 	}
 	
-	if(getDesision("Do you want to upgrade your new card? (y/n)"){
+	if(getDesision("Do you want to upgrade your new card? (y/n)")){
 		if(getMoney()>=(cost = hand[j-1]->getEffectCost())){
 			hand[j-1]->effectBonus();
 			pay_cost(cost);
