@@ -115,7 +115,7 @@ unsigned int Player::GetHandCardCost(unsigned int no){
 	return hand[j-1]->getCost();
 }
 
-unsigned int Plaeyer::GetArmyMemberHonour(unsigned int no){
+unsigned int Player::GetArmyMemberHonour(unsigned int no){
 	list<Personality *>::iterator ita;
 	ita = army.begin()
 	for(int i=0;i<no && ita != army.end();i++)
@@ -135,41 +135,42 @@ unsigned int Player::GetHandMemberHonour(unsigned int no){
 void Player::buyAndAssign(unsigned int hno, unsigned int ano){
 	int j=0;
 	unsigned int index;
-	int cost =GetHandCardCost(hno);
+	int cost = GetHandCardCost(hno);
+	pay_cost(cost);
+	list<Army *>::iterator ita;
+	for(int i=0;i<ano && ita != army.end();i++)
+		ita++;
+	for(int i=0;i<hno && j<6;j++){
+		if(hand[j]!=NULL)
+			i++;
+	}
+	cout<<"Do you want to upgrade, Yes or No?";
+	string answer;
+	cin>>answer;
+	while(answer!="Yes" && answer!="No"){
+		cout<<"Do you want to upgrade, Yes or No?";
+		cin>>answer;
+	}
+	if(answer=="Yes")
+		if(getMoney()>=(cost = hand[j-1]->getEffectCost())){
+			hand[j-1]->effectBonus();
+			pay_cost(cost);
+		}else
+			cout<<"You don't have the money to upgrade teme"<<endl;
+	(*ita)->equip(hand[j-1]);
+}
+
+void Player::pay_cost(int cost){
 	list<Holding *>::iterator ith;
+	int index,i;
 	while(cost >0){
 		index = choosefrom(HoldingCardsNo());
-		int i=0;
+		i=0;
 		for(ith = holdings.begin();i<index && ith != holdings.end();ith++)
 			i++;
 		if((*ith)->tap())
 			cost -=(*ith)->getHarvestValue();
+		else
+			cost +=(*ith)->getHarvestValue();
 	}
-	list<Army *>::iterator ita;
-	for(int i=0;i<index && ita != army.end();i++)
-		ita++;
-	for(int i=0;i<no && j<6;j++){
-		if(hand[j]!=NULL)
-			i++;
-	}
-	for(int i=0;i<no && ita != army.end();i++)
-		ita++;
-	
-	if( getDesision("Do you want to upgrade your new card? (y/n)"){
-		if(getMoney()>=(cost = hand[j-1]->getEffectCost())){
-			hand[j-1]->effectBonus();
-			while(cost > 0){
-				index = choosefrom(HoldingCardsNo());
-				int i=0;
-				for(ith = holdings.begin();i<index && ith != holdings.end();ith++)
-					i++;
-				if((*ith)->tap())
-					cost -=(*ith)->getHarvestValue();
-			}
-		}else{
-			cout<<"You don't have the money to upgrade teme"<<endl;
-		}
-	}
-		
-	(*ita)->equip(hand[j-1]);
 }
