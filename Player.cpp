@@ -154,14 +154,8 @@ void Player::buyAndAssign(unsigned int hno, unsigned int ano){
 	}
 	for(int i=0;i<no && ita != army.end();i++)
 		ita++;
-	cout<<"Do you want to upgrade, Yes or No?";
-	string answer;
-	cin>>answer;
-	while(answer!="Yes" && answer!="No"){
-		cout<<"Do you want to upgrade, Yes or No?";
-		cin>>answer;
-	}
-	if(answer=="Yes")
+	
+	if( getDesision("Do you want to upgrade your new card? (y/n)"){
 		if(getMoney()>=(cost = hand[j-1]->getEffectCost())){
 			hand[j-1]->effectBonus();
 			while(cost > 0){
@@ -175,5 +169,7 @@ void Player::buyAndAssign(unsigned int hno, unsigned int ano){
 		}else{
 			cout<<"You don't have the money to upgrade teme"<<endl;
 		}
+	}
+		
 	(*ita)->equip(hand[j-1]);
 }
