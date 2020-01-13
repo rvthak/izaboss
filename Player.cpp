@@ -1,5 +1,4 @@
 #include "Player.hpp"
-#include "inputMgr.hpp"
 
 Player::Player()
 :numberOfProvinces(4),stronghold(5,5,5){
@@ -13,7 +12,7 @@ Player::Player()
 		dynastyDeck->pop_front();
 		itb = dynastyDeck->begin();
 	}
-	for(int i=0;i<6;i++)
+	for(int i=0;i<7;i++)
 		hand[i]=NULL;
 	money = stronghold.getMoney();
 }
@@ -37,7 +36,7 @@ void Player::drawFateCard(){
 	list<GreenCard *>::iterator itg;
 	if((itg = fateDeck->begin())!= fateDeck->end()){
 		bool flag =0;
-		for(int i=0; i<6 ;i++){
+		for(int i=0; i<7 ;i++){
 			if(hand[i]!=NULL){
 				flag = 1;
 				break;
@@ -50,19 +49,20 @@ void Player::drawFateCard(){
 			fateDeck->pop_front();			
 		}
 		else
-			cout<<"Your hand is full! You can't have more than 6 cards on your hand"<<endl;
+			cout<<"Your hand is full! You can't have more than 7 cards on your hand"<<endl;
 	}else
 		cout<<"Fate deck is empty! You can't draw a card"<<endl;
 }
 
 void Player::revealProvince(){
 	list<Province *>::iterator itp;
-	for(itp = provinces.begin();itp != provinces.end();itp++)
+	for(itp = provinces.begin();itp != provinces.end();itp++){
 		(*itp)->revealCard();
+	}
 }
 
 void Player::printHand(){
-	for(int i=0; i<6 ;i++)
+	for(int i=0; i<7 ;i++)
 		if(hand[i]!=NULL)
 			hand[i]->print();
 }
@@ -86,7 +86,7 @@ void Player::printArmy(){
 
 unsigned int Player::HandCardsNo(){
 	int k=0;
-	for(int i=0;i<6;i++)
+	for(int i=0;i<7;i++)
 		if(hand[i]!=NULL)
 			k++;
 }
@@ -109,7 +109,7 @@ unsigned int Player::HoldingCardsNo(){
 
 unsigned int Player::GetHandCardCost(unsigned int no){
 	int j=0;
-	for(int i=0;i<no && j<6;j++){
+	for(int i=0;i<no && j<7;j++){
 		if(hand[j]!=NULL)
 			i++;
 	}
@@ -126,7 +126,7 @@ unsigned int Player::GetArmyMemberHonour(unsigned int no){
 
 unsigned int Player::GetHandMemberHonour(unsigned int no){
 	int j=0;
-	for(int i=0;i<no && j<6;j++){
+	for(int i=0;i<no && j<7;j++){
 		if(hand[j]!=NULL)
 			i++;
 	}
@@ -135,25 +135,29 @@ unsigned int Player::GetHandMemberHonour(unsigned int no){
 
 void Player::buyAndAssign(unsigned int hno, unsigned int ano){
 	int j=0;
+	unsigned int index;
 	int cost = GetHandCardCost(hno);
 	pay_cost(cost);
 	list<Army *>::iterator ita;
 	for(int i=0;i<ano && ita != army.end();i++)
 		ita++;
-	for(int i=0;i<hno && j<6;j++){
+	for(int i=0;i<hno && j<7;j++){
 		if(hand[j]!=NULL)
 			i++;
 	}
-	
-	if(getDesision("Do you want to upgrade your new card? (y/n)")){
+	if(getDesision("Do you want to upgrade your new card? (y/n)"))
 		if(getMoney()>=(cost = hand[j-1]->getEffectCost())){
 			hand[j-1]->effectBonus();
 			pay_cost(cost);
-		}else{
+		}else
 			cout<<"You don't have the money to upgrade teme"<<endl;
-		}
-	}	
-	(*ita)->equip(hand[j-1]);
+	Follower **follow;
+	Item **item;
+	getCorrectType(hand[j-1],follow,item)
+	if(*follow != NULL)
+		(*ita)->equip(*follow);
+	else
+		(*ita)->equip(*item);
 }
 
 void Player::pay_cost(int cost){
@@ -170,3 +174,27 @@ void Player::pay_cost(int cost){
 			cost +=(*ith)->getHarvestValue();
 	}
 }
+
+void Player::printTapArmy(){
+	list<Personality *>::iterator ita;
+	for(ita = army.begin(); ita != army.end(); ita++){
+		(*ita)->print();
+		cout<<'\t';
+		if((*ita)->tapped())
+			cout<<"Tapped"<<endl;
+		else
+			cout<<"Not Tapped"<<endl;
+	}
+}
+
+void Player::TapArmyCard(unsigned int ano){
+	list<Personality *>::iterator ita;
+	for(int i=0;i<ano && ita != army.end();i++)
+		ita++;
+	if(!((*ita)->tap())){
+		cout<<"This card is already tapped"<<endl;
+		(*ita)->tap();
+	}
+}
+
+void Player::

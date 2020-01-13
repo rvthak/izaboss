@@ -34,11 +34,13 @@ protected:
 	list<BlackCard *>* dynastyDeck;
 
 	list<Province *> provinces;
-	GreenCard *hand[6];
+	GreenCard *hand[7];
 	list<Holding *> holdings;
 	list<Personality *> army;
 	Strong stronghold;
 	unsigned int money;
+	list<Personality *> attackForce;
+	list<Personality *> defenceForce;
 private:
 	DeckBuilder my_deck;
 };
