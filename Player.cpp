@@ -14,7 +14,6 @@ Player::Player()
 	}
 	for(int i=0;i<7;i++)
 		hand[i]=NULL;
-	money = stronghold.getMoney();
 }
 
 Player::~Player(){
@@ -133,6 +132,13 @@ unsigned int Player::GetHandMemberHonour(unsigned int no){
 	}
 	return hand[j-1]->getHonour();
 }
+unsigned int Player::getMoney(){
+	list<Holding *>::iterator ith;
+	unsigned int money= stronghold.getMoney();
+	for(ith = holdings.begin();ith != holdings.end();ith++)
+		if(!((*ith)->tapped()))
+			money += (*ith)->getHarvestValue();
+}
 
 void Player::buyAndAssign(unsigned int hno, unsigned int ano){
 	int j=0;
@@ -175,7 +181,6 @@ void Player::pay_cost(int cost){
 		else
 			cost +=(*ith)->getHarvestValue();
 	}
-//allaje ta lefta
 }
 
 void Player::printTapArmy(){
