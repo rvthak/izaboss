@@ -18,7 +18,9 @@ class Personality : public BlackCard
 			items.push_back(i);
 		};
 		void print();
-		
+		unsigned int getAttack(){
+			return attack;
+		};
 	private:
 		unsigned int attack;
 		unsigned int defence;

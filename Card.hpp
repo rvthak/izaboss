@@ -78,8 +78,20 @@ public:
 	Province();
 	~Province();
 	void print();
+	void attach(BlackCard *n){
+		attached = n;
+	};
+	void detach(){
+		attached =NULL;
+	};
+	unsigned int getCardCost(){
+		return attached->getCost();
+	};
+	BlackCard *getAttachedCard(){
+		return attached;
+	};
 protected:
-	Card *attached;
+	BlackCard *attached;
 
 };
 

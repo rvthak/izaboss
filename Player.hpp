@@ -13,7 +13,7 @@ public:
 	void printHand();
 	void printProvinces();
 	void printArmy();
-	print();
+	void print();
 	unsigned int getHonour(){
 		return stronghold.getHonour();
 	};

@@ -1,5 +1,4 @@
 #include "Player.hpp"
-#include "inputMgr.hpp"
 
 Player::Player()
 :numberOfProvinces(4),stronghold(5,5,5){
@@ -122,6 +121,7 @@ unsigned int Player::GetArmyMemberHonour(unsigned int no){
 	ita = army.begin()
 	for(int i=0;i<no && ita != army.end();i++)
 		ita++;
+	ita--;
 	return (*ita)->getHonour();
 }
 
@@ -136,61 +136,6 @@ unsigned int Player::GetHandMemberHonour(unsigned int no){
 
 void Player::buyAndAssign(unsigned int hno, unsigned int ano){
 	int j=0;
-	unsigned int index;
-	int cost = GetHandCardCost(hno);
-	pay_cost(cost);
-	list<Army *>::iterator ita;
-	for(int i=0;i<ano && ita != army.end();i++)
-		ita++;
-	for(int i=0;i<hno && j<7;j++){
-		if(hand[j]!=NULL)
-			i++;
-	}
-	if(getDesision("Do you want to upgrade your new card? (y/n)"))
-		if(getMoney()>=(cost = hand[j-1]->getEffectCost())){
-			hand[j-1]->effectBonus();
-			pay_cost(cost);
-		}else
-			cout<<"You don't have the money to upgrade teme"<<endl;
-	Follower **follow;
-	Item **item;
-	getCorrectType(hand[j-1],follow,item)
-	if(*follow != NULL)
-		(*ita)->equip(*follow);
-	else
-		(*ita)->equip(*item);
-}
-
-void Player::pay_cost(int cost){
-	list<Holding *>::iterator ith;
-	int index,i;
-	while(cost >0){
-		index = choosefrom(HoldingCardsNo());
-		i=0;
-		for(ith = holdings.begin();i<index && ith != holdings.end();ith++)
-			i++;
-		if((*ith)->tap())
-			cost -=(*ith)->getHarvestValue();
-		else
-			cost +=(*ith)->getHarvestValue();
-	}
-}
-
-void Player::printTapArmy(){
-	list<Personality *>::iterator ita;
-	for(ita = army.begin(); ita != army.end(); ita++){
-		(*ita)->print();
-		cout<<'\t';
-		if((*ita)->tapped())
-			cout<<"Tapped"<<endl;
-		else
-			cout<<"Not Tapped"<<endl;
-	}
-}
-
-void Player::buyAndAssign(unsigned int hno, unsigned int ano){
-	int j=0;
-	unsigned int index;
 	int cost = GetHandCardCost(hno);
 	pay_cost(cost);
 	list<Army *>::iterator ita;
@@ -209,9 +154,129 @@ void Player::buyAndAssign(unsigned int hno, unsigned int ano){
 			cout<<"You don't have the money to upgrade teme"<<endl;
 	Follower **follow;
 	Item **item;
-	getCorrectType(hand[j-1],follow,item)
+	getCorrectType(hand[j-1],follow,item);
 	if(*follow != NULL)
 		(*ita)->equip(*follow);
 	else
 		(*ita)->equip(*item);
+	hand[j-1]=NULL;
+}
+
+void Player::pay_cost(int cost){
+	list<Holding *>::iterator ith;
+	int index,i;
+	while(cost >0){
+		index = choosefrom(HoldingCardsNo());
+		i=1;
+		for(ith = holdings.begin();i<index && ith != holdings.end();ith++)
+			i++;
+		if((*ith)->tap())
+			cost -=(*ith)->getHarvestValue();
+		else
+			cost +=(*ith)->getHarvestValue();
+	}
+//allaje ta lefta
+}
+
+void Player::printTapArmy(){
+	list<Personality *>::iterator ita;
+	for(ita = army.begin(); ita != army.end(); ita++){
+		(*ita)->print();
+		cout<<'\t';
+		if((*ita)->tapped())
+			cout<<"Tapped"<<endl;
+		else
+			cout<<"Not Tapped"<<endl;
+	}
+}
+
+void Player::TapArmyCard(unsigned int ano){
+	list<Personality *>::iterator ita;
+	ita = army.begin();
+	for(int i=1;i<ano && ita != army.end();i++)
+		ita++;
+	if(!((*ita)->tap())){
+		cout<<"This card is already tapped"<<endl;
+		(*ita)->tap();
+	}
+}
+
+void Player::printUntappedArmy(){
+	list<Personality *>::iterator ita;
+	for(ita = army.begin();ita != army.end();ita++)
+		if(!((*ita)->tapped()))
+			(*ita)->print();
+}
+
+unsigned int Player::ActiveArmyCardsNo(){
+	list<Personality *>::iterator ita;
+	unsigned int k=0;
+	for(ita = army.begin();ita != army.end();ita++)
+		if(!((*ita)->tapped()))
+			k++;
+}
+
+void Player::AddToAttackForce(unsigned int ano){
+	list<Personality *>::iterator ita;
+	ita = army.begin();
+	for(int i=0; i<ano && ita!=army.end(); ita++)
+		if(!((*ita)->tapped()))
+			i++;
+	ita--;
+	attackForce.push_back() = (*ita);
+	army.remove(*ita);
+}
+
+unsigned int Player::getPlayerAttack(){
+	list<Personality *>::iterator ita;
+	unsigned int sum=0;
+	for(ita = attackForce.begin(); ita != attackForce.end();ita++)
+		sum += (*ita)->getAttack();
+	return sum;
+}
+
+unsigned int Player::GetProvinceAmount(){
+	return numberOfProvinces;
+}
+
+//eqononmy_phase
+unsigned int Player::GetProvinceCardCost(unsigned int pno){
+	list<Province *>::iterator itp;
+	itp = provinces.begin();
+	for(int i=1;i<pno && itp != provinces.end();i++)
+		itp++;
+	return (*itp)->getCardCost();
+}
+
+void Player::buyAndUse(unsigned int pno){
+	list<Province *>::iterator itp;
+	itp = provinces.begin();
+	for(int i=1;i<pno && itp != provinces.end();i++)
+		itp++;
+	int cost = GetProvinceCardCost(pno);
+	pay_cost(cost);
+	Personality **person;
+	Holding **hold;
+	getCorrectType((*itp)->getAttachedCard(),person,hold);
+	if(*person !=NULL)
+		army.push_back(*person);
+	else
+		holdings.push_back(*hold);
+	(*itp)->detach();
+	list<BlackCard *>::iterator itd;
+	itd = dynastyDeck->begin();
+	(*itp)->attach(*itd);
+	dynastyDeck->pop_front();
+}
+
+void Player::discardSurplusFateCards(){
+	int k;
+	for(int i=0;i<7;i++)
+		if(hand[i]!=NULL)
+			k++;
+	printHand();
+	if(k==7){
+		k=choosefrom(7);
+		delete hand[i];
+	}
 }
