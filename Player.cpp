@@ -1,4 +1,5 @@
 #include "Player.hpp"
+#include "inputMgr.hpp"
 
 Player::Player()
 :numberOfProvinces(4),stronghold(5,5,5){
