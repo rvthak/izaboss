@@ -200,11 +200,11 @@ void GameBoard::battlePhase(){
 
 					// let him choose his attack
 					cout << " > Which one of the available players do you want to attack?" << endl;
-					unsigned int targetplay = choosefrom(player_amount);
+					unsigned int target = choosefrom(player_amount);
 					while(target==i){
 						cout << " > You cant attack yourself... " << endl;
 						cout << " > Which one of the available players do you want to attack?" << endl;
-						unsigned int target = choosefrom(player_amount);
+						target = choosefrom(player_amount);
 					}
 
 					// let him choose his enemy's province-target
