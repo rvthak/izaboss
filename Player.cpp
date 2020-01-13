@@ -134,7 +134,6 @@ unsigned int Player::GetHandMemberHonour(unsigned int no){
 
 void Player::buyAndAssign(unsigned int hno, unsigned int ano){
 	int j=0;
-	unsigned int index;
 	int cost = GetHandCardCost(hno);
 	pay_cost(cost);
 	list<Army *>::iterator ita;
