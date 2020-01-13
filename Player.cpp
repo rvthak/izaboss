@@ -136,7 +136,6 @@ unsigned int Player::GetHandMemberHonour(unsigned int no){
 
 void Player::buyAndAssign(unsigned int hno, unsigned int ano){
 	int j=0;
-	unsigned int index;
 	int cost = GetHandCardCost(hno);
 	pay_cost(cost);
 	list<Army *>::iterator ita;
@@ -155,11 +154,12 @@ void Player::buyAndAssign(unsigned int hno, unsigned int ano){
 			cout<<"You don't have the money to upgrade teme"<<endl;
 	Follower **follow;
 	Item **item;
-	getCorrectType(hand[j-1],follow,item)
+	getCorrectType(hand[j-1],follow,item);
 	if(*follow != NULL)
 		(*ita)->equip(*follow);
 	else
 		(*ita)->equip(*item);
+	hand[j-1]=NULL;
 }
 
 void Player::pay_cost(int cost){
@@ -175,6 +175,7 @@ void Player::pay_cost(int cost){
 		else
 			cost +=(*ith)->getHarvestValue();
 	}
+//allaje ta lefta
 }
 
 void Player::printTapArmy(){
@@ -223,6 +224,49 @@ void Player::AddToAttackForce(unsigned int ano){
 			i++;
 	ita--;
 	attackForce.push_back() = (*ita);
+	army.remove(*ita);
+}
+
+unsigned int Player::getPlayerAttack(){
+	list<Personality *>::iterator ita;
+	unsigned int sum=0;
+	for(ita = attackForce.begin(); ita != attackForce.end();ita++)
+		sum += (*ita)->getAttack();
+	return sum;
+}
+
+unsigned int Player::GetProvinceAmount(){
+	return numberOfProvinces;
+}
+
+//eqononmy_phase
+unsigned int Player::GetProvinceCardCost(unsigned int pno){
+	list<Province *>::iterator itp;
+	itp = provinces.begin();
+	for(int i=1;i<pno && itp != provinces.end();i++)
+		itp++;
+	return (*itp)->getCardCost();
+}
+
+void Player::buyAndUse(unsigned int pno){
+	list<Province *>::iterator itp;
+	itp = provinces.begin();
+	for(int i=1;i<pno && itp != provinces.end();i++)
+		itp++;
+	int cost = GetProvinceCardCost(pno);
+	pay_cost(cost);
+	Personality **person;
+	Holding **hold;
+	getCorrectType((*itp)->getAttachedCard(),person,hold);
+	if(*person !=NULL)
+		army.push_back(*person);
+	else
+		holdings.push_back(*hold);
+	(*itp)->detach();
+	list<BlackCard *>::iterator itd;
+	itd = dynastyDeck->begin();
+	(*itp)->attach(*itd);
+	dynastyDeck->pop_front();
 }
 
 void Player::discardSurplusFateCards(){
