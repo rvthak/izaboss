@@ -4,11 +4,11 @@
 using namespace std;
 
 unsigned int choosefrom(unsigned int n){
-	cout << " > Type a number in [1, " << n+1 << "]" << endl;
+	cout << " > Type a number in [1, " << n << "]" << endl;
 	unsigned int input;
 	cin >> input;
-	while(input<1 || input>n+1){
-		cout << " > Type a number in [1, " << n+1 << "]" << endl;
+	while(input<1 || input>n){
+		cout << " > Type a number in [1, " << n << "]" << endl;
 		cin >> input;
 	}
 	return input;
@@ -22,7 +22,7 @@ bool getDesision(const string msg){
 		if(str=="y"){
 			return 1;
 		}
-		else if(str!="n"){
+		else if(str=="n"){
 			return 0;
 		}
 		else{
