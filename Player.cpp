@@ -144,19 +144,32 @@ void Player::buyAndAssign(unsigned int hno, unsigned int ano){
 		if(hand[j]!=NULL)
 			i++;
 	}
-	cout<<"Do you want to upgrade, Yes or No?";
-	string answer;
-	cin>>answer;
-	while(answer!="Yes" && answer!="No"){
-		cout<<"Do you want to upgrade, Yes or No?";
-		cin>>answer;
+	
+	
+	{
+		if(getMoney()>=(cost = hand[j-1]->getEffectCost())){
+			hand[j-1]->effectBonus();
+			while(cost > 0){
+				index = choosefrom(HoldingCardsNo());
+				int i=0;
+				for(ith = holdings.begin();i<index && ith != holdings.end();ith++)
+					i++;
+				if((*ith)->tap())
+					cost -=(*ith)->getHarvestValue();
+			}
+		}else{
+			cout<<"You don't have the money to upgrade teme"<<endl;
+		}
 	}
-	if(answer=="Yes")
+	
+	if(getDesision("Do you want to upgrade your new card? (y/n)"){
 		if(getMoney()>=(cost = hand[j-1]->getEffectCost())){
 			hand[j-1]->effectBonus();
 			pay_cost(cost);
-		}else
+		}else{
 			cout<<"You don't have the money to upgrade teme"<<endl;
+		}
+	}	
 	(*ita)->equip(hand[j-1]);
 }
 
