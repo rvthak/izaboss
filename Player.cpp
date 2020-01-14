@@ -244,7 +244,10 @@ unsigned int Player::GetProvinceAmount(){
 	return numberOfProvinces;
 }
 
-//eqononmy_phase
+void attack(Player &target, unsigned int pno){
+	
+}
+
 unsigned int Player::GetProvinceCardCost(unsigned int pno){
 	list<Province *>::iterator itp;
 	itp = provinces.begin();
