@@ -17,17 +17,17 @@ public:
 	unsigned int getHonour(){
 		return stronghold.getHonour();
 	};
+	unsigned int getMoney();
 	bool hasArmy();
 	unsigned int HandCardsNo();
 	unsigned int ArmyCardsNo();
 	unsigned int HoldingCardsNo();
-	unsigned int getMoney(){
-		return money;
-	};
+	
 	unsigned int GetHandCardCost(unsigned int);
 	unsigned int GetArmyMemberHonour(unsigned int);
 	unsigned int GetHandMemberHonour(unsigned int);
 	void buyAndAssign(unsigned int, unsigned int);
+
 protected:
 	unsigned int numberOfProvinces;
 	list<GreenCard *>* fateDeck;
@@ -38,7 +38,7 @@ protected:
 	list<Holding *> holdings;
 	list<Personality *> army;
 	Strong stronghold;
-	unsigned int money;
+
 	list<Personality *> attackForce;
 	list<Personality *> defenceForce;
 private:
