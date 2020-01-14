@@ -18,6 +18,8 @@ public:
 	void printArmy();
 	void printTapArmy();
 	void printUntappedArmy();
+	void printHoldings();
+	void printArena();
 	void print();
 	unsigned int getHonour(){
 		return stronghold.getHonour();
@@ -38,11 +40,11 @@ public:
 	unsigned int GetArmyMemberHonour(unsigned int);
 	unsigned int GetHandMemberHonour(unsigned int);
 	
-	unsigned int getPlayerAttack();
-
 	void buyAndAssign(unsigned int, unsigned int);
 	void buyAndUse(unsigned int);
+
 	void AddToAttackForce(unsigned int);
+	void attack(Player &, unsigned int);
 
 	void TapArmyCard(unsigned int);
 	void discardSurplusFateCards();
