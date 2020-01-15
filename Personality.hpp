@@ -9,16 +9,20 @@
 class Personality : public BlackCard
 {
 	public:
-		Personality();
-		~Personality();
-		unsigned int getHonour(){ return honour; };
-		void equip(Follower *f){ followers.push_back(f); };
-		void equip(Item *i){ items.push_back(i); };
-		void print();
-		unsigned int getAttack(){
-			return attack;
-		};
-		virtual int getType(){ return 1; }
+		Personality(){}
+		~Personality(){}
+
+		unsigned int getAttack()const{ return attack; }
+		unsigned int getDefence()const{ return defence; }
+		unsigned int getHonour()const{ return honour; }
+		bool getIsDead()const{ return isDead; }
+
+		void equip(Follower *f){ followers.push_back(f); }
+		void equip(Item *i){ items.push_back(i); }
+		void print()const;
+		
+		virtual int getType()const{ return 1; }
+
 	private:
 		unsigned int attack;
 		unsigned int defence;
@@ -27,7 +31,6 @@ class Personality : public BlackCard
 
 		std::list<Follower *> followers;
 		std::list<Item *> items;
-	
 };
 
 //==============================================
@@ -35,42 +38,37 @@ class Personality : public BlackCard
 class Attacker : public Personality
 {
 public:
-	Attacker();
-	~Attacker();
-	
+	Attacker(const std::string n);
+	~Attacker(){}
 };
 
 class Defender : public Personality
 {
 public:
-	Defender();
-	~Defender();
-	
+	Defender(const std::string n);
+	~Defender(){}
 };
 
 class Champion : public Personality
 {
 public:
-	Champion();
-	~Champion();
-	
+	Champion(const std::string n);
+	~Champion(){}
 };
 
 
 class Chancellor : public Personality
 {
 public:
-	Chancellor();
-	~Chancellor();
-	
+	Chancellor(const std::string n);
+	~Chancellor(){}
 };
 
 class Shogun : public Personality
 {
 public:
-	Shogun();
-	~Shogun();
-	
+	Shogun(const std::string n);
+	~Shogun(){}
 };
 
 #endif
