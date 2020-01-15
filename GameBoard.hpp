@@ -23,7 +23,7 @@ private:
 	// The Array of players
 	Player *player;
 	// The player turn buffer
-	int *buf;
+	unsigned int *buf;
 	bool running;
 
 	// Internally used functions

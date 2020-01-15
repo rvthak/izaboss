@@ -1,34 +1,21 @@
 #ifndef CARD
 #define CARD
 
+#include <string>
+
 class Card
 {
 public:
 	Card();
 	~Card();
-	void untap(){
-		isTapped = 0;
-	};
-	bool tap(){
-		if(isTapped){
-			isTapped=0;
-			return 0;
-		}
-		else{
-			isTapped=1;
-			return 1;
-		}
-	};
+	void untap(){ isTapped = 0; };
+	bool tap();
 	virtual void print()=0;
-	unsigned int getCost(){
-		return cost;
-	};
-	bool tapped(){
-			return isTapped;
-	};
+	unsigned int getCost(){ return cost; };
+	bool tapped(){ return isTapped; };
 	virtual int getType()=0;
 protected:
-	std::sting name;
+	std::string name;
 	unsigned int cost;
 	bool isTapped;
 };
@@ -40,7 +27,6 @@ public:
 	GreenCard();
 	~GreenCard();
 
-	effectBonus(); // call on card upgrade?
 	virtual void print();
 	unsigned int getHonour(){
 		return min_honour;
@@ -93,7 +79,7 @@ public:
 	BlackCard *getAttachedCard(){
 		return attached;
 	};
-	virtual int getType(){}
+	virtual int getType(){ return -1; }
 protected:
 	BlackCard *attached;
 

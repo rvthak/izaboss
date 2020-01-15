@@ -2,6 +2,7 @@
 #define PLAYER
 
 #include <list>
+#include "Holding.hpp"
 #include "DeckBuilder.hpp"
 
 class Player
@@ -51,17 +52,17 @@ public:
 
 protected:
 	unsigned int numberOfProvinces;
-	list<GreenCard *>* fateDeck;
-	list<BlackCard *>* dynastyDeck;
+	std::list<GreenCard *>* fateDeck;
+	std::list<BlackCard *>* dynastyDeck;
 
-	list<Province *> provinces;
+	std::list<Province *> provinces;
 	GreenCard *hand[7];
-	list<Holding *> holdings;
-	list<Personality *> army;
-	Strong stronghold;
+	std::list<Holding *> holdings;
+	std::list<Personality *> army;
+	Stronghold stronghold;
 
-	list<Personality *> attackForce;
-	list<Personality *> defenceForce;
+	std::list<Personality *> attackForce;
+	std::list<Personality *> defenceForce;
 private:
 	DeckBuilder my_deck;
 };

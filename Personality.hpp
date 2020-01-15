@@ -1,22 +1,19 @@
 #ifndef PERSONALITY
 #define PERSONALITY
 
+#include <list>
 #include "Card.hpp"
+#include "Follower.hpp"
+#include "Item.hpp"
 
 class Personality : public BlackCard
 {
 	public:
 		Personality();
 		~Personality();
-		unsigned int getHonour(){
-			return honour;
-		};
-		void equip(Follower *f){
-			followers.push_back(f);
-		};
-		void equip(Item *i){
-			items.push_back(i);
-		};
+		unsigned int getHonour(){ return honour; };
+		void equip(Follower *f){ followers.push_back(f); };
+		void equip(Item *i){ items.push_back(i); };
 		void print();
 		unsigned int getAttack(){
 			return attack;
@@ -28,8 +25,8 @@ class Personality : public BlackCard
 		unsigned int honour;
 		bool isDead;
 
-		list<Follower *> followers;
-		list<Item *> items;
+		std::list<Follower *> followers;
+		std::list<Item *> items;
 	
 };
 
