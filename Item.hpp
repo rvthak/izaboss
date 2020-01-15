@@ -6,13 +6,12 @@
 class Item : public GreenCard
 {
 	public:
-		Item();
-		~Item();
+		Item(){}
+		~Item(){}
+		unsigned int getDurability();
 		virtual int getType(){ return 4; }
-
-	private:
-	
-	
+	protected:
+		unsigned int durability;
 };
 
 //==============================================
@@ -20,41 +19,36 @@ class Item : public GreenCard
 class Katana : public Item
 {
 public:
-	Katana();
-	~Katana();
-	
+	Katana(const std::string n);
+	~Katana(){}
 };
 
 class Spear : public Item
 {
 public:
-	Spear();
-	~Spear();
-	
+	Spear(const std::string n);
+	~Spear(){}
 };
 
 class Bow : public Item
 {
 public:
-	Bow();
-	~Bow();
-	
+	Bow(const std::string n);
+	~Bow(){}
 };
 
 class Ninjato : public Item
 {
 public:
-	Ninjato();
-	~Ninjato();
-	
+	Ninjato(const std::string n);
+	~Ninjato(){}
 };
 
 class Wakizashi : public Item
 {
 public:
-	Wakizashi();
-	~Wakizashi();
-	
+	Wakizashi(const std::string n);
+	~Wakizashi(){}
 };
 
 #endif

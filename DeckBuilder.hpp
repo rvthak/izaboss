@@ -51,16 +51,16 @@
 class DeckBuilder
 {
 	private:
-		list<GreenCard*>* green;
-		list<BlackCard*>* black;
+		std::list<GreenCard*>* green;
+		std::list<BlackCard*>* black;
 	public:
 		DeckBuilder();
 		~DeckBuilder();
-		list<GreenCard *>* createFateDeck();
-	 	list<BlackCard *>* createDynastyDeck();
+		std::list<GreenCard *>* createFateDeck();
+	 	std::list<BlackCard *>* createDynastyDeck();
 
-	 	void DeckBuilder::deckShuffler(list<BlackCard *> *black);
-		void DeckBuilder::deckShuffler(list<GreenCard *> *green);
+	 	void deckShuffler(std::list<BlackCard *> *black);
+		void deckShuffler(std::list<GreenCard *> *green);
 };
 
 #endif

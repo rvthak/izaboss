@@ -4,12 +4,12 @@
 
 using namespace std;
 
-void swap(int *x, int *y){  
-    int temp = *x;
+void swap(unsigned int *x, unsigned int *y){  
+    unsigned int temp = *x;
     *x = *y;
   	*y = temp;
 }
-void sort(int *buf, unsigned int *val, int n){   
+void sort(unsigned int *buf, unsigned int *val, int n){   
     for (int i=0; i<n-1; i++){
     	for (int j=0; j<n-i-1; j++){
     		if (val[j] > val[j+1]){
@@ -39,8 +39,8 @@ void GameBoard::initializeGameBoard(unsigned int playerNo){
 
 		// Players Created => Their honour can't change during the game so we sort
 		// so we "sort the player array" to make playing in each turn easier
-		buf=new int[player_amount];	// in this array we store the players positions sorted
-		unsigned int *bufval=new int[player_amount];	// this array has their honour values stored (used for sorting)
+		buf=new unsigned int[player_amount];	// in this array we store the players positions sorted
+		unsigned int *bufval=new unsigned int[player_amount];	// this array has their honour values stored (used for sorting)
 		
 		// We pass the initial values to both arrays
 		for (int i=0; i<player_amount; i++){
@@ -126,8 +126,8 @@ void GameBoard::equipPhase(){
 				cout << " > Please choose a card from your Army:" << endl;
 				unsigned int armyCard = choosefrom(player[buf[i]].ArmyCardsNo());
 
-				if( player[buf[i]].getMoney() => player[buf[i]].GetHandCardCost(handCard) ){
-					if( player[buf[i]].GetArmyMemberHonour(armyCard) => player[buf[i]].GetHandMemberHonour(handCard) ){
+				if( player[buf[i]].getMoney() >= player[buf[i]].GetHandCardCost(handCard) ){
+					if( player[buf[i]].GetArmyMemberHonour(armyCard) >= player[buf[i]].GetHandMemberHonour(handCard) ){
 						player[buf[i]].buyAndAssign(handCard, armyCard); // remember to tap the according cards
 						cout << " Transaction succesful!" << endl;
 					}
@@ -174,7 +174,7 @@ void GameBoard::battlePhase(){
 			}
 
 			// Let the player decide which of his army cards does he want for attack
-			player[buf[i]].printUnTapArmy();
+			player[buf[i]].printUntappedArmy();
 			while( getDesision(" > Which soldiers do you want to use for attack? (y/n)") ){
 				cout << " > Which one of your army members do you want to tap?" << endl;
 				unsigned int sol = choosefrom(player[buf[i]].ActiveArmyCardsNo());
@@ -220,7 +220,7 @@ void GameBoard::battlePhase(){
 					}
 					else{
 						cout << " > ATTACK " << endl;
-						player[buf[i]].attack(player[buf[targetplay]], targetprov); // remember to print the attack results
+						player[buf[i]].attack(player[buf[target]], targetprov); // remember to print the attack results
 						return;
 					}
 				}

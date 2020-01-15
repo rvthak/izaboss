@@ -168,7 +168,7 @@ void Player::buyAndAssign(unsigned int hno, unsigned int ano){
 	hand[j-1]=NULL;
 }
 
-void Player::pay_cost(unsigned int cost){
+void Player::pay_cost(int cost){
 	list<Holding *>::iterator ith;
 	int index,i;
 	while(cost >0){
@@ -316,6 +316,7 @@ void Player::acasualties(unsigned int limit){
 		}
 }
 
+//eqononmy_phase
 unsigned int Player::GetProvinceCardCost(unsigned int pno){
 	list<Province *>::iterator itp;
 	itp = provinces.begin();

@@ -1,34 +1,25 @@
 #ifndef CARD
 #define CARD
 
+#include <string>
+
 class Card
 {
 public:
-	Card();
-	~Card();
-	void untap(){
-		isTapped = 0;
-	};
-	bool tap(){
-		if(isTapped){
-			isTapped=0;
-			return 0;
-		}
-		else{
-			isTapped=1;
-			return 1;
-		}
-	};
-	virtual void print()=0;
-	unsigned int getCost(){
-		return cost;
-	};
-	bool tapped(){
-			return isTapped;
-	};
-	virtual int getType()=0;
+	Card(){}
+	~Card(){}
+
+	void tap();
+	void untap(){ isTapped=0; }
+	bool tapped()const{ return isTapped; }
+	std::string getName()const{ return name; }
+	unsigned int getCost()const{ return cost; }
+
+	virtual void print()const=0;
+	virtual int getType()const=0;
+
 protected:
-	std::sting name;
+	std::string name;
 	unsigned int cost;
 	bool isTapped;
 };
@@ -37,66 +28,58 @@ protected:
 class GreenCard : public Card
 {	// Follower + Item sub-classes go at their own files
 public:
-	GreenCard();
-	~GreenCard();
+	GreenCard(){}
+	~GreenCard(){}
 
-	effectBonus(); // call on card upgrade?
-	virtual void print();
-	unsigned int getHonour(){
-		return min_honour;
-	};
-	unsigned int getEffectCost(){
-		return effectCost;
-	};
-	virtual int getType()=0;
+	int getAttackBonus()const{ return attackBonus; }
+	int getDefenceBonus()const{ return defenceBonus; }
+	unsigned int getHonour()const{ return min_honour; }
+	unsigned int getEffectBonus()const{ return effectBonus; }
+	unsigned int getEffectCost()const{ return effectCost; }
+	std::string getCardText()const{ return cardText; }
+
+	virtual void print()const;
+	virtual int getType()const=0;
+
 protected:
 	int attackBonus;
 	int defenceBonus;
-  unsigned int min_honour;
+  	unsigned int min_honour;
 	unsigned int effectBonus;
 	unsigned int effectCost;
 	std::string cardText;
-
 };
 
 class BlackCard : public Card
 {
 public:
-	BlackCard();
-	~BlackCard();
-	void revealCard(){
-		isRevealed = 1;
-	};
-	virtual void print();
+	BlackCard(){}
+	~BlackCard(){}
+
+	void revealCard(){ isRevealed = 1; }
+	void hideCard(){ isRevealed = 0; }
+	bool getRevealed()const( return isRevealed; )
+
+	virtual void print()const;
 	virtual int getType()=0;
 
 protected:
 	bool isRevealed;
-
 };
 
 class Province : public BlackCard
 {
 public:
-	Province();
-	~Province();
-	void print();
-	void attach(BlackCard *n){
-		attached = n;
-	};
-	void detach(){
-		attached =NULL;
-	};
-	unsigned int getCardCost(){
-		return attached->getCost();
-	};
-	BlackCard *getAttachedCard(){
-		return attached;
-	};
-	virtual int getType(){}
+	Province(){}
+	~Province(){}
+	void print()const;
+	void attach(BlackCard *n){ attached = n; }
+	void detach(){ attached =NULL; }
+	unsigned int getCardCost(){	return attached->getCost(); }
+	BlackCard *getAttachedCard(){ return attached; }
+	virtual int getType(){ return -1; }
 protected:
 	BlackCard *attached;
-
 };
 
 #endif
