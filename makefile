@@ -9,7 +9,7 @@ all: $(OUT)
 $(OUT): $(OBJS)
 	$(CC) $(COMPILATION_PARAMETERS) -o $(OUT) $(OBJS)
 
-%.o: %.c
+%.o: %.cpp
 	$(CC) -c -o $@ $< $(COMPILATION_PARAMETERS)
 
 # run the program
