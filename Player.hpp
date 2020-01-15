@@ -49,6 +49,10 @@ public:
 
 	void AddToAttackForce(unsigned int);
 	void attack(Player &, unsigned int);
+	void dcasualties(unsigned int);
+	void destroyProvince(unsigned int);
+	void celebrate();
+	void Player::acasualties(unsigned int);
 
 	void TapArmyCard(unsigned int);
 	void discardSurplusFateCards();
