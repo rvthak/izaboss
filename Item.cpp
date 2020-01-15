@@ -2,6 +2,8 @@
 
 using namespace std;
 
+unsigned int Item::getDurability(){ return durability; }
+
 Katana::Katana(const string n){
 	name=n;
 	cost=0;

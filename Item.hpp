@@ -8,6 +8,7 @@ class Item : public GreenCard
 	public:
 		Item(){}
 		~Item(){}
+		unsigned int getDurability();
 		virtual int getType(){ return 4; }
 	protected:
 		unsigned int durability;
