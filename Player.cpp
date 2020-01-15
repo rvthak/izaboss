@@ -1,7 +1,7 @@
 #include "Player.hpp"
 
 Player::Player()
-:numberOfProvinces(4),stronghold(5,5,5){
+:numberOfProvinces(4){
 	fateDeck = my_deck.createFateDeck();
 	dynastyDeck = my_deck.createDynastyDeck();
 
@@ -240,12 +240,80 @@ unsigned int Player::getPlayerAttack(){
 	return sum;
 }
 
+unsigned int Player::getPlayerDefence(){
+	list<Personality *>::iterator ita;
+	unsigned int sum=getInitialDefense();
+	for(ita = army.begin(); ita != army.end();ita++)
+		if(!((*ita)->tapped()))
+			sum += (*ita)->getDefence();
+	return sum;
+}
+
 unsigned int Player::GetProvinceAmount(){
 	return numberOfProvinces;
 }
 
-void attack(Player &target, unsigned int pno){
-	
+void Player::attack(Player &target, unsigned int pno){
+	if(this->getPlayerAttack()-target.getPlayerDefence() >= target.getInitialDefense()){
+		target.dcasualties(0);
+		target.destroyProvince(pno);
+		this->celebrate();
+		cout<<"Attacker's absolute victory"<<endl;
+	}else if(this->getPlayerAttack() > target.getPlayerDefence()){
+		target.dcasualties(0);
+		target.destroyProvince(pno);
+		this->acasualties(this->getPlayerAttack()-target.getPlayerDefence());
+		this->celebrate();
+		cout<<"Attacker's victory"<<endl;
+	}else if(this->getPlayerAttack() == target.getPlayerDefence()){
+		target.dcasualties(0);
+		this->acasualties(0);
+		cout<<"Battle ended with a draw"<<endl;
+	}else{
+		target.dcasualties(target.getPlayerDefence() - this->getPlayerAttack());
+		this->acasualties(0);
+		cout<<"Defender's victory"<<endl;
+	}
+}
+
+void Player::destroyProvince(unsigned int pno){
+	list<Province *>::iterator itp;
+	itp = provinces.begin();
+	for(int i=1;i<pno && itp != provinces.end();i++)
+		itp++;
+	provinces.remove(*itp);
+	delete *itp;
+	numberOfProvinces--;
+}
+
+void Player::dcasualties(unsigned int limit){
+	list<Personality *>::iterator ita;
+	for(ita = army.begin(); ita != army.end();ita++)
+		if(!((*ita)->tapped()) && (*ita)->getAttack()>=limit){
+			army.remove(*ita);
+			delete *ita;
+			ita = army.begin();
+		}
+}
+
+void Player::celebrate(){
+	list<Personality *>::iterator ita;
+	for(ita = attackForce.begin(); ita != attackForce.end();ita++){
+		(*ita)->tap();
+		army.push_back(*ita);
+		attackForce.remove(*ita);
+		ita = attackForce.begin();
+	}
+}
+
+void Player::acasualties(unsigned int limit){
+	list<Personality *>::iterator ita;
+	for(ita = attackForce.begin(); ita != attackForce.end();ita++)
+		if((*ita)->getAttack()>=limit){
+			attackForce.remove(*ita);
+			delete *ita;
+			ita = attackForce.begin();
+		}
 }
 
 unsigned int Player::GetProvinceCardCost(unsigned int pno){

@@ -21,6 +21,9 @@ class Personality : public BlackCard
 		unsigned int getAttack(){
 			return attack;
 		};
+		unsigned int getDefence(){
+			return defence;
+		};
 		virtual int getType(){ return 1; }
 	private:
 		unsigned int attack;

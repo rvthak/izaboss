@@ -26,6 +26,10 @@ public:
 	};
 	unsigned int getMoney();
 	unsigned int getPlayerAttack();
+	unsigned int getDefencePlayer();
+	unsigned int getInitialDefense(){
+		return stronghold.getInitialDefense();
+	};
 	unsigned int GetProvinceAmount();
 	bool hasArmy();
 
@@ -61,7 +65,6 @@ protected:
 	Strong stronghold;
 
 	list<Personality *> attackForce;
-	list<Personality *> defenceForce;
 private:
 	DeckBuilder my_deck;
 };
