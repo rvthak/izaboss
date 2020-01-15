@@ -27,6 +27,10 @@ public:
 	};
 	unsigned int getMoney();
 	unsigned int getPlayerAttack();
+	unsigned int getDefencePlayer();
+	unsigned int getInitialDefense(){
+		return stronghold.getInitialDefense();
+	};
 	unsigned int GetProvinceAmount();
 	bool hasArmy();
 
@@ -46,6 +50,10 @@ public:
 
 	void AddToAttackForce(unsigned int);
 	void attack(Player &, unsigned int);
+	void dcasualties(unsigned int);
+	void destroyProvince(unsigned int);
+	void celebrate();
+	void Player::acasualties(unsigned int);
 
 	void TapArmyCard(unsigned int);
 	void discardSurplusFateCards();
@@ -61,8 +69,8 @@ protected:
 	std::list<Personality *> army;
 	Stronghold stronghold;
 
-	std::list<Personality *> attackForce;
-	std::list<Personality *> defenceForce;
+	list<Personality *> attackForce;
+
 private:
 	DeckBuilder my_deck;
 };

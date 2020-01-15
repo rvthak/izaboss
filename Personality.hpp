@@ -22,7 +22,7 @@ class Personality : public BlackCard
 		void print()const;
 		
 		virtual int getType()const{ return 1; }
-
+    
 	private:
 		unsigned int attack;
 		unsigned int defence;

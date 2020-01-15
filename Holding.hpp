@@ -30,7 +30,7 @@ class Stronghold : public Holding
 
 		unsigned int getHonour()const{ return honour; }
 		unsigned int getMoney()const{ return money; }
-		unsigned int getDefense()const{ return initialDefense; }
+		unsigned int getInitialDefense()const{ return initialDefense; }
 
 	private:
 		const unsigned int honour;
