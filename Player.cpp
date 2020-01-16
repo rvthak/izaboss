@@ -1,4 +1,6 @@
 #include "Player.hpp"
+#include <cstlib>
+#include <ctime>
 
 Player::Player()
 :numberOfProvinces(4){
@@ -337,13 +339,131 @@ void Player::buyAndUse(unsigned int pno){
 	getCorrectType((*itp)->getAttachedCard(),person,hold);
 	if(*person !=NULL)
 		army.push_back(*person);
-	else
-		holdings.push_back(*hold);
+	else{
+		if((*hold)->getMineType())
+			this->ChainCreation(*hold);
+		else
+			holdings.push_back(*hold);
+	}
 	(*itp)->detach();
 	list<BlackCard *>::iterator itd;
 	itd = dynastyDeck->begin();
 	(*itp)->attach(*itd);
 	dynastyDeck->pop_front();
+}
+
+void Player::ChainCreation(Holding *nhold){
+	srand(time(NULL));
+	list<Holding *>::iterator ith;
+	Holding *toChain = NULL;
+	Holding *toChain2 = NULL;
+	switch(nhold->getMineType()){
+		case 1:
+			for(ith = holdings.begin(); ith != holdings.end(); ith++)
+				if((*ith)->getMineType()==2){
+					if(!(*ith)->hasSub() && (*ith)->hasUpper()){
+						toChain = *ith;
+						break;
+					}
+					else(!(*ith)->hasSub()){
+						if(toChain!=NULL && rand()%2==1)
+							toChain = *ith;
+						else if(toChain==NULL)
+							toChain = *ith;
+					}
+				}
+			if(toChain==NULL)
+				holdings.push_back(nhold);
+			else
+				toChain->chain(nhold);
+			break;
+		case 2:
+			bool flag =0;
+			for(ith = holdings.begin(); ith != holdings.end(); ith++)
+					if((*ith)->getMineType() == 1 && !(*ith)->hasUpper()){
+						if(!flag){
+							list<Holding *>iterator::ith2;
+							for(ith2 = holdings.begin(); ith2 != holdings.end();ith2++)
+								if(((*ith2)->getMineType() == 3) && !(*ith2)->hasSub()){
+									toChain2 = *ith2;
+									break;								
+								}
+							if(toChain2!=NULL){
+								toChain = *ith;
+								nhold->chain(toChain);
+								nhold->chain(toChain2);
+								holdings.remove(toChain);
+								holdings.remove(toChain2);
+								break;
+							}else{
+								flag = 1;
+								if(toChain != NULL && rand()%2==1)
+									toChain = *ith;
+								else if(toChain==NULL)
+									toChain = *ith;
+							}
+						}
+						else
+							if(toChain != NULL && rand()%2==1)
+								toChain = *ith;
+							else if(toChain==NULL)
+								toChain = *ith;
+					}
+					else if((*ith)->getMineType() == 3 && !(*ith)->hasSub()){
+						if(!flag){
+							list<Holding *>iterator::ith2;
+							for(ith2 = holdings.begin(); ith2 != holdings.end();ith2++)
+								if(((*ith2)->getMineType() == 1) && !(*ith2)->hasUpper()){
+									toChain2 = *ith2;
+									break;								
+								}
+							if(toChain2!=NULL){
+								toChain = *ith;
+								nhold->chain(toChain);
+								nhold->chain(toChain2);
+								holdings.remove(toChain);
+								holdings.remove(toChain2);
+								holdings.push_back(nhold);
+								break;
+							}else{
+								flag = 1;
+								if(toChain != NULL && rand()%2==1)
+									toChain = *ith;
+								else if(toChain==NULL)
+									toChain = *ith;
+							}
+						}
+						else
+							if(toChain != NULL && rand()%2==1)
+								toChain = *ith;
+							else if(toChain==NULL)
+								toChain = *ith;
+					}
+			if(toChain2==NULL && toChain==NULL)
+				holdings.push_back(nhold);
+			else if(toChain2==NULL && toChain!=NULL)
+				nhold->chain(toChain);
+			break;
+		case 3:
+			for(ith = holdings.begin(); ith != holdings.end(); ith++)
+				if((*ith)->getMineType()==2){
+					if(!(*ith)->hasUpper() && (*ith)->hasSub()){
+						toChain = *ith;
+						break;
+					}
+					else(!(*ith)->hasUpper()){
+						if(toChain!=NULL && rand()%2==1)
+							toChain = *ith;
+						else if(toChain==NULL)
+							toChain = *ith;
+					}
+				}
+			if(toChain==NULL)
+				holdings.push_back(nhold);
+			else
+				toChain->chain(nhold);
+			break;
+	}
 }
 
 void Player::discardSurplusFateCards(){

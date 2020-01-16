@@ -56,6 +56,7 @@ public:
 	void Player::acasualties(unsigned int);
 
 	void TapArmyCard(unsigned int);
+	void ChainCreation(Holding *);
 	void discardSurplusFateCards();
 
 protected:
