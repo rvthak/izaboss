@@ -3,10 +3,11 @@
 using namespace std;
 
 bool Holding::getMineType(){
-	if(harvestValue==3){ return 1; }
+	if(isMine==0){ return 0; }
+	else if(harvestValue==3){ return 1; }
 	else if(harvestValue==5){ return 2; }
 	else if(harvestValue==10){ return 3; }
-	else{ return 0; }
+	else{ return -1; }
 }
 
 void Holding::chain(Holding *target){
