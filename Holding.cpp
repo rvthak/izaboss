@@ -2,6 +2,38 @@
 
 using namespace std;
 
+bool Holding::getMineType(){
+	if(harvestValue==3){ return 1; }
+	else if(harvestValue==5){ return 2; }
+	else if(harvestValue==10){ return 3; }
+	else{ return 0; }
+}
+
+void Holding::chain(Holding *target){
+	int type=getMineType();
+	if(type==1){ // Mine => NO sub
+		upperHolding=target;
+		target->subHolding=this;
+	}
+	else if(type==2){ // Gold Mine
+		if(target->getMineType()==1){ // chain to a mine
+			subHolding=target;
+			target->upperHolding=this;
+		}
+		else{ // chain to a crystal mine
+			upperHolding=target;
+			target->subHolding=this;
+		}
+	}
+	else if(type==3){ // Crystal Mine
+		subHolding=target;
+		target->upperHolding=this;
+	}
+	else{ // error do nothing
+		return;	// That is never supposed to happen
+	}
+}
+
 unsigned int Stronghold::honcnt=1;
 
 Stronghold::Stronghold(){
@@ -42,6 +74,7 @@ Mine::Mine(const string n){
 	cost=5;
 	isTapped=0;
 
+	isMine=1;
 	isRevealed=0;
 
 	harvestValue=3;
@@ -54,6 +87,7 @@ GoldMine::GoldMine(const string n){
 	cost=7;
 	isTapped=0;
 
+	isMine=1;
 	isRevealed=0;
 
 	harvestValue=5;
@@ -67,9 +101,10 @@ CrystalMine::CrystalMine(const string n){
 	cost=12;
 	isTapped=0;
 
+	isMine=1;
 	isRevealed=0;
 
-	harvestValue=6;
+	harvestValue=10;
 	upperHolding=NULL;
 	subHolding=NULL;
 }

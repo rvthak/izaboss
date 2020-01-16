@@ -6,15 +6,29 @@
 class Holding : public BlackCard
 {
 	public:
-		Holding(){}
+		Holding():isMine(0), harvestValue(0), upperHolding(NULL), subHolding(NULL){}
 		~Holding(){}
 
+		bool checkMine(){ return isMine; }
 		unsigned int getHarvestValue()const{ return harvestValue; }
 		Holding *getUpperHolding()const{ return upperHolding; }
-		Holding *getLowerHolding()const{ return subHolding; }
+		Holding *getSubHolding()const{ return subHolding; }
 		virtual int getType()const{ return 2; }
 
+		bool hasSub(){ return subHolding!=NULL }
+		bool hasUpper(){ return upperHolding!=NULL }
+ 	
+ 		void chain(Holding *target);
+
+		void chainSub(Holding *target){ subHolding=target; }
+		void chainUpper(Holding *target){ upperHolding=target; }
+		void unchanSub(){ subHolding=NULL; }
+		void unchanUpper(){ upperHolding=NULL; }
+
+		bool getMineType();
+
 	protected:
+		bool isMine;
 		unsigned int harvestValue;
 		Holding *upperHolding;
 		Holding *subHolding;
@@ -41,13 +55,6 @@ class Stronghold : public Holding
 
 //==============================================
 
-class Plain : public Holding
-{
-public:
-	Plain(const std::string n);
-	~Plain(){}
-};
-
 class Mine : public Holding
 {
 public:
@@ -67,6 +74,15 @@ class CrystalMine : public Holding
 public:
 	CrystalMine(const std::string n);
 	~CrystalMine(){}
+};
+
+
+
+class Plain : public Holding
+{
+public:
+	Plain(const std::string n);
+	~Plain(){}
 };
 
 class Farmland : public Holding
