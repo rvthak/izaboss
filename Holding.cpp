@@ -11,24 +11,57 @@ bool Holding::getMineType(){
 }
 
 void Holding::chain(Holding *target){
-	int type=getMineType();
+	int type=getMineType(); // Get the mine type
+	
+	// Tag them as chained so their harvest value will be calculated once
+	chained++;
+	target->chained++;
 	if(type==1){ // Mine => NO sub
 		upperHolding=target;
 		target->subHolding=this;
+
+		// Handle chain income benefits
+		harvestValue=harvestValue+2;
+
+		if(target->upperHolding!=NULL){ // full chain complete
+			upperHolding->harvestValue=(upperHolding->harvestValue-5)*2;
+			upperHolding->upperHolding->harvestValue=upperHolding->upperHolding->harvestValue/2*3;
+		}
+		else{ // chain with gold mine only
+			upperHolding->harvestValue=upperHolding->harvestValue+4;
+		}
 	}
 	else if(type==2){ // Gold Mine
 		if(target->getMineType()==1){ // chain to a mine
 			subHolding=target;
 			target->upperHolding=this;
+
+			// Handle chain income benefits
+			harvestValue=harvestValue+4;
+			subHolding->harvestValue=subHolding->harvestValue+2;
 		}
 		else{ // chain to a crystal mine
 			upperHolding=target;
 			target->subHolding=this;
+
+			// Handle chain income benefits
+			harvestValue=harvestValue+5;
+			upperHolding->harvestValue=upperHolding->harvestValue*2;
 		}
 	}
 	else if(type==3){ // Crystal Mine
 		subHolding=target;
 		target->upperHolding=this;
+
+		// Handle chain income benefits
+		if(target->subHolding!=NULL){ // full chain complete
+			harvestValue=harvestValue*3;
+			subHolding->harvestValue=(subHolding->harvestValue-4)*2;
+		}
+		else{ // chain with gold only
+			harvestValue=harvestValue*2; 
+			subHolding->harvestValue=subHolding->harvestValue+5;
+		}
 	}
 	else{ // error do nothing
 		return;	// That is never supposed to happen
