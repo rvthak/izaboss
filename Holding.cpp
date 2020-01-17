@@ -13,9 +13,6 @@ bool Holding::getMineType(){
 void Holding::chain(Holding *target){
 	int type=getMineType(); // Get the mine type
 	
-	// Tag them as chained so their harvest value will be calculated once
-	chained++;
-	target->chained++;
 	if(type==1){ // Mine => NO sub
 		upperHolding=target;
 		target->subHolding=this;
