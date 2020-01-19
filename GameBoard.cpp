@@ -128,8 +128,13 @@ void GameBoard::equipPhase(){
 
 				if( player[buf[i]].getMoney() >= player[buf[i]].GetHandCardCost(handCard) ){
 					if( player[buf[i]].GetArmyMemberHonour(armyCard) >= player[buf[i]].GetHandMemberHonour(handCard) ){
-						player[buf[i]].buyAndAssign(handCard, armyCard); // remember to tap the according cards
-						cout << " Transaction succesful!" << endl;
+						if( player[buf[i]].CheckPersonalityCapacity(armyCard) ){
+							player[buf[i]].buyAndAssign(handCard, armyCard); // remember to tap the according cards
+							cout << " Transaction succesful!" << endl;
+						}
+						else{
+							cout << " This personality already has reached its max capacity for that card type." << endl;
+						}	
 					}
 					else{
 						cout << " > Can't move on with the process. Not enough personality honour." << endl;
