@@ -2,6 +2,43 @@
 
 using namespace std;
 
+void Personality::usedItems(){
+	list<Item *>::iterator itm;
+	for(itm = items.begin(); itm != items.end(); itm++){
+		if( (*itm)->loseDurability() ){
+			list.remove(*itm);
+			delete itm;
+			itm=items.begin();
+		}
+	}
+}
+
+unsigned int Personality::followerAmount(){
+	unsigned int count=0;
+	list<Follower *>::iterator flr;
+	for(flr = followers.begin(); flr != followers.end(); flr++){
+		count++;
+	}
+	return count;
+}
+
+unsigned int Personality::itemAmount(){
+	unsigned int count=0;
+	list<Item *>::iterator itm;
+	for(itm = items.begin(); itm != items.end(); itm++){
+		count++;
+	}
+	return count;
+}
+
+void Personality::equip(Follower *f){
+	followers.push_back(f);
+}
+void Personality::equip(Item *i){
+	items.push_back(i);
+}
+
+
 Attacker::Attacker(const string n){
 	name=n;
 	cost=5;

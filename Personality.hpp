@@ -12,13 +12,23 @@ class Personality : public BlackCard
 		Personality(){}
 		~Personality(){}
 
+		void untap(){ isTapped=0; }
+		void usedItems();
+		void performSeppuku();
+
 		unsigned int getAttack()const{ return attack; }
 		unsigned int getDefence()const{ return defence; }
 		unsigned int getHonour()const{ return honour; }
 		bool getIsDead()const{ return isDead; }
 
-		void equip(Follower *f){ followers.push_back(f); }
-		void equip(Item *i){ items.push_back(i); }
+		bool CheckFollowerCapacity()const{ return (followerAmount()<honour); }
+		bool CheckItemCapacity()const{ return (itemAmount()<honour); }
+
+		unsigned int followerAmount();
+		unsigned int itemAmount();
+
+		int equip(Follower *f);
+		int equip(Item *i);
 		void print()const;
 		
 		virtual int getType()const{ return 1; }
