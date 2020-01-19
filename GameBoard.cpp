@@ -128,7 +128,7 @@ void GameBoard::equipPhase(){
 
 				if( player[buf[i]].getMoney() >= player[buf[i]].GetHandCardCost(handCard) ){
 					if( player[buf[i]].GetArmyMemberHonour(armyCard) >= player[buf[i]].GetHandMemberHonour(handCard) ){
-						if( player[buf[i]].CheckPersonalityCapacity(armyCard) ){
+						if( player[buf[i]].CheckPersonalityCapacity(armyCard, handCard) ){
 							player[buf[i]].buyAndAssign(handCard, armyCard); // remember to tap the according cards
 							cout << " Transaction succesful!" << endl;
 						}
