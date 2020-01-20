@@ -20,14 +20,13 @@ public:
 	void printTapArmy();
 	void printUntappedArmy();
 	void printHoldings();
-	void printArena();
 	void print();
 	unsigned int getHonour(){
 		return stronghold.getHonour();
 	};
 	unsigned int getMoney();
 	unsigned int getPlayerAttack();
-	unsigned int getDefencePlayer();
+	unsigned int getPlayerDefence();
 	unsigned int getInitialDefense(){
 		return stronghold.getInitialDefense();
 	};
@@ -42,6 +41,7 @@ public:
 	unsigned int GetHandCardCost(unsigned int);
 	unsigned int GetProvinceCardCost(unsigned int);
 	void pay_cost(unsigned int );
+
 	unsigned int GetArmyMemberHonour(unsigned int);
 	unsigned int GetHandMemberHonour(unsigned int);
 	
@@ -53,7 +53,7 @@ public:
 	void dcasualties(unsigned int);
 	void destroyProvince(unsigned int);
 	void celebrate();
-	void Player::acasualties(unsigned int);
+	void acasualties(unsigned int);
 
 	void TapArmyCard(unsigned int);
 	void ChainCreation(Holding *);
