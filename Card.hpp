@@ -38,6 +38,7 @@ public:
 	unsigned int getEffectCost()const{ return effectCost; }
 	std::string getCardText()const{ return cardText; }
 
+	void upgrade(){ attackBonus+=effectBonus; defenceBonus+=effectBonus; }
 	virtual void print()const;
 	virtual int getType()const=0;
 
@@ -73,13 +74,7 @@ public:
 	Province(){}
 	~Province(){}
 	void print()const;
-	void attach(BlackCard *n){ attached = n; }
-	void detach(){ attached =NULL; }
-	unsigned int getCardCost(){	return attached->getCost(); }
-	BlackCard *getAttachedCard(){ return attached; }
 	virtual int getType(){ return -1; }
-protected:
-	BlackCard *attached;
 };
 
 #endif
