@@ -112,15 +112,6 @@ Mine::Mine(const string n){
 	upperHolding=NULL;
 	subHolding=NULL;
 }
-void Mine::untap(){
-	isTapped=0;
-	if(upperHolding!=NULL){
-		upperHolding->isTapped=0;
-		if(upperHolding->upperHolding!=NULL){
-			upperHolding->upperHolding->isTapped=0;
-		}
-	}
-}
 
 GoldMine::GoldMine(const string n){
 	name=n;
@@ -133,15 +124,6 @@ GoldMine::GoldMine(const string n){
 	harvestValue=5;
 	upperHolding=NULL;
 	subHolding=NULL;
-}
-void GoldMine::untap(){
-	isTapped=0;
-	if(upperHolding!=NULL){
-		upperHolding->isTapped=0;
-	}
-	if(subHolding!=NULL){
-		subHolding->isTapped=0;
-	}
 }
 
 
@@ -157,15 +139,7 @@ CrystalMine::CrystalMine(const string n){
 	upperHolding=NULL;
 	subHolding=NULL;
 }
-void CrystalMine::untap(){
-	isTapped=0;
-	if(subHolding!=NULL){
-		subHolding()->untap();
-		if(subHolding->subHolding!=NULL){
-			subHolding->subHolding->isTapped=0;
-		}
-	}
-}
+
 
 Farmland::Farmland(const string n){
 	name=n;

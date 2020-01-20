@@ -10,7 +10,7 @@ public:
 	~Card(){}
 
 	void tap();
-	void untap()=0;
+	void untap(){ isTapped=0; }
 	bool tapped()const{ return isTapped; }
 	std::string getName()const{ return name; }
 	unsigned int getCost()const{ return cost; }
@@ -30,8 +30,6 @@ class GreenCard : public Card
 public:
 	GreenCard(){}
 	~GreenCard(){}
-
-	virtual void untap()=0;
 
 	int getAttackBonus()const{ return attackBonus; }
 	int getDefenceBonus()const{ return defenceBonus; }
@@ -58,8 +56,6 @@ public:
 	BlackCard(){}
 	~BlackCard(){}
 
-	void untap()=0;
-
 	void revealCard(){ isRevealed = 1; }
 	void hideCard(){ isRevealed = 0; }
 	bool getRevealed()const( return isRevealed; )
@@ -76,7 +72,6 @@ class Province : public BlackCard
 public:
 	Province(){}
 	~Province(){}
-	void untap(){}
 	void print()const;
 	void attach(BlackCard *n){ attached = n; }
 	void detach(){ attached =NULL; }
