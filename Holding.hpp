@@ -15,6 +15,8 @@ class Holding : public BlackCard
 		Holding *getSubHolding()const{ return subHolding; }
 		virtual int getType()const{ return 2; }
 
+		virtual void print()const;
+
 		bool hasSub(){ return subHolding!=NULL; }
 		bool hasUpper(){ return upperHolding!=NULL; }
  	
@@ -46,6 +48,8 @@ class Stronghold : public Holding
 		unsigned int getMoney()const{ return money; }
 		unsigned int getInitialDefense()const{ return initialDefense; }
 
+		void print()const;
+		
 	private:
 		unsigned int honour;
 		unsigned int money;
