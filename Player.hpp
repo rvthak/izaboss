@@ -32,6 +32,7 @@ public:
 	};
 	unsigned int GetProvinceAmount();
 	bool hasArmy();
+	bool hasProvinces();
 
 	unsigned int HandCardsNo();
 	unsigned int ArmyCardsNo();
@@ -72,7 +73,7 @@ protected:
 	std::list<Personality *> army;
 	Stronghold stronghold;
 
-	std::list<Personality *> attackForce;
+	list<Personality *> attackForce;
 
 private:
 	DeckBuilder my_deck;
