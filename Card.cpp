@@ -1,5 +1,7 @@
 #include "Card.hpp"
 
+using namespace std;
+
 bool Card::tap(){
 	if(isTapped){
 		isTapped=0;
