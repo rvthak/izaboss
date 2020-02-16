@@ -9,7 +9,7 @@ public:
 	Card(){}
 	~Card(){}
 
-	void tap();
+	bool tap();
 	void untap(){ isTapped=0; }
 	bool tapped()const{ return isTapped; }
 	std::string getName()const{ return name; }
@@ -66,15 +66,6 @@ public:
 
 protected:
 	bool isRevealed;
-};
-
-class Province : public BlackCard
-{
-public:
-	Province(){}
-	~Province(){}
-	void print()const;
-	virtual int getType(){ return -1; }
 };
 
 #endif
