@@ -148,6 +148,7 @@ unsigned int Player::HandCardsNo(){
 	for(int i=0;i<7;i++)
 		if(hand[i]!=NULL)
 			k++;
+	return k;
 }
 
 unsigned int Player::ArmyCardsNo(){
@@ -214,6 +215,7 @@ unsigned int Player::getMoney(){
 				money += another->getHarvestValue();
 		}
 	}
+	return money;
 }
 
 void Player::buyAndAssign(unsigned int hno, unsigned int ano){
@@ -315,6 +317,7 @@ unsigned int Player::ActiveArmyCardsNo(){
 	for(ita = army.begin();ita != army.end();ita++)
 		if(!((*ita)->tapped()))
 			k++;
+	return k;
 }
 
 void Player::AddToAttackForce(unsigned int ano){
