@@ -10,7 +10,7 @@ public:
 	~Card(){}
 
 	void tap();
-	void untap()=0;
+	void untap(){ isTapped=0; }
 	bool tapped()const{ return isTapped; }
 	std::string getName()const{ return name; }
 	unsigned int getCost()const{ return cost; }
@@ -31,8 +31,6 @@ public:
 	GreenCard(){}
 	~GreenCard(){}
 
-	virtual void untap()=0;
-
 	int getAttackBonus()const{ return attackBonus; }
 	int getDefenceBonus()const{ return defenceBonus; }
 	unsigned int getMinHonour()const{ return min_honour; }
@@ -40,6 +38,7 @@ public:
 	unsigned int getEffectCost()const{ return effectCost; }
 	std::string getCardText()const{ return cardText; }
 
+	void upgrade(){ attackBonus+=effectBonus; defenceBonus+=effectBonus; }
 	virtual void print()const;
 	virtual int getType()const=0;
 
@@ -58,8 +57,6 @@ public:
 	BlackCard(){}
 	~BlackCard(){}
 
-	void untap()=0;
-
 	void revealCard(){ isRevealed = 1; }
 	void hideCard(){ isRevealed = 0; }
 	bool getRevealed()const( return isRevealed; )
@@ -76,15 +73,8 @@ class Province : public BlackCard
 public:
 	Province(){}
 	~Province(){}
-	void untap(){}
 	void print()const;
-	void attach(BlackCard *n){ attached = n; }
-	void detach(){ attached =NULL; }
-	unsigned int getCardCost(){	return attached->getCost(); }
-	BlackCard *getAttachedCard(){ return attached; }
 	virtual int getType(){ return -1; }
-protected:
-	BlackCard *attached;
 };
 
 #endif
