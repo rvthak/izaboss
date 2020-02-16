@@ -259,7 +259,7 @@ void GameBoard::economyPhase(){
 			cout << " - Type " << tmp+1 << " to pass this phase " << endl;
 			unsigned int choice=choosefrom(tmp+1);
 			if(choice!=tmp+1){
-				if( player[buf[i]].getMoney() => player[buf[i]].GetProvinceCardCost(choice) ){
+				if( player[buf[i]].getMoney() >= player[buf[i]].GetProvinceCardCost(choice) ){
 					player[buf[i]].buyAndUse(choice);
 					cout << " > Transaction successful" << endl;
 					break;
@@ -285,7 +285,7 @@ void GameBoard::finalPhase(){
 		player[buf[i]].discardSurplusFateCards();
 		player[buf[i]].printHand();
 		player[buf[i]].printProvinces();
-		player[buf[i]].printArena();
+		player[buf[i]].printArmy(); // TO CHANGE ptrint attack force
 		player[buf[i]].printHoldings();
 		if( checkWinningCondition(i) ){ // exit if someone wins
 			cout << "    > Player " << i+1 << " WON! < " << endl;

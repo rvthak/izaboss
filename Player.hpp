@@ -48,6 +48,8 @@ public:
 	void buyAndAssign(unsigned int, unsigned int);
 	void buyAndUse(unsigned int);
 
+	bool CheckPersonalityCapacity(unsigned int,unsigned int);
+
 	void AddToAttackForce(unsigned int);
 	void attack(Player &, unsigned int);
 	void dcasualties(unsigned int);
@@ -70,7 +72,7 @@ protected:
 	std::list<Personality *> army;
 	Stronghold stronghold;
 
-	list<Personality *> attackForce;
+	std::list<Personality *> attackForce;
 
 private:
 	DeckBuilder my_deck;
