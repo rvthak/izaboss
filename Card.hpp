@@ -59,10 +59,10 @@ public:
 
 	void revealCard(){ isRevealed = 1; }
 	void hideCard(){ isRevealed = 0; }
-	bool getRevealed()const{ return isRevealed; } 
+	bool getRevealed()const( return isRevealed; )
 
 	virtual void print()const;
-	virtual int getType()const=0;
+	virtual int getType()=0;
 
 protected:
 	bool isRevealed;
