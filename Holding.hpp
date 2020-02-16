@@ -15,10 +15,8 @@ class Holding : public BlackCard
 		Holding *getSubHolding()const{ return subHolding; }
 		virtual int getType()const{ return 2; }
 
-		virtual void print()const;
-
-		bool hasSub(){ return subHolding!=NULL }
-		bool hasUpper(){ return upperHolding!=NULL }
+		bool hasSub(){ return subHolding!=NULL; }
+		bool hasUpper(){ return upperHolding!=NULL; }
  	
  		void chain(Holding *target);
 
@@ -48,13 +46,11 @@ class Stronghold : public Holding
 		unsigned int getMoney()const{ return money; }
 		unsigned int getInitialDefense()const{ return initialDefense; }
 
-		void print()const;
-		
 	private:
-		const unsigned int honour;
-		const unsigned int money;
-		const unsigned int initialDefense;
-		static unsigned int honcnt;
+		unsigned int honour;
+		unsigned int money;
+		unsigned int initialDefense;
+		unsigned int honcnt;
 };
 
 //==============================================
@@ -99,7 +95,7 @@ class GiftAndFavour : public Holding // SOLO
 {
 public:
 	GiftAndFavour(const std::string n);
-	~GiftAndFavour()
+	~GiftAndFavour(){};
 };
 
 #endif
