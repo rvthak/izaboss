@@ -1,16 +1,16 @@
 OUT=oop3
 OBJS=main.o GameBoard.o Player.o Card.o Item.o Follower.o Holding.o Personality.o DeckBuilder.o TypeConverter.o inputMgr.o
-CC=g++
-COMPILATION_PARAMETERS=
+CXX=g++ 
+CXXFLAGS=-std=c++11
 EXECUTION_PARAMETERS=
 
 all: $(OUT)
 
 $(OUT): $(OBJS)
-	$(CC) $(COMPILATION_PARAMETERS) -o $(OUT) $(OBJS)
+	$(CXX) $(COMPILATION_PARAMETERS) -o $(OUT) $(OBJS)
 
 %.o: %.cpp
-	$(CC) -c -o $@ $< $(COMPILATION_PARAMETERS)
+	$(CXX) -c -o $@ $< $(COMPILATION_PARAMETERS)
 
 # run the program
 run: $(OUT)
