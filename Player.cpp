@@ -1,7 +1,6 @@
 #include "Player.hpp"
 #include <cstlib>
 #include <ctime>
-#include <list>
 
 Player::Player()
 :numberOfProvinces(4){

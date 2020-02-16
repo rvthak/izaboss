@@ -3,6 +3,10 @@
 using namespace std;
 
 // TODO add description text here
+void Follower::print()const{
+	cout << "Follower: ";
+	GreenCard::print();
+}
 
 Footsoldier::Footsoldier(const string n){
 	name=n;

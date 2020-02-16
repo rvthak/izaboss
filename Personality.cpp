@@ -38,6 +38,13 @@ void Personality::equip(Item *i){
 	items.push_back(i);
 }
 
+void Personality::print()const{
+	cout<< "Personality Card";
+	BlackCard::print();
+	cout<< "\t" << "Attack: "<< attack
+		<< "\n\t" << "Defence: " << defence
+		<< "\n\t" << "Honour: " << honour<<endl;
+}
 
 Attacker::Attacker(const string n){
 	name=n;

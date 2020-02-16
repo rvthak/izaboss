@@ -1,6 +1,7 @@
 #ifndef PLAYER
 #define PLAYER
 
+#include <list>
 #include "Holding.hpp"
 #include "DeckBuilder.hpp"
 
@@ -72,7 +73,7 @@ protected:
 	std::list<Personality *> army;
 	Stronghold stronghold;
 
-	std::list<Personality *> attackForce;
+	list<Personality *> attackForce;
 
 private:
 	DeckBuilder my_deck;
