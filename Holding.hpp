@@ -27,7 +27,7 @@ class Holding : public BlackCard
 		void unchanSub(){ subHolding=NULL; }
 		void unchanUpper(){ upperHolding=NULL; }
 
-		bool getMineType();
+		int getMineType();
 
 	protected:
 		bool isMine;
