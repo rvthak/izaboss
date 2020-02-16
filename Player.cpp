@@ -128,6 +128,10 @@ bool Player::hasArmy(){
 	return (army.begin()!= army.end());
 }
 
+bool Player::hasProvinces(){
+	return (numberOfProvinces!=0);
+}
+
 void Player::printArmy(){
 	list<Personality *>::iterator ita;
 	for(ita = army.begin(); ita != army.end(); ita++){
