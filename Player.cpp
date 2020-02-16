@@ -1,6 +1,8 @@
 #include "Player.hpp"
 #include <cstdlib>
 #include <ctime>
+#include "inputMgr.hpp"
+#include "TypeConverter.hpp"
 
 using namespace std;
 
@@ -74,7 +76,7 @@ void Player::drawFateCard(){
 		cout<<"Fate deck is empty! You can't draw a card"<<endl;
 }
 
-void Player::revealProvince(){
+void Player::revealProvinces(){
 	list<BlackCard *>::iterator itp;
 	for(itp = provinces.begin();itp != provinces.end();itp++){
 		(*itp)->revealCard();
@@ -161,9 +163,9 @@ unsigned int Player::HoldingCardsNo(){
 	list<Holding *>::iterator ith;
 	for(ith = holdings.begin();ith != holdings.end();ith++){
 		k++;
-		if(holdings.hasUpper())
+		if((*ith)->hasUpper())
 			k++;
-		if(holdings.hasSub())
+		if((*ith)->hasSub())
 			k++;
 	}
 	return k;
@@ -192,7 +194,7 @@ unsigned int Player::GetHandMemberHonour(unsigned int no){
 		if(hand[j]!=NULL)
 			i++;
 	}
-	return hand[j-1]->getHonour();
+	return hand[j-1]->getMinHonour();
 }
 unsigned int Player::getMoney(){
 	list<Holding *>::iterator ith;
@@ -218,7 +220,7 @@ void Player::buyAndAssign(unsigned int hno, unsigned int ano){
 	int j=0;
 	int cost = GetHandCardCost(hno);
 	pay_cost(cost);
-	list<Army *>::iterator ita;
+	list<Personality *>::iterator ita;
 	ita = army.begin();
 	for(int i=1;i<ano && ita != army.end();i++)
 		ita++;
@@ -234,7 +236,7 @@ void Player::buyAndAssign(unsigned int hno, unsigned int ano){
 			cout<<"You don't have the money to upgrade teme"<<endl;
 	Follower **follow;
 	Item **item;
-	getCorrectType(hand[j-1],follow,item);
+	TypeConverter::getCorrectType(hand[j-1],follow,item);
 	if(*follow != NULL)
 		(*ita)->equip(*follow);
 	else
@@ -242,9 +244,9 @@ void Player::buyAndAssign(unsigned int hno, unsigned int ano){
 	hand[j-1]=NULL;
 }
 
-void Player::pay_cost(int cost){
+void Player::pay_cost(unsigned int cost){
 	list<Holding *>::iterator ith;
-	Holdin *h;
+	Holding *h;
 	int index;
 	while(cost >0){
 		index = choosefrom(HoldingCardsNo());
@@ -322,7 +324,7 @@ void Player::AddToAttackForce(unsigned int ano){
 		if(!((*ita)->tapped()))
 			i++;
 	ita--;
-	attackForce.push_back() = (*ita);
+	attackForce.push_back(*ita);
 	army.remove(*ita);
 }
 
@@ -359,7 +361,7 @@ bool Player::CheckPersonalityCapacity(unsigned int ano,unsigned int hno){
 	}
 	Follower **follow;
 	Item **item;
-	getCorrectType(hand[j-1],follow,item);
+	TypeConverter::getCorrectType(hand[j-1],follow,item);
 	if(*follow!=NULL)
 		return (*ita)->CheckFollowerCapacity();
 	else
@@ -447,7 +449,7 @@ void Player::buyAndUse(unsigned int pno){
 	pay_cost(cost);
 	Personality **person;
 	Holding **hold;
-	getCorrectType((*itp),person,hold);
+	TypeConverter::getCorrectType((*itp),person,hold);
 	if(*person !=NULL)
 		army.push_back(*person);
 	else{
@@ -469,14 +471,14 @@ void Player::ChainCreation(Holding *nhold){
 	Holding *toChain = NULL;
 	Holding *toChain2 = NULL;
 	switch(nhold->getMineType()){
-		case 1:
+		case 1:{
 			for(ith = holdings.begin(); ith != holdings.end(); ith++)
 				if((*ith)->getMineType()==2){
-					if(!(*ith)->hasSub() && (*ith)->hasUpper()){
+					if(!((*ith)->hasSub()) && (*ith)->hasUpper()){
 						toChain = *ith;
 						break;
 					}
-					else(!(*ith)->hasSub()){
+					else if(!((*ith)->hasSub())){
 						if(toChain!=NULL && rand()%2==1)
 							toChain = *ith;
 						else if(toChain==NULL)
@@ -488,12 +490,13 @@ void Player::ChainCreation(Holding *nhold){
 			else
 				toChain->chain(nhold);
 			break;
-		case 2:
+		}
+		case 2:{
 			bool flag =0;
 			for(ith = holdings.begin(); ith != holdings.end(); ith++)
 					if((*ith)->getMineType() == 1 && !(*ith)->hasUpper()){
 						if(!flag){
-							list<Holding *>iterator::ith2;
+							list<Holding *>::iterator ith2;
 							for(ith2 = holdings.begin(); ith2 != holdings.end();ith2++)
 								if(((*ith2)->getMineType() == 3) && !(*ith2)->hasSub()){
 									toChain2 = *ith2;
@@ -522,7 +525,7 @@ void Player::ChainCreation(Holding *nhold){
 					}
 					else if((*ith)->getMineType() == 3 && !(*ith)->hasSub()){
 						if(!flag){
-							list<Holding *>iterator::ith2;
+							list<Holding *>::iterator ith2;
 							for(ith2 = holdings.begin(); ith2 != holdings.end();ith2++)
 								if(((*ith2)->getMineType() == 1) && !(*ith2)->hasUpper()){
 									toChain2 = *ith2;
@@ -555,14 +558,15 @@ void Player::ChainCreation(Holding *nhold){
 			else if(toChain2==NULL && toChain!=NULL)
 				nhold->chain(toChain);
 			break;
-		case 3:
+		}
+		case 3:{
 			for(ith = holdings.begin(); ith != holdings.end(); ith++)
 				if((*ith)->getMineType()==2){
 					if(!(*ith)->hasUpper() && (*ith)->hasSub()){
 						toChain = *ith;
 						break;
 					}
-					else(!(*ith)->hasUpper()){
+					else if(!(*ith)->hasUpper()){
 						if(toChain!=NULL && rand()%2==1)
 							toChain = *ith;
 						else if(toChain==NULL)
@@ -574,6 +578,7 @@ void Player::ChainCreation(Holding *nhold){
 			else
 				toChain->chain(nhold);
 			break;
+		}
 	}
 }
 
@@ -585,6 +590,6 @@ void Player::discardSurplusFateCards(){
 	printHand();
 	if(k==7){
 		k=choosefrom(7);
-		delete hand[i];
+		delete hand[k];
 	}
 }
