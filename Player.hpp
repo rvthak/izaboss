@@ -67,7 +67,7 @@ protected:
 	std::list<GreenCard *>* fateDeck;
 	std::list<BlackCard *>* dynastyDeck;
 
-	std::list<Province *> provinces;
+	std::list<BlackCard *> provinces;
 	GreenCard *hand[7];
 	std::list<Holding *> holdings;
 	std::list<Personality *> army;
