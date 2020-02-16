@@ -9,7 +9,7 @@ void swap(unsigned int *x, unsigned int *y){
     *x = *y;
   	*y = temp;
 }
-void sort(unsigned int *buf, unsigned int *val, int n){   
+void sortPlayers(unsigned int *buf, unsigned int *val, int n){   
     for (int i=0; i<n-1; i++){
     	for (int j=0; j<n-i-1; j++){
     		if (val[j] > val[j+1]){
@@ -19,7 +19,6 @@ void sort(unsigned int *buf, unsigned int *val, int n){
     	}
     }
 }
-
 
 GameBoard::GameBoard(){
 	running=0;
@@ -48,7 +47,7 @@ void GameBoard::initializeGameBoard(unsigned int playerNo){
 	    		bufval[i]=player[i].getHonour();
 	    	}
 		// sort the buf according to the bufval values
-		sort(buf, bufval, player_amount);
+		sortPlayers(buf, bufval, player_amount);
 		delete []bufval;
 		cout << " > Game board initialized succesfully!" << endl;
 	}

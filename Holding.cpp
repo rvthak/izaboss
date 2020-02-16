@@ -2,12 +2,6 @@
 
 using namespace std;
 
-void Holding::print()const{
-	cout <<"Holding Card: ";
-	BlackCard::print();
-	cout << "\t" << "Harvest Value: "<< harvestValue <<endl;
-}
-
 bool Holding::getMineType(){
 	if(isMine==0){ return 0; }
 	else if(harvestValue==3){ return 1; }
@@ -90,12 +84,6 @@ Stronghold::Stronghold(){
 
 	// Get an amount of initial defence according to your money value for game balance
 	initialDefense=20-money;
-}
-
-void Stronghold::print()const{
-	cout << "Stronghold:\n\t" << "Initial Honour: "<< honour
-		 << "\n\t" << "Initial Money: " << money
-		 << "\n\t" << "Initial Defence: "<< initialDefense<<endl;
 }
 
 
