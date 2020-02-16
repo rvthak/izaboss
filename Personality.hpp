@@ -24,8 +24,8 @@ class Personality : public BlackCard
 		bool CheckFollowerCapacity()const{ return (followerAmount()<honour); }
 		bool CheckItemCapacity()const{ return (itemAmount()<honour); }
 
-		unsigned int followerAmount();
-		unsigned int itemAmount();
+		unsigned int followerAmount()const;
+		unsigned int itemAmount()const;
 
 		int equip(Follower *f);
 		int equip(Item *i);
