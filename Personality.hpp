@@ -27,13 +27,14 @@ class Personality : public BlackCard
 		unsigned int followerAmount()const;
 		unsigned int itemAmount()const;
 
-		int equip(Follower *f);
-		int equip(Item *i);
+		void equip(Follower *f);
+		void equip(Item *i);
+
 		void print()const;
 		
 		virtual int getType()const{ return 1; }
     
-	private:
+	protected:
 		unsigned int attack;
 		unsigned int defence;
 		unsigned int honour;

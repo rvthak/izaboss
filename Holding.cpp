@@ -1,4 +1,5 @@
 #include "Holding.hpp"
+#include <iostream>
 
 using namespace std;
 
@@ -8,7 +9,7 @@ void Holding::print()const{
 	cout << "\t" << "Harvest Value: "<< harvestValue <<endl;
 }
 
-bool Holding::getMineType(){
+int Holding::getMineType(){
 	if(isMine==0){ return 0; }
 	else if(harvestValue==3){ return 1; }
 	else if(harvestValue==5){ return 2; }
@@ -110,7 +111,6 @@ Plain::Plain(const string n){
 	subHolding=NULL;
 }
 
-
 Mine::Mine(const string n){
 	name=n;
 	cost=5;
@@ -137,7 +137,6 @@ GoldMine::GoldMine(const string n){
 	subHolding=NULL;
 }
 
-
 CrystalMine::CrystalMine(const string n){
 	name=n;
 	cost=12;
@@ -150,7 +149,6 @@ CrystalMine::CrystalMine(const string n){
 	upperHolding=NULL;
 	subHolding=NULL;
 }
-
 
 Farmland::Farmland(const string n){
 	name=n;
