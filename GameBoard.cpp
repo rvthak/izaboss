@@ -43,7 +43,7 @@ void GameBoard::initializeGameBoard(unsigned int playerNo){
 		unsigned int *bufval=new unsigned int[player_amount];	// this array has their honour values stored (used for sorting)
 		
 		// We pass the initial values to both arrays
-		for (int i=0; i<player_amount; i++){
+		for (unsigned int i=0; i<player_amount; i++){
 			buf[i]=i;
 	    		bufval[i]=player[i].getHonour();
 	    	}
@@ -66,7 +66,7 @@ void GameBoard::printGameStatistics(){
 	print(); // Print the game board state/stats
 
 	// Print each player's stats 
-	for(int i=0; i<player_amount; i++){
+	for(unsigned int i=0; i<player_amount; i++){
 		player[i].print();
 	}
 }
@@ -94,7 +94,7 @@ void GameBoard::startingPhase(){
 	cout << " ================================================ " << endl;
 	cout << "                   Starting Phase                 " << endl;
 	cout << " ================================================ " << endl;
-	for(int i=0; i<player_amount; i++){
+	for(unsigned int i=0; i<player_amount; i++){
 		cout << endl << " > Player's " << i+1 << " turn: " << endl;
     	player[buf[i]].untapEverything();
     	player[buf[i]].drawFateCard();
@@ -107,7 +107,7 @@ void GameBoard::equipPhase(){
 	cout << " ================================================ " << endl;
 	cout << "                    Equip Phase                   " << endl;
 	cout << " ================================================ " << endl;
-	for(int i=0; i<player_amount; i++){
+	for(unsigned int i=0; i<player_amount; i++){
 		cout << endl << " > Player's " << i+1 << " turn: " << endl;
 		if(player[buf[i]].hasArmy()){ // if the player has army
 			
@@ -163,7 +163,7 @@ void GameBoard::battlePhase(){
 	cout << " ================================================ " << endl;
 	cout << "                   Battle Phase                   " << endl;
 	cout << " ================================================ " << endl;
-	for(int i=0; i<player_amount; i++){		// for each player in the correct order
+	for(unsigned int i=0; i<player_amount; i++){		// for each player in the correct order
 		cout << endl << " > Player's " << i+1 << " turn: " << endl;
 		if(player[buf[i]].hasArmy()){ 		// check if he has an army
 			player[buf[i]].printTapArmy();	// Show the player his army + tap status
@@ -190,13 +190,12 @@ void GameBoard::battlePhase(){
 			cout << " --- War --- " << endl;
 
 			// Calculate player attack
-			unsigned int attack=player[buf[i]].getPlayerAttack();
 
 			while(1){
 				if( getDesision(" > Do you want to perform an attack?") ){
 					// Print the available players to attack
 					cout << " > Choose a player to attack " << endl;
-					for(int j=0; j<player_amount; j++){
+					for(unsigned int j=0; j<player_amount; j++){
 						if(j!=i){ // we dont print the current player
 							cout << " Player " << j+1 << endl;
 							player[buf[j]].print();			
@@ -215,7 +214,7 @@ void GameBoard::battlePhase(){
 					// let him choose his enemy's province-target
 					player[buf[target]].printProvinces();
 					player[buf[target]].printArmy();
-					int tmp=player[buf[target]].GetProvinceAmount();
+					unsigned int tmp=player[buf[target]].GetProvinceAmount();
 					cout << " > Which one of the available provinces do you want to attack?" << endl;
 					cout << " - Type " << tmp+1 << " to go back if you change your mind" << endl;
 					unsigned int targetprov = choosefrom(tmp+1);
@@ -244,7 +243,7 @@ void GameBoard::economyPhase(){
 	cout << " ================================================ " << endl;
 	cout << "                   Economy Phase                  " << endl;
 	cout << " ================================================ " << endl;
-	for(int i=0; i<player_amount; i++){ // !!! each player can buy only one card in this phase
+	for(unsigned int i=0; i<player_amount; i++){ // !!! each player can buy only one card in this phase
 		cout << endl << " > Player's " << i+1 << " turn: " << endl;	
 		while(1){
 			// Print his army and holdings
@@ -279,7 +278,7 @@ void GameBoard::finalPhase(){
 	cout << " ================================================ " << endl;
 	cout << "                    Final Phase                   " << endl;
 	cout << " ================================================ " << endl;
-	for(int i=0; i<player_amount; i++){
+	for(unsigned int i=0; i<player_amount; i++){
 		cout << endl << " > Player's " << i+1 << " turn: " << endl;
 		// Discard excess hand cards
 		player[buf[i]].discardSurplusFateCards();
@@ -298,7 +297,7 @@ void GameBoard::finalPhase(){
 bool GameBoard::checkWinningCondition(unsigned int i){
 	if( player[buf[i]].hasProvinces()){
 		bool flag=1;
-		for(int j=0; j<player_amount; j++){
+		for(unsigned int j=0; j<player_amount; j++){
 			if(j!=i){ // dont check the current player
 				if( player[buf[j]].hasProvinces() ){
 					flag=0;

@@ -7,10 +7,10 @@ EXECUTION_PARAMETERS=
 all: $(OUT)
 
 $(OUT): $(OBJS)
-	$(CXX) $(COMPILATION_PARAMETERS) -o $(OUT) $(OBJS)
+	$(CXX) -o $(OUT) $(OBJS)
 
 %.o: %.cpp
-	$(CXX) -c -o $@ $< $(COMPILATION_PARAMETERS)
+	$(CXX) -c -o $@ $<
 
 # run the program
 run: $(OUT)
