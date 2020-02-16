@@ -1,4 +1,5 @@
 #include "Personality.hpp"
+#include <iostream>
 
 using namespace std;
 

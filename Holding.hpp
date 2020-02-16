@@ -41,7 +41,7 @@ class Holding : public BlackCard
 class Stronghold : public Holding
 {
 	public:
-		Stronghold(){}
+		Stronghold();
 		~Stronghold(){}
 
 		unsigned int getHonour()const{ return honour; }
@@ -54,7 +54,7 @@ class Stronghold : public Holding
 		unsigned int honour;
 		unsigned int money;
 		unsigned int initialDefense;
-		unsigned int honcnt;
+		static unsigned int honcnt;
 };
 
 //==============================================
