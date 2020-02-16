@@ -9,6 +9,9 @@ class Holding : public BlackCard
 		Holding():isMine(0), harvestValue(0), upperHolding(NULL), subHolding(NULL){}
 		~Holding(){}
 
+
+		void untap(){ isTapped=0; }
+
 		bool checkMine(){ return isMine; }
 		unsigned int getHarvestValue()const{ return harvestValue; }
 		Holding *getUpperHolding()const{ return upperHolding; }
@@ -60,6 +63,7 @@ class Mine : public Holding
 public:
 	Mine(const std::string n);
 	~Mine(){}
+	void untap();
 };
 
 class GoldMine : public Holding
@@ -67,6 +71,7 @@ class GoldMine : public Holding
 public:
 	GoldMine(const std::string n);
 	~GoldMine(){}
+	void untap();
 };
 
 class CrystalMine : public Holding
@@ -74,7 +79,9 @@ class CrystalMine : public Holding
 public:
 	CrystalMine(const std::string n);
 	~CrystalMine(){}
+	void untap();
 };
+
 
 
 class Plain : public Holding
