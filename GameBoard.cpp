@@ -108,8 +108,11 @@ void GameBoard::startingPhase(){
     	player[buf[i]].untapEverything();
     	player[buf[i]].drawFateCard();
   	 	player[buf[i]].revealProvinces();
+  	 	cout << endl;
     	player[buf[i]].printHand();
+    	cout << endl;
     	player[buf[i]].printProvinces();
+    	cout << endl;
     } 
 }
 void GameBoard::equipPhase(){
