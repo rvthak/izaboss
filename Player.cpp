@@ -342,16 +342,12 @@ void Player::pay_cost(int cost){
 					}
 				}
 			}
-			if(h->tap())
-				cost -= h->getHarvestValue();
-			else
-				cost += h->getHarvestValue();
+			cost -= h->getHarvestValue();
+			h->tap();
 		}
 		else{
-			if(stronghold.tap())
-				cost -= stronghold.getMoney();
-			else
-				cost += stronghold.getMoney();
+			cost -= stronghold.getMoney();
+			stronghold.tap();
 		}
 	}
 }
