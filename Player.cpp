@@ -357,7 +357,7 @@ void Player::TapArmyCard(unsigned int ano){
 	ita = army.begin();
 	for(int i=1;i<ano && ita != army.end();i++)
 		ita++;
-	if(!((*ita)->tap())){
+	if((*ita)->tapped()){
 		cout<<"This card is already tapped"<<endl;
 		(*ita)->tap();
 	}
