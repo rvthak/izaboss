@@ -41,7 +41,7 @@ public:
 	
 	unsigned int GetHandCardCost(unsigned int);
 	unsigned int GetProvinceCardCost(unsigned int);
-	void pay_cost(unsigned int );
+	void pay_cost(int );
 
 	unsigned int GetArmyMemberHonour(unsigned int);
 	unsigned int GetHandMemberHonour(unsigned int);
