@@ -114,7 +114,7 @@ void Player::printHand(){
 void Player::printArmy(){
 	list<Personality *>::iterator ita;
 	cout<<"		Cards on Army: ";
-	if( army.begin()==army.end() ){ cout << "NONE" << endl; }
+	if( army.begin()==army.end() ){ cout << "NONE" << endl; return;}
 	for(ita = army.begin(); ita != army.end(); ita++){
 		cout<<endl;
 		(*ita)->print();
@@ -136,7 +136,7 @@ void Player::printProvinces(){
 }
 void Player::printHoldings(){
 	cout<<"		Holdings owned: ";
-	if( holdings.begin()==holdings.end() ){ cout << "NONE" << endl; }
+	if( holdings.begin()==holdings.end() ){ cout << "NONE" << endl; return; }
 	list<Holding *>::iterator ith;
 	Holding *h;
 	ith = holdings.begin();
