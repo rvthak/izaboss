@@ -22,7 +22,7 @@ bool getDesision(const string msg){
 		if(str=="y"){
 			return 1;
 		}
-		else if(str!="n"){
+		else if(str=="n"){
 			return 0;
 		}
 		else{

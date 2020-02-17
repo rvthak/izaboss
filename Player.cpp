@@ -292,14 +292,16 @@ void Player::buyAndAssign(unsigned int hno, unsigned int ano){
 			pay_cost(cost);
 		}else
 			cout<<"You don't have the money to upgrade teme"<<endl;
-	Follower **follow=NULL;
-	Item **item=NULL;
+	Follower **follow=new Follower*;
+	Item **item=new Item*;
 	TypeConverter::getCorrectType(hand[j-1],follow,item);
 	if(*follow != NULL)
 		(*ita)->equip(*follow);
 	else
 		(*ita)->equip(*item);
 	hand[j-1]=NULL;
+	delete follow;
+	delete item;
 }
 
 void Player::pay_cost(int cost){
@@ -414,13 +416,15 @@ bool Player::CheckPersonalityCapacity(unsigned int ano,unsigned int hno){
 		if(hand[j] != NULL)
 			i++;
 	}
-	Follower **follow;
-	Item **item;
+	Follower **follow=new Follower*;
+	Item **item=new Item*;
 	TypeConverter::getCorrectType(hand[j-1],follow,item);
 	if(*follow!=NULL)
 		return (*ita)->CheckFollowerCapacity();
 	else
 		return (*ita)->CheckItemCapacity();
+	delete follow;
+	delete item;
 }
 
 void Player::attack(Player &target, unsigned int pno){
@@ -501,8 +505,8 @@ void Player::buyAndUse(unsigned int pno){
 		itp++;
 	int cost = GetProvinceCardCost(pno);
 	pay_cost(cost);
-	Personality **person=NULL;
-	Holding **hold=NULL;
+	Personality **person=new Personality*;
+	Holding **hold=new Holding*;
 	TypeConverter::getCorrectType((*itp),person,hold);
 	if(*person !=NULL)
 		army.push_back(*person);
@@ -517,6 +521,8 @@ void Player::buyAndUse(unsigned int pno){
 	itd = dynastyDeck->begin();
 	provinces.push_back(*itd);
 	dynastyDeck->pop_front();
+	delete person;
+	delete hold;
 }
 
 void Player::ChainCreation(Holding *nhold){
