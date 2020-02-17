@@ -2,6 +2,7 @@
 #define _HOLDING
 
 #include "Card.hpp"
+#include <cstdlib>
 
 class Holding : public BlackCard
 {
