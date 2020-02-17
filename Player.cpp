@@ -39,6 +39,7 @@ Player::~Player(){
 void Player::untapEverything(){
 	cout<<"	Untapping everything!"<<endl;
 	list<Personality *>::iterator ita;
+	stronghold.untap();
 	Holding *another;
 	for(ita = army.begin(); ita != army.end(); ita++){
 		(*ita)->untap();
@@ -254,7 +255,6 @@ unsigned int Player::getMoney(){
 		money=0;
 	else{
 	 	money=stronghold.getMoney();
-	 	stronghold.tap();
 	}
 	
 	for(ith = holdings.begin();ith != holdings.end();ith++){
@@ -302,12 +302,12 @@ void Player::buyAndAssign(unsigned int hno, unsigned int ano){
 	hand[j-1]=NULL;
 }
 
-void Player::pay_cost(unsigned int cost){
+void Player::pay_cost(int cost){
 	list<Holding *>::iterator ith;
 	Holding *h;
 	int index;
 	while(cost >0){
-		cout<<"Choose card to harvest value"<<endl;
+		cout<<"Choose card to harvest value to pay: "<<endl;
 		if(!stronghold.tapped()){
 			cout<<"Type the number of the holding you want to use or the number of the last holding +1 to use your stronghold's money"<<endl;
 			index = choosefrom(HoldingCardsNo()+1);
@@ -342,15 +342,17 @@ void Player::pay_cost(unsigned int cost){
 					}
 				}
 			}
+			if(h->tap())
+				cost -= h->getHarvestValue();
+			else
+				cost += h->getHarvestValue();
 		}
 		else{
-			h = &stronghold;
+			if(stronghold.tap())
+				cost -= stronghold.getMoney();
+			else
+				cost += stronghold.getMoney();
 		}
-			
-		if(h->tap())
-			cost -= h->getHarvestValue();
-		else
-			cost += h->getHarvestValue();
 	}
 }
 
