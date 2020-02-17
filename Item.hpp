@@ -1,5 +1,5 @@
-#ifndef ITEM
-#define ITEM
+#ifndef _ITEM
+#define _ITEM
 
 #include "Card.hpp"
 

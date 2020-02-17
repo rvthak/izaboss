@@ -8,16 +8,21 @@
 #include "Follower.hpp"
 #include "Item.hpp"
 
+#define PERSONALITY 1
+#define HOLDING 2
+#define FOLLOWER 3
+#define ITEM 4
+
 class TypeConverter
 {
 public:
 	TypeConverter();
 	static void getCorrectType(BlackCard *card, Personality **person, Holding **hold);
 	static void getCorrectType(GreenCard *card, Follower **follow, Item **item);
-	Personality *getPersonality(BlackCard *d);
-	Holding *getHolding(BlackCard *d);
-	Follower *getFollower(GreenCard *d);
-	Item *getItem(GreenCard *d);
+	static Personality *getPersonality(BlackCard *d);
+	static Holding *getHolding(BlackCard *d);
+	static Follower *getFollower(GreenCard *d);
+	static Item *getItem(GreenCard *d);
 };
 
 #endif

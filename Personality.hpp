@@ -1,5 +1,5 @@
-#ifndef PERSONALITY
-#define PERSONALITY
+#ifndef _PERSONALITY
+#define _PERSONALITY
 
 #include <list>
 #include "Card.hpp"
