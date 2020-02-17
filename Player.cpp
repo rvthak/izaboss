@@ -34,10 +34,8 @@ Player::~Player(){
 		delete *ita;
 }
 
-// Starting phase =============================================
-
 void Player::untapEverything(){
-	cout<<"	Untapping everything!"<<endl;
+	cout<<"Untapping everything!"<<endl;
 	list<Personality *>::iterator ita;
 	stronghold.untap();
 	Holding *another;
@@ -58,7 +56,7 @@ void Player::untapEverything(){
 	}
 }
 void Player::drawFateCard(){
-	cout<<"	Drawing a fate card!"<<endl;
+	cout<<"Drawing a fate card!"<<endl;
 	list<GreenCard *>::iterator itg;
 	if((itg = fateDeck->begin())!= fateDeck->end()){
 		int counter =0;
@@ -81,7 +79,7 @@ void Player::drawFateCard(){
 }
 
 void Player::revealProvinces(){
-	cout<<"	Revealing Provinces!"<<endl;
+	cout<<"Revealing Provinces!"<<endl;
 	list<BlackCard *>::iterator itp;
 	for(itp = provinces.begin();itp != provinces.end();itp++){
 		(*itp)->revealCard();
@@ -100,65 +98,54 @@ void Player::print(){
 }
 
 void Player::printHand(){
-	cout<<"		Cards on Hand: ";
-	int j=0;
-	for(int i=0; i<7 ;i++){
-		if(hand[i]!=NULL){
-			cout << endl;
+	cout<<"		Cards on Hand:"<<endl;
+	for(int i=0; i<7 ;i++)
+		if(hand[i]!=NULL)
 			hand[i]->print();
-			j++;
-		}
-	}
-	if(j==0){ cout << "NONE" << endl; }	
 }
 void Player::printArmy(){
 	list<Personality *>::iterator ita;
-	cout<<"		Cards on Army: ";
-	if( army.begin()==army.end() ){ cout << "NONE" << endl; }
+	cout<<"		Cards on Army:"<<endl;
 	for(ita = army.begin(); ita != army.end(); ita++){
-		cout<<endl;
 		(*ita)->print();
 	}
 }
 void Player::printProvinces(){
 	cout<<"		Provinces available:"<<endl;
-	int i=1;
 	list<BlackCard *>::iterator itp;
-	for(itp = provinces.begin();itp != provinces.end();itp++){
-		if((*itp)->getRevealed()){
+	for(itp = provinces.begin();itp != provinces.end();itp++)
+		if((*itp)->getRevealed())
 			(*itp)->print();
-		}
-		else{
-			cout << "\t\t" << i << ": HIDDEN " << endl;
-		}
-		i++;
-	}
 }
 void Player::printHoldings(){
-	cout<<"		Holdings owned: ";
-	if( holdings.begin()==holdings.end() ){ cout << "NONE" << endl; }
+	cout<<"		Holdings owned:"<<endl;
 	list<Holding *>::iterator ith;
 	Holding *h;
+	cout<<"ERROR1"<<endl;
 	ith = holdings.begin();
-	for(int i=1; ith != holdings.end(); i++){
-		h = *ith;
-		if((*ith)->hasUpper()){
-			cout<< i << ".";
-			h = (*ith)->getUpperHolding();
-			h->print();
+	cout<<"ERROR2"<<endl;
+	if(ith == holdings.end())
+		cout<<"No holdings"<<endl;
+	else
+		for(int i=1; ith != holdings.end(); i++){
 			h = *ith;
-			i++;
-		}
-		cout<< i <<".";
-		h->print();
-		if((*ith)->hasSub()){
-			i++;
+			if((*ith)->hasUpper()){
+				cout<< i << ".";
+				h = (*ith)->getUpperHolding();
+				h->print();
+				h = *ith;
+				i++;
+			}
 			cout<< i <<".";
-			h = (*ith)->getSubHolding();
 			h->print();
+			if((*ith)->hasSub()){
+				i++;
+				cout<< i <<".";
+				h = (*ith)->getSubHolding();
+				h->print();
+			}
+			ith++;
 		}
-		ith++;
-	}
 }
 
 void Player::printTapArmy(){
@@ -254,7 +241,7 @@ unsigned int Player::getMoney(){
 	if(stronghold.tapped())
 		money=0;
 	else{
-	 	money=stronghold.getMoney();
+	 	money = stronghold.getMoney();
 	}
 	
 	for(ith = holdings.begin();ith != holdings.end();ith++){
@@ -307,7 +294,7 @@ void Player::pay_cost(int cost){
 	Holding *h;
 	int index;
 	while(cost >0){
-		cout<<"Choose card to harvest value to pay: "<<endl;
+		cout<<"Choose card to harvest value to pay "<< cost <<endl;
 		if(!stronghold.tapped()){
 			cout<<"Type the number of the holding you want to use or the number of the last holding +1 to use your stronghold's money"<<endl;
 			index = choosefrom(HoldingCardsNo()+1);
@@ -341,6 +328,7 @@ void Player::pay_cost(int cost){
 						break;
 					}
 				}
+
 			}
 			cost -= h->getHarvestValue();
 			h->tap();
@@ -359,7 +347,6 @@ void Player::TapArmyCard(unsigned int ano){
 		ita++;
 	if((*ita)->tapped()){
 		cout<<"This card is already tapped"<<endl;
-		(*ita)->tap();
 	}
 }
 
@@ -525,6 +512,7 @@ void Player::ChainCreation(Holding *nhold){
 	list<Holding *>::iterator ith;
 	Holding *toChain = NULL;
 	Holding *toChain2 = NULL;
+	cout<<"ERROR "<<nhold<<endl;
 	switch(nhold->getMineType()){
 		case 1:{
 			for(ith = holdings.begin(); ith != holdings.end(); ith++)
