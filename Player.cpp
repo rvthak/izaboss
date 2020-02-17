@@ -6,8 +6,7 @@
 
 using namespace std;
 
-Player::Player()
-:numberOfProvinces(4){
+Player::Player():numberOfProvinces(4){
 	fateDeck = my_deck.createFateDeck();
 	dynastyDeck = my_deck.createDynastyDeck();
 	my_deck.deckShuffler(fateDeck);
@@ -23,7 +22,6 @@ Player::Player()
 	for(int i=0;i<7;i++)
 		hand[i]=NULL;
 }
-
 Player::~Player(){
 	for(int i=0; i<7;i++)
 		if(hand[i]!=NULL)
@@ -56,7 +54,6 @@ void Player::untapEverything(){
 		}
 	}
 }
-
 void Player::drawFateCard(){
 	cout<<"Drawing a fate card!"<<endl;
 	list<GreenCard *>::iterator itg;
@@ -87,31 +84,40 @@ void Player::revealProvinces(){
 		(*itp)->revealCard();
 	}
 }
+
+
+// Print ===========================
+
 void Player::print(){
 	this->printHand();
 	this->printArmy();
 	this->printProvinces();
 	this->printHoldings();
-	cout<<this->getMoney()<<endl;
+	cout<< "		Money: " << this->getMoney()<<endl;
 }
 
 void Player::printHand(){
-	cout<<"The cards on your hand:"<<endl;
+	cout<<"		Cards on Hand:"<<endl;
 	for(int i=0; i<7 ;i++)
 		if(hand[i]!=NULL)
 			hand[i]->print();
 }
-
+void Player::printArmy(){
+	list<Personality *>::iterator ita;
+	cout<<"		Cards on Army:"<<endl;
+	for(ita = army.begin(); ita != army.end(); ita++){
+		(*ita)->print();
+	}
+}
 void Player::printProvinces(){
-	cout<<"Your province cards:"<<endl;
+	cout<<"		Provinces available:"<<endl;
 	list<BlackCard *>::iterator itp;
 	for(itp = provinces.begin();itp != provinces.end();itp++)
 		if((*itp)->getRevealed())
 			(*itp)->print();
 }
-
 void Player::printHoldings(){
-	cout<<"Your holdings:"<<endl;
+	cout<<"		Holdings owned:"<<endl;
 	list<Holding *>::iterator ith;
 	Holding *h;
 	ith = holdings.begin();
@@ -136,19 +142,35 @@ void Player::printHoldings(){
 	}
 }
 
+void Player::printTapArmy(){
+	list<Personality *>::iterator ita;
+	for(ita = army.begin(); ita != army.end(); ita++){
+		(*ita)->print();
+		cout<<'\t';
+		if((*ita)->tapped())
+			cout<<"Tapped"<<endl;
+		else
+			cout<<"Not Tapped"<<endl;
+	}
+}
+void Player::printUntappedArmy(){
+	list<Personality *>::iterator ita;
+	for(ita = army.begin();ita != army.end();ita++)
+		if(!((*ita)->tapped()))
+			(*ita)->print();
+}
+
+// =================================
+
+
 bool Player::hasArmy(){
+
 	return (army.begin()!= army.end());
 }
 
 bool Player::hasProvinces(){
-	return (numberOfProvinces!=0);
-}
 
-void Player::printArmy(){
-	list<Personality *>::iterator ita;
-	for(ita = army.begin(); ita != army.end(); ita++){
-		(*ita)->print();
-	}
+	return (numberOfProvinces!=0);
 }
 
 unsigned int Player::HandCardsNo(){
@@ -289,18 +311,6 @@ void Player::pay_cost(unsigned int cost){
 	}
 }
 
-void Player::printTapArmy(){
-	list<Personality *>::iterator ita;
-	for(ita = army.begin(); ita != army.end(); ita++){
-		(*ita)->print();
-		cout<<'\t';
-		if((*ita)->tapped())
-			cout<<"Tapped"<<endl;
-		else
-			cout<<"Not Tapped"<<endl;
-	}
-}
-
 void Player::TapArmyCard(unsigned int ano){
 	list<Personality *>::iterator ita;
 	ita = army.begin();
@@ -310,13 +320,6 @@ void Player::TapArmyCard(unsigned int ano){
 		cout<<"This card is already tapped"<<endl;
 		(*ita)->tap();
 	}
-}
-
-void Player::printUntappedArmy(){
-	list<Personality *>::iterator ita;
-	for(ita = army.begin();ita != army.end();ita++)
-		if(!((*ita)->tapped()))
-			(*ita)->print();
 }
 
 unsigned int Player::ActiveArmyCardsNo(){
@@ -357,6 +360,7 @@ unsigned int Player::getPlayerDefence(){
 }
 
 unsigned int Player::GetProvinceAmount(){
+
 	return numberOfProvinces;
 }
 
@@ -441,7 +445,6 @@ void Player::acasualties(unsigned int limit){
 			ita = attackForce.begin();
 		}
 }
-
 
 unsigned int Player::GetProvinceCardCost(unsigned int pno){
 	list<BlackCard *>::iterator itp;

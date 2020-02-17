@@ -66,8 +66,18 @@ void GameBoard::printGameStatistics(){
 
 	// Print each player's stats 
 	for(unsigned int i=0; i<player_amount; i++){
+		cout << "		> --- Player " << i+1 << " ---" << endl;
 		player[i].print();
+		cout << endl;
 	}
+}
+void GameBoard::print(){
+	if(player==NULL){
+		cout << " > Game Error: Game board not initialized. Terminating print..." << endl;
+		return;
+	}
+	cout << "	- Number of players: " << player_amount << endl;
+	return;
 }
 void GameBoard::gameplay(){
 	if(player==NULL){
@@ -311,13 +321,4 @@ bool GameBoard::checkWinningCondition(unsigned int i){
 		}
 	}
 	return 0;
-}
-
-void GameBoard::print(){
-	if(player==NULL){
-		cout << " > Game Error: Game board not initialized. Terminating print..." << endl;
-		return;
-	}
-	cout << "    Number of players: " << player_amount << endl;
-	return;
 }
