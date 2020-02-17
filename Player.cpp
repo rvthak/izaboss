@@ -235,7 +235,7 @@ unsigned int Player::getMoney(){
 	if(stronghold.tapped())
 		money=0;
 	else{
-	 	stronghold.getMoney();
+	 	money=stronghold.getMoney();
 	 	stronghold.tap();
 	}
 	
