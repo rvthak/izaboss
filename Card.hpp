@@ -9,7 +9,7 @@ public:
 	Card(){}
 	~Card(){}
 
-	bool tap();
+	void tap(){ isTapped = 1; };
 	void untap(){ isTapped=0; }
 	bool tapped()const{ return isTapped; }
 	std::string getName()const{ return name; }
