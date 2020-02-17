@@ -230,7 +230,15 @@ unsigned int Player::GetHandMemberHonour(unsigned int no){
 unsigned int Player::getMoney(){
 	list<Holding *>::iterator ith;
 	Holding *another;
-	unsigned int money= stronghold.getMoney();
+	unsigned int money;
+	
+	if(stronghold.tapped())
+		money=0;
+	else{
+	 	stronghold.getMoney();
+	 	stronghold.tap();
+	}
+	
 	for(ith = holdings.begin();ith != holdings.end();ith++){
 		if(!((*ith)->tapped()))
 			money += (*ith)->getHarvestValue();
@@ -281,29 +289,47 @@ void Player::pay_cost(unsigned int cost){
 	Holding *h;
 	int index;
 	while(cost >0){
-		index = choosefrom(HoldingCardsNo());
-		ith = holdings.begin();
-		for(int i=0;ith != holdings.end();ith++){
-			if((*ith)->hasUpper()){
+		cout<<"Choose card to harvest value"<<endl;
+		if(!stronghold.tapped()){
+			cout<<"Type the number of the holding you want to use or the number of the last holding +1 to use your stronghold's money"<<endl;
+			index = choosefrom(HoldingCardsNo()+1);
+		}
+		else{
+			cout<<"Type  the number of the holding you want to use"<<endl;
+			index = choosefrom(HoldingCardsNo());
+		}
+		
+		if(index != HoldingCardsNo()+1){
+			ith = holdings.begin();
+			for(int i=0;ith != holdings.end();ith++){
+				if((*ith)->hasUpper()){
+					i++;
+					if(i>=index){
+						h= (*ith)->getUpperHolding();
+						break;
+					}
+				}
+			
 				i++;
 				if(i>=index){
-					h= (*ith)->getUpperHolding();
+					h =*ith;
 					break;
 				}
-			}
-			i++;
-			if(i>=index){
-				h = *ith;
-				break;
-			}
-			if((*ith)->hasSub()){
-				i++;
-				if(i>=index){
-					h =(*ith)->getSubHolding();
-					break;
+
+				if((*ith)->hasSub()){
+					i++;
+					if(i>=index){
+						h =(*ith)->getSubHolding();
+						break;
+					}
 				}
+
 			}
 		}
+		else{
+			h = &stronghold;
+		}
+			
 		if(h->tap())
 			cost -= h->getHarvestValue();
 		else
