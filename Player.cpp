@@ -323,7 +323,6 @@ void Player::pay_cost(unsigned int cost){
 						break;
 					}
 				}
-
 			}
 		}
 		else{
