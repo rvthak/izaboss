@@ -7,8 +7,8 @@ void Personality::usedItems(){
 	list<Item *>::iterator itm;
 	for(itm = items.begin(); itm != items.end(); itm++){
 		if( (*itm)->loseDurability() ){
-			list.remove(*itm);
-			delete itm;
+			items.remove(*itm);
+			delete *itm;
 			itm=items.begin();
 		}
 	}

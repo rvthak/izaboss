@@ -8,7 +8,7 @@ class Follower : public GreenCard
 	public:
 		Follower(){}
 		~Follower(){}
-		virtual int getType(){ return 3; }	
+		virtual int getType()const{ return 3; }	
 		void print()const;
 };
 

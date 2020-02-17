@@ -21,11 +21,11 @@ class Personality : public BlackCard
 		unsigned int getHonour()const{ return honour; }
 		bool getIsDead()const{ return isDead; }
 
-		bool CheckFollowerCapacity()const{ return (followerAmount()<honour); }
-		bool CheckItemCapacity()const{ return (itemAmount()<honour); }
+		bool CheckFollowerCapacity(){ return (followerAmount()<honour); }
+		bool CheckItemCapacity(){ return (itemAmount()<honour); }
 
-		unsigned int followerAmount()const;
-		unsigned int itemAmount()const;
+		unsigned int followerAmount();
+		unsigned int itemAmount();
 
 		void equip(Follower *f);
 		void equip(Item *i);
