@@ -10,6 +10,8 @@ Player::Player()
 :numberOfProvinces(4){
 	fateDeck = my_deck.createFateDeck();
 	dynastyDeck = my_deck.createDynastyDeck();
+	my_deck.deckShuffler(fateDeck);
+	my_deck.deckShuffler(dynastyDeck);
 
 	list<BlackCard *>::iterator itb;
 	itb = dynastyDeck->begin();
@@ -35,6 +37,7 @@ Player::~Player(){
 }
 
 void Player::untapEverything(){
+	cout<<"Untapping everything!"<<endl;
 	list<Personality *>::iterator ita;
 	Holding *another;
 	for(ita = army.begin(); ita != army.end(); ita++){
@@ -55,16 +58,17 @@ void Player::untapEverything(){
 }
 
 void Player::drawFateCard(){
+	cout<<"Drawing a fate card!"<<endl;
 	list<GreenCard *>::iterator itg;
 	if((itg = fateDeck->begin())!= fateDeck->end()){
-		bool flag =0;
+		int counter =0;
 		for(int i=0; i<7 ;i++){
 			if(hand[i]!=NULL){
-				flag = 1;
+				counter++;
 				break;
 			}
 		}
-		if(flag){
+		if(counter!=7){
 			int i;
 			for(i=0;hand[i]!=NULL;i++);
 			hand[i] = (*itg);
@@ -77,6 +81,7 @@ void Player::drawFateCard(){
 }
 
 void Player::revealProvinces(){
+	cout<<"Revealing Provinces!"<<endl;
 	list<BlackCard *>::iterator itp;
 	for(itp = provinces.begin();itp != provinces.end();itp++){
 		(*itp)->revealCard();
@@ -91,12 +96,14 @@ void Player::print(){
 }
 
 void Player::printHand(){
+	cout<<"The cards on your hand:"<<endl;
 	for(int i=0; i<7 ;i++)
 		if(hand[i]!=NULL)
 			hand[i]->print();
 }
 
 void Player::printProvinces(){
+	cout<<"Your province cards:"<<endl;
 	list<BlackCard *>::iterator itp;
 	for(itp = provinces.begin();itp != provinces.end();itp++)
 		if((*itp)->getRevealed())
@@ -104,6 +111,7 @@ void Player::printProvinces(){
 }
 
 void Player::printHoldings(){
+	cout<<"Your holdings:"<<endl;
 	list<Holding *>::iterator ith;
 	Holding *h;
 	ith = holdings.begin();
