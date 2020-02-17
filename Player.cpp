@@ -292,8 +292,8 @@ void Player::buyAndAssign(unsigned int hno, unsigned int ano){
 			pay_cost(cost);
 		}else
 			cout<<"You don't have the money to upgrade teme"<<endl;
-	Follower **follow;
-	Item **item;
+	Follower **follow=NULL;
+	Item **item=NULL;
 	TypeConverter::getCorrectType(hand[j-1],follow,item);
 	if(*follow != NULL)
 		(*ita)->equip(*follow);
@@ -502,8 +502,8 @@ void Player::buyAndUse(unsigned int pno){
 		itp++;
 	int cost = GetProvinceCardCost(pno);
 	pay_cost(cost);
-	Personality **person;
-	Holding **hold;
+	Personality **person=NULL;
+	Holding **hold=NULL;
 	TypeConverter::getCorrectType((*itp),person,hold);
 	if(*person !=NULL)
 		army.push_back(*person);
