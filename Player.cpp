@@ -283,6 +283,7 @@ void Player::buyAndAssign(unsigned int hno, unsigned int ano){
 	int j=0;
 	int cost = GetHandCardCost(hno);
 	pay_cost(cost);
+	cout << "\tTransaction succesful!" << endl;
 	list<Personality *>::iterator ita;
 	ita = army.begin();
 	for(int i=1;i<ano && ita != army.end();i++)
@@ -291,12 +292,14 @@ void Player::buyAndAssign(unsigned int hno, unsigned int ano){
 		if(hand[j] != NULL)
 			i++;
 	}
-	if(getDesision("Do you want to upgrade your new card? (y/n)"))
+	if(getDesision(" > Do you want to upgrade your new card? (y/n)"))
 		if(getMoney()>=(cost = hand[j-1]->getEffectCost())){
 			hand[j-1]->upgrade();
 			pay_cost(cost);
-		}else
-			cout<<"You don't have the money to upgrade teme"<<endl;
+			cout << "\tUpgrade successful!" << endl;
+		}else{
+			cout<<" > You don't have the money to upgrade teme"<<endl;
+		}
 	Follower **follow=new Follower*;
 	Item **item=new Item*;
 	TypeConverter::getCorrectType(hand[j-1],follow,item);
