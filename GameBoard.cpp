@@ -321,7 +321,10 @@ void GameBoard::economyPhase(){
 					break;
 				}
 				else{
-					cout << " > Not enough money please try again" << endl;
+					#ifdef UI
+			    	system("clear");
+					#endif
+					cout << " > Not enough money please try something else or pass" << endl;
 				}
 			}
 			else{
@@ -330,6 +333,8 @@ void GameBoard::economyPhase(){
 			}
 		}
 		#ifdef UI
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		cin.clear();
     	cout << " > Phase Ended for Player " << i+1 << " : Press Enter key to continue" << endl;
 		cin.get();
 		#endif

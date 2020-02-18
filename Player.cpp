@@ -309,9 +309,11 @@ void Player::pay_cost(int cost){
 	Holding *h;
 	int index;
 	while(cost >0){
-		cout<<"Choose card to harvest value to pay: "<<endl;
+		cout << " > Choose a card to use for payment: " << endl;
+		cout << " (!) The machine gives no change (!) => choose wisely" << endl;
 		if(!stronghold.tapped()){
-			cout<<"Type the number of the holding you want to use or the number of the last holding +1 to use your stronghold's money"<<endl;
+			cout << " > Type the number of the holding you want to use," << endl;
+			cout << "   or max possible value to pay with your stronghold:" << endl;
 			index = choosefrom(HoldingCardsNo()+1);
 		}
 		else{
