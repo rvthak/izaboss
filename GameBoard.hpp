@@ -1,6 +1,7 @@
 #ifndef GAMEBOARD
 #define GAMEBOARD
 
+#include <limits>
 #include "Player.hpp"
 
 #ifndef UI
