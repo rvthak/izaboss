@@ -4,6 +4,15 @@
 
 using namespace std;
 
+Personality::~Personality(){
+	list<Follower *>::iterator itf;
+	for(itf = followers.begin(); itf !=followers.end();itf++)
+		delete(*itf);
+	list<Item *>::iterator iti;
+	for(iti = items.begin(); iti != items.end();iti++)
+		delete (*iti);
+}
+
 void Personality::usedItems(){
 	list<Item *>::iterator itm;
 	for(itm = items.begin(); itm != items.end(); itm++){

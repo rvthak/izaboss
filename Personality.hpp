@@ -10,7 +10,7 @@ class Personality : public BlackCard
 {
 	public:
 		Personality(){}
-		~Personality(){}
+		~Personality();
 
 		void untap(){ isTapped=0; }
 		void usedItems();

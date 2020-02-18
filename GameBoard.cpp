@@ -225,7 +225,7 @@ void GameBoard::battlePhase(){
 
 			// Let the player decide which of his army cards does he want for attack
 			player[buf[i]].printUntappedArmy();
-			while( getDesision(" > Which soldiers do you want to use for attack? (y/n)") ){
+			while( getDesision(" > Do you want to use any/more soldier to perform an attack? (y/n)") ){
 				cout << " > Which one of your army members do you want to tap?" << endl;
 				unsigned int sol = choosefrom(player[buf[i]].ActiveArmyCardsNo());
 				player[buf[i]].AddToAttackForce(sol);
@@ -237,7 +237,7 @@ void GameBoard::battlePhase(){
 			// Calculate player attack
 
 			while(1){
-				if( getDesision(" > Do you want to perform an attack?") ){
+				if( getDesision(" > Do you want to perform an attack? (y/n)") ){
 					// Print the available players to attack
 					cout << " > Choose a player to attack " << endl;
 					for(unsigned int j=0; j<player_amount; j++){
@@ -249,11 +249,11 @@ void GameBoard::battlePhase(){
 
 					// let him choose his attack
 					cout << " > Which one of the available players do you want to attack?" << endl;
-					unsigned int target = choosefrom(player_amount);
+					unsigned int target = choosefrom(player_amount)-1;
 					while(target==i){
 						cout << " > You cant attack yourself... " << endl;
 						cout << " > Which one of the available players do you want to attack?" << endl;
-						target = choosefrom(player_amount);
+						target = choosefrom(player_amount)-1;
 					}
 
 					// let him choose his enemy's province-target
@@ -270,7 +270,7 @@ void GameBoard::battlePhase(){
 					else{
 						cout << " > ATTACK " << endl;
 						player[buf[i]].attack(player[buf[target]], targetprov); // remember to print the attack results
-						return;
+						break;
 					}
 				}
 				else{

@@ -5,7 +5,7 @@
 
 #ifndef UI
 // Comment it out to disable UI mode for linux ONLY ( Output uncontrolled )
-#define UI
+//#define UI
 #endif
 
 class GameBoard
