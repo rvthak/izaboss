@@ -21,7 +21,7 @@ Player::Player():numberOfProvinces(4){
 	}
 	for(int i=0;i<7;i++)
 		hand[i]=NULL;
-	cout<<"A new player joined the game!"<<endl;
+	cout<<"\tA new player joined the game!"<<endl;
 }
 Player::~Player(){
 	for(int i=0; i<7;i++)
@@ -131,7 +131,7 @@ void Player::printProvinces(){
 			(*itp)->print();
 		}
 		else{
-			cout << i << ": HIDDEN " << endl;
+			cout << "\t\t" << i << ": HIDDEN " << endl;
 		}
 		i++;
 	}
