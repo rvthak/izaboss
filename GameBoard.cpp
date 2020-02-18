@@ -164,7 +164,6 @@ void GameBoard::equipPhase(){
 					if( player[buf[i]].GetArmyMemberHonour(armyCard) >= player[buf[i]].GetHandMemberHonour(handCard) ){
 						if( player[buf[i]].CheckPersonalityCapacity(armyCard, handCard) ){
 							player[buf[i]].buyAndAssign(handCard, armyCard); // remember to tap the according cards
-							cout << " Transaction succesful!" << endl;
 						}
 						else{
 							cout << " This personality already has reached its max capacity for that card type." << endl;
@@ -172,13 +171,24 @@ void GameBoard::equipPhase(){
 					}
 					else{
 						cout << " > Can't move on with the process. Not enough personality honour." << endl;
-						cout << " he is a disgrace to our family" << endl;
+						cout << " He is a disgrace to our family" << endl;
 					}	
 				}
 				else{
 					cout << " > Can't move on with the process. Not enough money." << endl;
 					cout << " Get rich and come back you little pleb" << endl;
 				}
+
+				#ifdef UI
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				cin.clear();
+				cout << " > Press Enter key to continue" << endl;
+				cin.get();
+				system("clear");
+				cout << " ================================================ " << endl;
+				cout << "                    Equip Phase                   " << endl;
+				cout << " ================================================ " << endl;
+				#endif
 
 				// Print his hand and army to allow him to choose his next move
 				player[buf[i]].printHand();
@@ -322,7 +332,6 @@ void GameBoard::economyPhase(){
 			if(choice!=tmp+1){
 				if( player[buf[i]].getMoney() >= player[buf[i]].GetProvinceCardCost(choice) ){
 					player[buf[i]].buyAndUse(choice);
-					cout << " > Transaction successful" << endl;
 					break;
 				}
 				else{
