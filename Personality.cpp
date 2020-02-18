@@ -1,5 +1,6 @@
-#include "Personality.hpp"
 #include <iostream>
+#include "Personality.hpp"
+
 
 using namespace std;
 

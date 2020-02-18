@@ -1,5 +1,6 @@
-#include "Follower.hpp"
 #include <iostream>
+#include "Follower.hpp"
+
 
 using namespace std;
 

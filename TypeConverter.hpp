@@ -2,11 +2,10 @@
 #define _TYPECONVERTER_HPP_
 
 #include "Card.hpp"
-#include "Personality.hpp"
+#include "Item.hpp"
 #include "Holding.hpp"
 #include "Follower.hpp"
-#include "Follower.hpp"
-#include "Item.hpp"
+#include "Personality.hpp"
 
 #define PERSONALITY 1
 #define HOLDING 2

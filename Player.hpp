@@ -1,9 +1,10 @@
 #ifndef PLAYER
 #define PLAYER
 
+#include <list>
 #include "Holding.hpp"
 #include "DeckBuilder.hpp"
-#include <list>
+
 
 class Player
 {

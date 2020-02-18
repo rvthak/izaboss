@@ -2,18 +2,18 @@
 #define _DECKBUILDER_HPP_
 
 #include <list>
+#include <ctime>
 #include <vector>
+#include <cstdlib>
 #include <iostream>
 #include <algorithm>
 #include <functional>
-#include <ctime>
-#include <cstdlib>
 
 #include "Card.hpp"
-#include "Personality.hpp"
+#include "Item.hpp"
 #include "Holding.hpp"
 #include "Follower.hpp"
-#include "Item.hpp"
+#include "Personality.hpp"
 
 #define DECKSIZE          40
 #define MAXDECKSIZE       60

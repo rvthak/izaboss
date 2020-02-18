@@ -1,8 +1,8 @@
 #ifndef _HOLDING
 #define _HOLDING
 
-#include "Card.hpp"
 #include <cstdlib>
+#include "Card.hpp"
 
 class Holding : public BlackCard
 {

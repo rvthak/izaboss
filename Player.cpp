@@ -1,6 +1,6 @@
-#include "Player.hpp"
-#include <cstdlib>
 #include <ctime>
+#include <cstdlib>
+#include "Player.hpp"
 #include "inputMgr.hpp"
 #include "TypeConverter.hpp"
 

@@ -3,8 +3,8 @@
 
 #include <list>
 #include "Card.hpp"
-#include "Follower.hpp"
 #include "Item.hpp"
+#include "Follower.hpp"
 
 class Personality : public BlackCard
 {

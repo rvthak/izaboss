@@ -1,5 +1,6 @@
-#include "GameBoard.hpp"
+#include <cstdlib>
 #include "inputMgr.hpp"
+#include "GameBoard.hpp"
 #include "TypeConverter.hpp"
 
 using namespace std;
@@ -100,10 +101,18 @@ void GameBoard::gameplay(){
 //=====================================================
 
 void GameBoard::startingPhase(){
+    #ifndef UI
 	cout << " ================================================ " << endl;
 	cout << "                   Starting Phase                 " << endl;
 	cout << " ================================================ " << endl;
+	#endif
 	for(unsigned int i=0; i<player_amount; i++){
+		#ifdef UI
+		system("clear");
+		cout << " ================================================ " << endl;
+		cout << "                   Starting Phase                 " << endl;
+		cout << " ================================================ " << endl;
+		#endif
 		cout << endl << " > Player's " << i+1 << " turn: " << endl;
     	player[buf[i]].untapEverything();
     	player[buf[i]].drawFateCard();
@@ -113,13 +122,25 @@ void GameBoard::startingPhase(){
     	cout << endl;
     	player[buf[i]].printProvinces();
     	cout << endl;
-    } 
+    	#ifdef UI
+    	cout << " > Phase ended for Player " << i+1 << " : Press Enter key to continue" << endl;
+		cin.get();
+		#endif
+    }
 }
 void GameBoard::equipPhase(){
+	#ifndef UI
 	cout << " ================================================ " << endl;
 	cout << "                    Equip Phase                   " << endl;
 	cout << " ================================================ " << endl;
+	#endif
 	for(unsigned int i=0; i<player_amount; i++){
+		#ifdef UI
+		system("clear");
+		cout << " ================================================ " << endl;
+		cout << "                    Equip Phase                   " << endl;
+		cout << " ================================================ " << endl;
+		#endif
 		cout << endl << " > Player's " << i+1 << " turn: " << endl;
 		if(player[buf[i]].hasArmy()){ // if the player has army
 			
@@ -169,13 +190,25 @@ void GameBoard::equipPhase(){
     	else{
     		cout << " > Player has no army can't do any transaction." << endl;
     	}
+    	#ifdef UI
+    	cout << " > Phase ended for Player " << i+1 << " : Press Enter key to continue" << endl;
+		cin.get();
+		#endif
     }
 }
 void GameBoard::battlePhase(){
+	#ifndef UI
 	cout << " ================================================ " << endl;
 	cout << "                   Battle Phase                   " << endl;
 	cout << " ================================================ " << endl;
+	#endif
 	for(unsigned int i=0; i<player_amount; i++){		// for each player in the correct order
+		#ifdef UI
+		system("clear");
+		cout << " ================================================ " << endl;
+		cout << "                   Battle Phase                   " << endl;
+		cout << " ================================================ " << endl;
+		#endif
 		cout << endl << " > Player's " << i+1 << " turn: " << endl;
 		if(player[buf[i]].hasArmy()){ 		// check if he has an army
 			player[buf[i]].printTapArmy();	// Show the player his army + tap status
@@ -249,13 +282,25 @@ void GameBoard::battlePhase(){
 		else{
     		cout << " > Player has no army. He is unable to battle." << endl;
     	}
+    	#ifdef UI
+    	cout << " > Phase ended for Player " << i+1 << " : Press Enter key to continue" << endl;
+		cin.get();
+		#endif
 	}
 }
 void GameBoard::economyPhase(){
+	#ifndef UI
 	cout << " ================================================ " << endl;
 	cout << "                   Economy Phase                  " << endl;
 	cout << " ================================================ " << endl;
+	#endif
 	for(unsigned int i=0; i<player_amount; i++){ // !!! each player can buy only one card in this phase
+		#ifdef UI
+		system("clear");
+		cout << " ================================================ " << endl;
+		cout << "                   Economy Phase                  " << endl;
+		cout << " ================================================ " << endl;
+		#endif
 		cout << endl << " > Player's " << i+1 << " turn: " << endl;	
 		while(1){
 			// Print his army and holdings
@@ -284,13 +329,25 @@ void GameBoard::economyPhase(){
 				break;
 			}
 		}
+		#ifdef UI
+    	cout << " > Phase Ended for Player " << i+1 << " : Press Enter key to continue" << endl;
+		cin.get();
+		#endif
 	}
 }
 void GameBoard::finalPhase(){
+	#ifndef UI
 	cout << " ================================================ " << endl;
 	cout << "                    Final Phase                   " << endl;
 	cout << " ================================================ " << endl;
+	#endif
 	for(unsigned int i=0; i<player_amount; i++){
+		#ifdef UI
+		system("clear");
+		cout << " ================================================ " << endl;
+		cout << "                    Final Phase                   " << endl;
+		cout << " ================================================ " << endl;
+		#endif
 		cout << endl << " > Player's " << i+1 << " turn: " << endl;
 		// Discard excess hand cards
 		player[buf[i]].discardSurplusFateCards();
@@ -301,9 +358,21 @@ void GameBoard::finalPhase(){
 		if( checkWinningCondition(i) ){ // exit if someone wins
 			cout << "    > Player " << i+1 << " WON! < " << endl;
 			break; 
-		} 
+		}
+		#ifdef UI
+    	cout << " > Phase ended for Player " << i+1 << " : Press Enter key to continue" << endl;
+		cin.get();
+		#endif
 	}
+	#ifdef UI
+	system("clear");
+	#endif
+	cout << " > Round ended: Printing Game Statistics..." << endl << endl;
 	printGameStatistics();
+	#ifdef UI
+	cout << " > Press Enter key to start next game Round:" << endl;
+	cin.get();
+	#endif
 }
 
 bool GameBoard::checkWinningCondition(unsigned int i){
