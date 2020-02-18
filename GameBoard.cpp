@@ -202,7 +202,7 @@ void GameBoard::battlePhase(){
 	cout << "                   Battle Phase                   " << endl;
 	cout << " ================================================ " << endl;
 	#endif
-	for(unsigned int i=0; i<player_amount; i++){		// for each player in the correct order
+	for(unsigned int i=0; i<player_amount; i++){	// for each player in the correct order
 		#ifdef UI
 		system("clear");
 		cout << " ================================================ " << endl;
