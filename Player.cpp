@@ -38,7 +38,7 @@ Player::~Player(){
 // Starting phase =============================================
 
 void Player::untapEverything(){
-	cout<<"	Untapping everything!"<<endl;
+	cout<<"\t<> Untapping everything!"<<endl;
 	list<Personality *>::iterator ita;
 	stronghold.untap();
 	Holding *another;
@@ -59,7 +59,7 @@ void Player::untapEverything(){
 	}
 }
 void Player::drawFateCard(){
-	cout<<"	Drawing a fate card!"<<endl;
+	cout<<"\t<> Drawing a fate card!"<<endl;
 	list<GreenCard *>::iterator itg;
 	if((itg = fateDeck->begin())!= fateDeck->end()){
 		int counter =0;
@@ -82,7 +82,7 @@ void Player::drawFateCard(){
 }
 
 void Player::revealProvinces(){
-	cout<<"	Revealing Provinces!"<<endl;
+	cout<<"\t<> Revealing Provinces!"<<endl;
 	list<BlackCard *>::iterator itp;
 	for(itp = provinces.begin();itp != provinces.end();itp++){
 		(*itp)->revealCard();
@@ -97,15 +97,15 @@ void Player::print(){
 	this->printArmy();
 	this->printProvinces();
 	this->printHoldings();
-	cout<< "		Money: " << this->getMoney()<<endl;
+	cout<< "\t\t($) Money: " << this->getMoney()<<endl;
 }
 
 void Player::printHand(){
-	cout<<"		Cards on Hand: ";
+	cout<<"\t\t<> Cards on Hand: ";
 	int j=0;
 	for(int i=0; i<7 ;i++){
 		if(hand[i]!=NULL){
-			cout << endl;
+			cout << endl << " " << i+1 << ".";
 			hand[i]->print();
 			j++;
 		}
@@ -114,20 +114,22 @@ void Player::printHand(){
 }
 void Player::printArmy(){
 	list<Personality *>::iterator ita;
-	cout<<"		Cards on Army: ";
+	int i=1;
+	cout<<"\t\t<> Cards on Army: ";
 	if( army.begin()==army.end() ){ cout << "NONE" << endl; return;}
 	for(ita = army.begin(); ita != army.end(); ita++){
-		cout<<endl;
+		cout << endl << " " << i << ".";
 		(*ita)->print();
+		i++;
 	}
 }
 void Player::printProvinces(){
-	cout<<"		Provinces available:"<<endl;
+	cout<<"\t\t<> Provinces available:"<<endl;
 	int i=1;
 	list<BlackCard *>::iterator itp;
 	for(itp = provinces.begin();itp != provinces.end();itp++){
 		if((*itp)->getRevealed()){
-			cout<<i<<".";
+			cout << " " << i << ".";
 			(*itp)->print();
 		}
 		else{
@@ -137,7 +139,7 @@ void Player::printProvinces(){
 	}
 }
 void Player::printHoldings(){
-	cout<<"		Holdings owned: ";
+	cout<<"\t\t<> Holdings owned: ";
 	if( holdings.begin()==holdings.end() ){
 		cout << "NONE" << endl; return; 
 	}else
@@ -148,7 +150,7 @@ void Player::printHoldings(){
 	for(int i=1; ith != holdings.end(); i++){
 		h = *ith;
 		if((*ith)->hasUpper()){
-			cout<< i << ".";
+			cout<< " " << i << ".";
 			h = (*ith)->getUpperHolding();
 			h->print();
 			h = *ith;
@@ -158,7 +160,7 @@ void Player::printHoldings(){
 		h->print();
 		if((*ith)->hasSub()){
 			i++;
-			cout<< i <<".";
+			cout<< " " << i <<".";
 			h = (*ith)->getSubHolding();
 			h->print();
 		}

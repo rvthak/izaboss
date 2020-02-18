@@ -43,9 +43,13 @@ unsigned int Personality::itemAmount(){
 }
 
 void Personality::equip(Follower *f){
+	attack+=f->getAttackBonus();
+	defence+=f->getDefenceBonus();
 	followers.push_back(f);
 }
 void Personality::equip(Item *i){
+	attack+=i->getAttackBonus();
+	defence+=i->getDefenceBonus();
 	items.push_back(i);
 }
 

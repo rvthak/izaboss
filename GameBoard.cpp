@@ -114,7 +114,7 @@ void GameBoard::startingPhase(){
 		cout << "                   Starting Phase                 " << endl;
 		cout << " ================================================ " << endl;
 		#endif
-		cout << endl << " > Player's " << i+1 << " turn: " << endl;
+		cout << endl << " > Player " << i+1 << "'s turn: " << endl;
     	player[buf[i]].untapEverything();
     	player[buf[i]].drawFateCard();
   	 	player[buf[i]].revealProvinces();
@@ -142,15 +142,16 @@ void GameBoard::equipPhase(){
 		cout << "                    Equip Phase                   " << endl;
 		cout << " ================================================ " << endl;
 		#endif
-		cout << endl << " > Player's " << i+1 << " turn: " << endl;
+		cout << endl << " > Player " << i+1 << "'s turn: " << endl;
 		if(player[buf[i]].hasArmy()){ // if the player has army
 			
 			// Print his hand and army to allow him to choose his next move
 			player[buf[i]].printHand();
+			cout << " ================================================ " << endl;
 			player[buf[i]].printArmy();
 
 			// Print player's money
-			cout << " > Player money: " << player[buf[i]].getMoney() << endl;
+			cout << " ($) Player money: " << player[buf[i]].getMoney() << endl << endl;
 
 			while(getDesision(" > Do you want continue on transactions(y) or pass(n)? (y/n)")){
 				// Get user input for the requested move
@@ -195,7 +196,7 @@ void GameBoard::equipPhase(){
 				player[buf[i]].printArmy();
 
 				// Print player's money
-				cout << " > Player money: " << player[buf[i]].getMoney() << endl;
+				cout << " ($) Player money: " << player[buf[i]].getMoney() << endl << endl;
 			}
     	}
     	else{
@@ -220,7 +221,7 @@ void GameBoard::battlePhase(){
 		cout << "                   Battle Phase                   " << endl;
 		cout << " ================================================ " << endl;
 		#endif
-		cout << endl << " > Player's " << i+1 << " turn: " << endl;
+		cout << endl << " > Player " << i+1 << "'s turn: " << endl;
 		if(player[buf[i]].hasArmy()){ 		// check if he has an army
 			player[buf[i]].printTapArmy();	// Show the player his army + tap status
 
@@ -237,13 +238,18 @@ void GameBoard::battlePhase(){
 			// Let the player decide which of his army cards does he want for attack
 			player[buf[i]].printUntappedArmy();
 			while( getDesision(" > Do you want to use any/more soldier to perform an attack? (y/n)") ){
+				if(!player[buf[i]].hasArmy()){
+					cout << " > No Army left to lead to battle. Moving on..." << endl;
+					break;
+				}
 				cout << " > Which one of your army members do you want to tap?" << endl;
 				unsigned int sol = choosefrom(player[buf[i]].ActiveArmyCardsNo());
 				player[buf[i]].AddToAttackForce(sol);
 				player[buf[i]].printUntappedArmy();
 			}
 
-			cout << " --- War --- " << endl;
+			cout << endl << " > Army Ready! " << endl;
+			cout << " <> ------ WAR ------ <> " << endl;
 
 			// Calculate player attack
 
@@ -316,13 +322,19 @@ void GameBoard::economyPhase(){
 		cout << "                   Economy Phase                  " << endl;
 		cout << " ================================================ " << endl;
 		#endif
-		cout << endl << " > Player's " << i+1 << " turn: " << endl;	
+		cout << endl << " > Player " << i+1 << "'s turn: " << endl;	
 		while(1){
 			// Print his army and holdings
 			player[buf[i]].printArmy();
+			cout << endl;
 			player[buf[i]].printHoldings();
+			cout << endl;
 			// Then print the provinces he can choose from
 			player[buf[i]].printProvinces();
+			cout << endl;
+
+			// Print player's money
+			cout << " ($) Player money: " << player[buf[i]].getMoney() << endl << endl;
 
 			unsigned int tmp=player[buf[i]].GetProvinceAmount();
 			cout << " > Choose one of the available options:" << endl;
@@ -332,6 +344,7 @@ void GameBoard::economyPhase(){
 			if(choice!=tmp+1){
 				if( player[buf[i]].getMoney() >= player[buf[i]].GetProvinceCardCost(choice) ){
 					player[buf[i]].buyAndUse(choice);
+					cout << "\tTransaction succesful!" << endl;
 					break;
 				}
 				else{
@@ -367,14 +380,19 @@ void GameBoard::finalPhase(){
 		cout << "                    Final Phase                   " << endl;
 		cout << " ================================================ " << endl;
 		#endif
-		cout << endl << " > Player's " << i+1 << " turn: " << endl;
+		cout << endl << " > Player " << i+1 << "'s turn: " << endl;
 		// Discard excess hand cards
+		cout << " > Discarding extra hand cards if any.." << endl;
 		player[buf[i]].discardSurplusFateCards();
+		cout << endl;
 		player[buf[i]].printHand();
+		cout << endl;
 		player[buf[i]].printProvinces();
-		player[buf[i]].printArmy(); // TO CHANGE ptrint attack force
+		cout << endl;
+		player[buf[i]].printArmy(); // TO CHANGE ptrint attack force ?
+		cout << endl;
 		player[buf[i]].printHoldings();
-		
+		cout << endl;
 		#ifdef UI
     	cout << " > Phase ended for Player " << i+1 << " : Press Enter key to continue" << endl;
 		cin.get();
@@ -385,6 +403,7 @@ void GameBoard::finalPhase(){
 	#endif
 	cout << " > Round ended: Printing Game Statistics..." << endl << endl;
 	printGameStatistics();
+	cout << " (!) Game statistics printed. End of Round" << endl;
 	#ifdef UI
 	cout << " > Press Enter key to start next game Round:" << endl;
 	cin.get();
