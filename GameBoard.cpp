@@ -92,6 +92,7 @@ void GameBoard::gameplay(){
 		startingPhase();
 		equipPhase();
 		battlePhase();
+		if(!running){break;}
 		economyPhase();
 		finalPhase();
 	}
@@ -270,6 +271,10 @@ void GameBoard::battlePhase(){
 					else{
 						cout << " > ATTACK " << endl;
 						player[buf[i]].attack(player[buf[target]], targetprov); // remember to print the attack results
+						if( checkWinningCondition(i) ){ // exit if someone wins
+							cout << "    > Player " << i+1 << " WON! < " << endl;
+							return; 
+						}
 						break;
 					}
 				}
@@ -360,10 +365,7 @@ void GameBoard::finalPhase(){
 		player[buf[i]].printProvinces();
 		player[buf[i]].printArmy(); // TO CHANGE ptrint attack force
 		player[buf[i]].printHoldings();
-		if( checkWinningCondition(i) ){ // exit if someone wins
-			cout << "    > Player " << i+1 << " WON! < " << endl;
-			break; 
-		}
+		
 		#ifdef UI
     	cout << " > Phase ended for Player " << i+1 << " : Press Enter key to continue" << endl;
 		cin.get();
