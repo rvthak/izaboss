@@ -656,7 +656,6 @@ void Player::discardSurplusFateCards(){
 	for(int i=0;i<7;i++)
 		if(hand[i]!=NULL)
 			k++;
-	printHand();
 	if(k==7){
 		k=choosefrom(7);
 		delete hand[k];
