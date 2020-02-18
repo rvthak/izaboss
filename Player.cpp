@@ -21,6 +21,7 @@ Player::Player():numberOfProvinces(4){
 	}
 	for(int i=0;i<7;i++)
 		hand[i]=NULL;
+	cout<<"A new player joined the game!"<<endl;
 }
 Player::~Player(){
 	for(int i=0; i<7;i++)
@@ -126,17 +127,21 @@ void Player::printProvinces(){
 	list<BlackCard *>::iterator itp;
 	for(itp = provinces.begin();itp != provinces.end();itp++){
 		if((*itp)->getRevealed()){
+			cout<<i<<".";
 			(*itp)->print();
 		}
 		else{
-			cout << "\t\t" << i << ": HIDDEN " << endl;
+			cout << i << ": HIDDEN " << endl;
 		}
 		i++;
 	}
 }
 void Player::printHoldings(){
 	cout<<"		Holdings owned: ";
-	if( holdings.begin()==holdings.end() ){ cout << "NONE" << endl; return; }
+	if( holdings.begin()==holdings.end() ){
+		cout << "NONE" << endl; return; 
+	}else
+		cout<<endl;
 	list<Holding *>::iterator ith;
 	Holding *h;
 	ith = holdings.begin();
@@ -460,6 +465,8 @@ void Player::destroyProvince(unsigned int pno){
 	provinces.remove(*itp);
 	delete *itp;
 	numberOfProvinces--;
+	cout<<"Provinces left: "<<numberOfProvinces<<endl;
+	this->printProvinces();
 }
 
 void Player::dcasualties(unsigned int limit){
@@ -645,7 +652,7 @@ void Player::ChainCreation(Holding *nhold){
 }
 
 void Player::discardSurplusFateCards(){
-	int k;
+	int k=0;
 	for(int i=0;i<7;i++)
 		if(hand[i]!=NULL)
 			k++;

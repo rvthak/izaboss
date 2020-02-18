@@ -4,9 +4,11 @@ using namespace std;
 
 DeckBuilder::DeckBuilder()
 {
+	static int j=0;
 	black = new list<BlackCard *>();
 	green = new list<GreenCard *>();
-	srand(unsigned(time(NULL)));
+	srand(unsigned(time(NULL))+j);
+	j++;
 }
 
 DeckBuilder::~DeckBuilder()
