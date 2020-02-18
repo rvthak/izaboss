@@ -50,7 +50,7 @@ void Personality::equip(Item *i){
 }
 
 void Personality::print()const{
-	cout<< "Personality Card";
+	cout<< "Personality Card: ";
 	BlackCard::print();
 	cout<< "\t" << "Attack: "<< attack
 		<< "\n\t" << "Defence: " << defence
