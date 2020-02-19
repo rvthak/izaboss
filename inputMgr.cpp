@@ -1,3 +1,4 @@
+#include <limits>
 #include <iostream>
 #include "inputMgr.hpp"
 
@@ -7,9 +8,17 @@ unsigned int choosefrom(unsigned int n){
 	cout << " > Type a number in [1, " << n << "]" << endl;
 	unsigned int input;
 	cin >> input;
+	if (cin.fail()){
+    	cin.clear(); 
+    	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	}
 	while(input<1 || input>n){
 		cout << " > Type a number in [1, " << n << "]" << endl;
 		cin >> input;
+		if (cin.fail()){
+    		cin.clear(); 
+    		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		}
 	}
 	return input;
 }

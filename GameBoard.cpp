@@ -151,7 +151,7 @@ void GameBoard::equipPhase(){
 			player[buf[i]].printArmy();
 
 			// Print player's money
-			cout << " ($) Player money: " << player[buf[i]].getMoney() << endl << endl;
+			cout << endl << " ($) Player money: " << player[buf[i]].getMoney() << endl << endl;
 
 			while(getDesision(" > Do you want continue on transactions(y) or pass(n)? (y/n)")){
 				// Get user input for the requested move
@@ -181,14 +181,15 @@ void GameBoard::equipPhase(){
 				}
 
 				#ifdef UI
-				cin.ignore(numeric_limits<streamsize>::max(), '\n');
 				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
 				cout << " > Press Enter key to continue" << endl;
 				cin.get();
 				system("clear");
 				cout << " ================================================ " << endl;
 				cout << "                    Equip Phase                   " << endl;
 				cout << " ================================================ " << endl;
+				cout << endl << " > Player " << i+1 << "'s turn: " << endl;
 				#endif
 
 				// Print his hand and army to allow him to choose his next move
@@ -266,11 +267,11 @@ void GameBoard::battlePhase(){
 
 					// let him choose his attack
 					cout << " > Which one of the available players do you want to attack?" << endl;
-					unsigned int target = choosefrom(player_amount)-1;
+					unsigned int target = choosefrom(player_amount-1);
 					while(target==i){
 						cout << " > You cant attack yourself... " << endl;
 						cout << " > Which one of the available players do you want to attack?" << endl;
-						target = choosefrom(player_amount)-1;
+						target = choosefrom(player_amount-1);
 					}
 
 					// let him choose his enemy's province-target
@@ -344,7 +345,7 @@ void GameBoard::economyPhase(){
 			if(choice!=tmp+1){
 				if( player[buf[i]].getMoney() >= player[buf[i]].GetProvinceCardCost(choice) ){
 					player[buf[i]].buyAndUse(choice);
-					cout << "\tTransaction succesful!" << endl;
+					cout << " ($) Transaction succesful!" << endl;
 					break;
 				}
 				else{
@@ -360,8 +361,8 @@ void GameBoard::economyPhase(){
 			}
 		}
 		#ifdef UI
-		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
     	cout << " > Phase Ended for Player " << i+1 << " : Press Enter key to continue" << endl;
 		cin.get();
 		#endif
@@ -403,7 +404,10 @@ void GameBoard::finalPhase(){
 	#endif
 	cout << " > Round ended: Printing Game Statistics..." << endl << endl;
 	printGameStatistics();
-	cout << " (!) Game statistics printed. End of Round" << endl;
+	cout << "             Game statistics printed " << endl;
+	cout << " ================================================ " << endl;
+	cout << "                   End of Round                   " << endl;
+	cout << " ================================================ " << endl;
 	#ifdef UI
 	cout << " > Press Enter key to start next game Round:" << endl;
 	cin.get();

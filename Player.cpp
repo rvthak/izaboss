@@ -285,7 +285,7 @@ void Player::buyAndAssign(unsigned int hno, unsigned int ano){
 	int j=0;
 	int cost = GetHandCardCost(hno);
 	pay_cost(cost);
-	cout << "\tTransaction succesful!" << endl;
+	cout << " ($) Transaction succesful!" << endl;
 	list<Personality *>::iterator ita;
 	ita = army.begin();
 	for(int i=1;i<ano && ita != army.end();i++)
@@ -294,11 +294,17 @@ void Player::buyAndAssign(unsigned int hno, unsigned int ano){
 		if(hand[j] != NULL)
 			i++;
 	}
+
+	// Give the player the info needed to take further decisions
+	cout << endl << " ($) Player money: " << getMoney() << endl;
+	cost = hand[j-1]->getEffectCost();
+	cout << " ($) Upgrade Cost: " << cost << endl;
+
 	if(getDesision(" > Do you want to upgrade your new card? (y/n)"))
-		if(getMoney()>=(cost = hand[j-1]->getEffectCost())){
+		if(getMoney()>=cost){
 			hand[j-1]->upgrade();
 			pay_cost(cost);
-			cout << "\tUpgrade successful!" << endl;
+			cout << " ($) Upgrade successful!" << endl;
 		}else{
 			cout<<" > You don't have the money to upgrade teme"<<endl;
 		}
@@ -318,8 +324,9 @@ void Player::pay_cost(int cost){
 	list<Holding *>::iterator ith;
 	Holding *h;
 	int index;
+	int flag=0;
 	while(cost >0){
-		cout << " > Choose a card to use for payment: " << endl;
+		cout << " > Choose a Card to use for payment: " << endl;
 		cout << " (!) The machine gives no change (!) => choose wisely" << endl;
 		if(!stronghold.tapped()){
 			cout << " > Type the number of the holding you want to use," << endl;
@@ -327,7 +334,7 @@ void Player::pay_cost(int cost){
 			index = choosefrom(HoldingCardsNo()+1);
 		}
 		else{
-			cout<<"Type  the number of the holding you want to use"<<endl;
+			cout<<" > Type  the number of the holding you want to use"<<endl;
 			index = choosefrom(HoldingCardsNo());
 		}
 		
@@ -337,8 +344,16 @@ void Player::pay_cost(int cost){
 				if((*ith)->hasUpper()){
 					i++;
 					if(i>=index){
-						h= (*ith)->getUpperHolding();
-						break;
+						if( !((*ith)->getUpperHolding()->tapped()) ){
+							h= (*ith)->getUpperHolding();
+							break;
+						}
+						else{
+							cout << " > This Card is already tapped. Choose another:" << endl;
+							flag=1;
+							break;
+						}
+						
 					}
 				}
 			
@@ -356,10 +371,16 @@ void Player::pay_cost(int cost){
 					}
 				}
 			}
-			cost -= h->getHarvestValue();
-			h->tap();
+
+			if(!flag){
+				cout << " ($) Payed using Holding!" << endl;
+				cost -= h->getHarvestValue();
+				h->tap();
+			}
+			
 		}
 		else{
+			cout << " ($) Payed using stronghold!" << endl;
 			cost -= stronghold.getMoney();
 			stronghold.tap();
 		}
