@@ -19,7 +19,7 @@ Footsoldier::Footsoldier(const string n){
 	min_honour=1;
 	effectBonus=1;
 	effectCost=2;
-	cardText=""; 
+	cardText=" "; 
 }
 
 Archer::Archer(const string n){
@@ -31,7 +31,7 @@ Archer::Archer(const string n){
 	min_honour=1;
 	effectBonus=1;
 	effectCost=2;
-	cardText="";
+	cardText=" ";
 }
 
 Cavalry::Cavalry(const string n){
@@ -43,7 +43,7 @@ Cavalry::Cavalry(const string n){
 	min_honour=3;
 	effectBonus=3;
 	effectCost=4;
-	cardText="";
+	cardText=" ";
 }
 
 Bushido::Bushido(const string n){
@@ -55,7 +55,7 @@ Bushido::Bushido(const string n){
 	min_honour=6;
 	effectBonus=3;
 	effectCost=8;
-	cardText="";
+	cardText=" ";
 }
 
 Sieger::Sieger(const string n){
@@ -67,7 +67,7 @@ Sieger::Sieger(const string n){
 	min_honour=2;
 	effectBonus=2;
 	effectCost=3;
-	cardText="";
+	cardText=" ";
 }
 
 Atakebune::Atakebune(const string n){
@@ -79,5 +79,5 @@ Atakebune::Atakebune(const string n){
 	min_honour=3;
 	effectBonus=3;
 	effectCost=4;
-	cardText="";
+	cardText=" ";
 }

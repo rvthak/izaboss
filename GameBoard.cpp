@@ -2,6 +2,7 @@
 #include "inputMgr.hpp"
 #include "GameBoard.hpp"
 #include "TypeConverter.hpp"
+#include <limits>
 
 using namespace std;
 
@@ -90,8 +91,8 @@ void GameBoard::gameplay(){
 	// Main game loop
 	while(running){
 		startingPhase();
-		equipPhase();
-		battlePhase();
+		//equipPhase();
+		//battlePhase();
 		if(!running){break;}
 		economyPhase();
 		finalPhase();
@@ -396,6 +397,8 @@ void GameBoard::finalPhase(){
 		cout << endl;
 		#ifdef UI
     	cout << " > Phase ended for Player " << i+1 << " : Press Enter key to continue" << endl;
+    	cin.clear(); 
+    	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 		cin.get();
 		#endif
 	}
