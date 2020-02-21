@@ -12,56 +12,62 @@ class Player {
 		Player();
 		~Player();
 
-		void untapEverything();
-		void drawFateCard();
-		void revealProvinces();
-		void printHand();
-		void printProvinces();
-		void printArmy();
-		void printArena();
-		void printTapArmy();
-		int printUntappedArmy();
-		void printHoldings();
-		void print();
+		// Print
+		void print();				// Print all the Player data
+		void printHand();			// Print Player Hand
+		void printHoldings();		// Print Player Holdings
+		void printProvinces();		// Print Player Provinces
+		void printArmy();			// Print Player Army
+		void printArena();			// Print Player Army including Items and followers
+		void printTapArmy();		// Print Player Army including tap state
+		int printUntappedArmy();	// Print only the untapped Army soldiers
+
+		// Support functions
+		unsigned int getHonour(){ return stronghold.getHonour(); }					// Get the player's Honour
+		unsigned int getInitialDefense(){ return stronghold.getInitialDefense(); }	// Get the player's initial defense
+		unsigned int HoldingCardsNo();												// Returns how many holdings the player has								
+
+		// Starting Phase
+		void untapEverything();	// Untap every card in army + holdings
+		void drawFateCard();	// Draw a new fate card
+		void revealProvinces();	// Reveal all the hidden provinces
 		
-		unsigned int getHonour(){ return stronghold.getHonour(); }
-		unsigned int getMoney();
-		unsigned int getPlayerAttack();
-		unsigned int getPlayerDefence();
-		unsigned int getInitialDefense(){ return stronghold.getInitialDefense(); }
-		unsigned int GetProvinceAmount();
+		// Equip Phase
+		bool hasArmy();											// Check if player has army
+		void pay_cost(int );									// Use Holdings to pay dept
+		unsigned int getMoney();								// Returns the currently available money of the player
+		unsigned int HandCardsNo(); 							// Returns how many cards the player has in hand
+		unsigned int ArmyCardsNo(); 							// Returns how many cards the player has in his army
+		unsigned int GetHandCardCost(unsigned int);				// Get the cost of the int card in player's hand
+		unsigned int GetArmyMemberHonour(unsigned int); 		// Get the honour of the int card in player's army
+		unsigned int GetHandMemberHonour(unsigned int); 		// Get the honour of the int card in the player's hand
+		void buyAndAssign(unsigned int hno, unsigned int ano);	// buy and equip the targeted hand card(hno) to the targeted army personality(ano)
 		
-		bool hasArmy();
-		bool hasProvinces();
+		// Battle phase
+		unsigned int ActiveArmyCardsNo();				// Return the amount of the still active cards in the army
+		unsigned int GetProvinceAmount();				// Return the amount of provinces of the player
+		unsigned int getPlayerAttack();					// Return the attack power of the player
+		unsigned int getPlayerDefence();				// Return the defense power of the player
+		void AddToAttackForce(unsigned int);			// Add the targeted personality from the army to the attack force
+		void attack(Player &target, unsigned int pno);	// Attack the targeted player's province(pno)
+		void acasualties(unsigned int);					// Calculaties of amount (int) on attacker's force 
+		void dcasualties(unsigned int);					// Calculaties of amount (int) on defender's force 
+		void damage();									// Damage the player's whole army
+		void destroyProvince(unsigned int);				// Destroy the targeted Province
+		void returnHome();								// Remaining soldiers from attack force return to army
+		int TapArmyCard(unsigned int);					// Tap the (int) targeted army card
 
-		unsigned int HandCardsNo();
-		unsigned int ArmyCardsNo();
-		unsigned int HoldingCardsNo();
-		unsigned int ActiveArmyCardsNo();
-		
-		unsigned int GetHandCardCost(unsigned int);
-		unsigned int GetProvinceCardCost(unsigned int);
-		void pay_cost(int );
+		//Economy Phase
+		void buyAndUse(unsigned int);										// Buy the province targeted by the parameter int
+		void ChainCreation(Holding *);										// Create a chain of mines
+		unsigned int GetProvinceCardCost(unsigned int);						// Get the cost of the targeted Province
+		bool CheckPersonalityCapacity(unsigned int ano,unsigned int hno);	// Check the item/follower capacity of the targeted army personality(ano) for the targeted hand card(hno)
 
-		unsigned int GetArmyMemberHonour(unsigned int);
-		unsigned int GetHandMemberHonour(unsigned int);
-		
-		void buyAndAssign(unsigned int, unsigned int);
-		void buyAndUse(unsigned int);
+		// Final phase
+		void discardSurplusFateCards();	// Discard extra cards from hand (You can have up to 6 in the end)
 
-		bool CheckPersonalityCapacity(unsigned int,unsigned int);
-
-		void AddToAttackForce(unsigned int);
-		void attack(Player &, unsigned int);
-		void dcasualties(unsigned int);
-		void destroyProvince(unsigned int);
-		void returnHome();
-		void acasualties(unsigned int);
-		void damage();
-
-		int TapArmyCard(unsigned int);
-		void ChainCreation(Holding *);
-		void discardSurplusFateCards();
+		// Check win condition
+		bool hasProvinces();	// Check if the targeted player has provinces
 
 	protected:
 		Stronghold stronghold;	// The Player's Stronghold
