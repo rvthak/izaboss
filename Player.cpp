@@ -646,6 +646,7 @@ void Player::ChainCreation(Holding *nhold){
 								nhold->chain(toChain2);
 								holdings.remove(toChain);
 								holdings.remove(toChain2);
+								holdings.push_back(nhold);
 								break;
 							}else{
 								flag = 1;
