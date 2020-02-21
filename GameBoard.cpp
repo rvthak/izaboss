@@ -414,7 +414,7 @@ void GameBoard::economyPhase(){
 		cout << " ================================================ " << endl;
 		#endif
 		cout << endl << " > Player " << i+1 << "'s turn: " << endl;	
-		while(1){
+		while(getDesision(" > Do you want continue on transactions(y) or pass(n)? (y/n)")){
 			// Print his army and holdings
 			player[buf[i]].printArmy();
 			cout << endl;
