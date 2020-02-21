@@ -27,29 +27,14 @@ void Holding::chain(Holding *target){
 
 		if(target->upperHolding!=NULL){ // full chain complete
 			upperHolding->harvestValue=(upperHolding->harvestValue-5)*2;
-			upperHolding->upperHolding->harvestValue=upperHolding->upperHolding->harvestValue/2*3;
+			upperHolding->upperHolding->harvestValue=(upperHolding->upperHolding->harvestValue/2)*3;
 		}
 		else{ // chain with gold mine only
 			upperHolding->harvestValue=upperHolding->harvestValue+4;
 		}
 	}
 	else if(type==2){ // Gold Mine
-		if(target->getMineType()==1){ // chain to a mine
-			subHolding=target;
-			target->upperHolding=this;
-
-			// Handle chain income benefits
-			harvestValue=harvestValue+4;
-			subHolding->harvestValue=subHolding->harvestValue+2;
-		}
-		else{ // chain to a crystal mine
-			upperHolding=target;
-			target->subHolding=this;
-
-			// Handle chain income benefits
-			harvestValue=harvestValue+5;
-			upperHolding->harvestValue=upperHolding->harvestValue*2;
-		}
+		target->chain(this);
 	}
 	else if(type==3){ // Crystal Mine
 		subHolding=target;
@@ -127,7 +112,7 @@ GoldMine::GoldMine(const string n){
 	cost=7;
 	isTapped=0;
 
-	isMine=1;
+	isMine=2;
 	isRevealed=0;
 
 	harvestValue=5;
@@ -140,7 +125,7 @@ CrystalMine::CrystalMine(const string n){
 	cost=12;
 	isTapped=0;
 
-	isMine=1;
+	isMine=3;
 	isRevealed=0;
 
 	harvestValue=10;
