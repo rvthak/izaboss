@@ -93,6 +93,53 @@ void Personality::print()const{
 		<< "\n\t" << "Honour: " << honour<<endl;
 }
 
+void Personality::printFull(){
+	cout<<"Personality Card: ";
+	BlackCard::print();
+	cout<< "\t"<<"Attack: "<< attack
+		<< "\n\t" << "Defence: " <<defence
+		<< "\n\t" << "Honour: " << honour
+		<< "\n\t" << "Followers: ";
+
+	int i=0;
+	if(followers.begin()==followers.end()){
+		cout<<"NONE\n\t";
+	}else{
+		cout<<endl;
+		list<Follower *>::iterator itf;
+		for(itf = followers.begin();itf != followers.end();itf++){
+			i++;
+			cout<< "\t\t" << i << ".";
+			(*itf)->print();
+		}
+	}
+	cout<<"\n\tItems: ";
+	if(items.begin()==items.end()){
+		cout<<"NONE"<<endl;
+	}else{
+		cout<<endl;
+		list<Item *>::iterator iti;
+		i=0;
+		for(iti = items.begin();iti != items.end();iti++){
+			i++;
+			cout<< "\t\t" << i << ".";
+			(*iti)->print();
+		}
+	}
+
+}
+
+void Personality::follower_cas(unsigned int limit){
+	list<Follower *>::iterator itf;
+	for(itf = followers.begin();itf != followers.end();itf++){
+		if((*itf)->getAttackBonus()>=limit){
+			followers.remove(*itf);
+			delete *itf;
+			itf = followers.begin();
+		}
+	}
+}
+
 Attacker::Attacker(const string n){
 	name=n;
 	cost=5;
