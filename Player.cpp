@@ -23,6 +23,7 @@ Player::Player():numberOfProvinces(4){
 		hand[i]=NULL;
 	cout<<"\tA new player joined the game!"<<endl;
 }
+
 Player::~Player(){
 	for(int i=0; i<7;i++)
 		if(hand[i]!=NULL)

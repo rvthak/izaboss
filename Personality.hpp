@@ -37,6 +37,9 @@ class Personality : public BlackCard {
 		// Print Personality ( ! including equipped Items and followers )
 		void printFull();
 
+		void removeBuffs(Follower*);
+		void removeBuffs(Item *);
+
 		virtual void print()const;
 		virtual int getType()const{ return 1; }
     
