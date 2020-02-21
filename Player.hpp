@@ -18,6 +18,7 @@ class Player {
 		void printHand();
 		void printProvinces();
 		void printArmy();
+		void printArena();
 		void printTapArmy();
 		int printUntappedArmy();
 		void printHoldings();
