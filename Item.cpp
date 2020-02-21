@@ -25,7 +25,7 @@ Katana::Katana(const string n){
 	effectBonus=1;
 	effectCost=2;
 	durability=3;
-	cardText=""; 
+	cardText="Venerated japanese divine blade";
 }
 
 Spear::Spear(const string n){
@@ -38,7 +38,7 @@ Spear::Spear(const string n){
 	effectBonus=1;
 	effectCost=2;
 	durability=3;
-	cardText=""; 
+	cardText="A moderate-range melee lethal weapon"; 
 }
 
 Bow::Bow(const string n){
@@ -51,7 +51,7 @@ Bow::Bow(const string n){
 	effectBonus=3;
 	effectCost=4;
 	durability=5;
-	cardText=""; 
+	cardText="It's the power of the bow that determines the flight of the arrow";
 }
 
 Ninjato::Ninjato(const string n){
@@ -64,7 +64,7 @@ Ninjato::Ninjato(const string n){
 	effectBonus=2;
 	effectCost=2;
 	durability=4;
-	cardText=""; 
+	cardText="The sword of a Shinobi";
 }
 
 Wakizashi::Wakizashi(const string n){
@@ -77,5 +77,5 @@ Wakizashi::Wakizashi(const string n){
 	effectBonus=3;
 	effectCost=3;
 	durability=8;
-	cardText=""; 
+	cardText="Japanese sword and the honor of a Samurai";
 }
