@@ -10,6 +10,10 @@ void Follower::print()const{
 	GreenCard::print();
 }
 
+void Follower::detach(){
+	delete this;
+}
+
 Footsoldier::Footsoldier(const string n){
 	name=n;
 	cost=0;
@@ -19,7 +23,7 @@ Footsoldier::Footsoldier(const string n){
 	min_honour=1;
 	effectBonus=1;
 	effectCost=2;
-	cardText="Each scar teaches him more than a library"; 
+	cardText=""; 
 }
 
 Archer::Archer(const string n){
@@ -31,7 +35,7 @@ Archer::Archer(const string n){
 	min_honour=1;
 	effectBonus=1;
 	effectCost=2;
-	cardText="Precise and effective on defending the province from long distances";
+	cardText="";
 }
 
 Cavalry::Cavalry(const string n){
@@ -43,7 +47,7 @@ Cavalry::Cavalry(const string n){
 	min_honour=3;
 	effectBonus=3;
 	effectCost=4;
-	cardText="Dont worry tha Cavalry is here";
+	cardText="";
 }
 
 Bushido::Bushido(const string n){
@@ -55,7 +59,7 @@ Bushido::Bushido(const string n){
 	min_honour=6;
 	effectBonus=3;
 	effectCost=8;
-	cardText="The way of the samurai";
+	cardText="";
 }
 
 Sieger::Sieger(const string n){
@@ -67,7 +71,7 @@ Sieger::Sieger(const string n){
 	min_honour=2;
 	effectBonus=2;
 	effectCost=3;
-	cardText="CHAAAAARGE";
+	cardText="";
 }
 
 Atakebune::Atakebune(const string n){
@@ -79,5 +83,5 @@ Atakebune::Atakebune(const string n){
 	min_honour=3;
 	effectBonus=3;
 	effectCost=4;
-	cardText="Their structure above the surface is fully covered by iron,and they are worth admiring";
+	cardText="";
 }

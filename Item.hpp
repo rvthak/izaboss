@@ -3,54 +3,54 @@
 
 #include "Card.hpp"
 
-class Item : public GreenCard
-{
+class Item : public GreenCard {
+
 	public:
 		Item(){}
 		~Item(){}
-		int loseDurability(){ durability--; return (durability==0); }
-		unsigned int getDurability();
+
+		unsigned int getDurability();	// Get the current durability of the item
+		int loseDurability(){ durability--; return (durability==0); }	// Damage the item
+		
+		void detach();	// Detach the item from its Personality (deletes it)
+
+		virtual void print()const;
 		virtual int getType()const{ return 4; }
-		void print()const;
+		
 	protected:
-		unsigned int durability;
+		unsigned int durability; // The items durability
 };
 
 //==============================================
 
-class Katana : public Item
-{
-public:
-	Katana(const std::string n);
-	~Katana(){}
+class Katana : public Item {
+	public:
+		Katana(const std::string n);
+		~Katana(){}
 };
 
-class Spear : public Item
-{
-public:
-	Spear(const std::string n);
-	~Spear(){}
+class Spear : public Item {
+	public:
+		Spear(const std::string n);
+		~Spear(){}
 };
 
-class Bow : public Item
-{
-public:
-	Bow(const std::string n);
-	~Bow(){}
+class Bow : public Item {
+	public:
+		Bow(const std::string n);
+		~Bow(){}
 };
 
-class Ninjato : public Item
-{
-public:
-	Ninjato(const std::string n);
-	~Ninjato(){}
+class Ninjato : public Item {
+	public:
+		Ninjato(const std::string n);
+		~Ninjato(){}
 };
 
-class Wakizashi : public Item
-{
-public:
-	Wakizashi(const std::string n);
-	~Wakizashi(){}
+class Wakizashi : public Item {
+	public:
+		Wakizashi(const std::string n);
+		~Wakizashi(){}
 };
 
 #endif

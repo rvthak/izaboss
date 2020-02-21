@@ -1,13 +1,18 @@
-#include "Item.hpp"
 #include <iostream>
+#include "Item.hpp"
 
 using namespace std;
 
 unsigned int Item::getDurability(){ return durability; }
 
 void Item::print()const{
-	cout<<"Item: ";
+	cout << "Item: ";
 	GreenCard::print();
+	cout << "\n\t" << "Card Durability: "<< durability <<endl;
+}
+
+void Item::detach(){
+	delete this;
 }
 
 Katana::Katana(const string n){
@@ -20,7 +25,7 @@ Katana::Katana(const string n){
 	effectBonus=1;
 	effectCost=2;
 	durability=3;
-	cardText="Venerated japanese divine blade"; 
+	cardText=""; 
 }
 
 Spear::Spear(const string n){
@@ -33,7 +38,7 @@ Spear::Spear(const string n){
 	effectBonus=1;
 	effectCost=2;
 	durability=3;
-	cardText="A moderate-range melee lethal weapon"; 
+	cardText=""; 
 }
 
 Bow::Bow(const string n){
@@ -46,7 +51,7 @@ Bow::Bow(const string n){
 	effectBonus=3;
 	effectCost=4;
 	durability=5;
-	cardText="It's the power of the bow that determines the flight of the arrow"; 
+	cardText=""; 
 }
 
 Ninjato::Ninjato(const string n){
@@ -59,7 +64,7 @@ Ninjato::Ninjato(const string n){
 	effectBonus=2;
 	effectCost=2;
 	durability=4;
-	cardText="The sword of a Shinobi";
+	cardText=""; 
 }
 
 Wakizashi::Wakizashi(const string n){
@@ -72,5 +77,5 @@ Wakizashi::Wakizashi(const string n){
 	effectBonus=3;
 	effectCost=3;
 	durability=8;
-	cardText="Japanese sword and the honor of a Samurai"; 
+	cardText=""; 
 }

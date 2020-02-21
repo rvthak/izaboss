@@ -6,79 +6,85 @@
 #include "DeckBuilder.hpp"
 
 
-class Player
-{
-public:
-	Player();
-	~Player();
+class Player {
 
-	void untapEverything();
-	void drawFateCard();
-	void revealProvinces();
-	void printHand();
-	void printProvinces();
-	void printArmy();
-	void printArena();
-	void printTapArmy();
-	void printUntappedArmy();
-	void printHoldings();
-	void print();
-	unsigned int getHonour(){
-		return stronghold.getHonour();
-	};
-	unsigned int getMoney();
-	unsigned int getPlayerAttack();
-	unsigned int getPlayerDefence();
-	unsigned int getInitialDefense(){
-		return stronghold.getInitialDefense();
-	};
-	unsigned int GetProvinceAmount();
-	bool hasArmy();
-	bool hasProvinces();
+	public:
+		Player();
+		~Player();
 
-	unsigned int HandCardsNo();
-	unsigned int ArmyCardsNo();
-	unsigned int HoldingCardsNo();
-	unsigned int ActiveArmyCardsNo();
-	
-	unsigned int GetHandCardCost(unsigned int);
-	unsigned int GetProvinceCardCost(unsigned int);
-	void pay_cost(int );
+		void untapEverything();
+		void drawFateCard();
+		void revealProvinces();
+		void printHand();
+		void printProvinces();
+		void printArmy();
+		void printTapArmy();
+		int printUntappedArmy();
+		void printHoldings();
+		void print();
+		
+		unsigned int getHonour(){ return stronghold.getHonour(); }
+		unsigned int getMoney();
+		unsigned int getPlayerAttack();
+		unsigned int getPlayerDefence();
+		unsigned int getInitialDefense(){ return stronghold.getInitialDefense(); }
+		unsigned int GetProvinceAmount();
+		
+		bool hasArmy();
+		bool hasProvinces();
 
-	unsigned int GetArmyMemberHonour(unsigned int);
-	unsigned int GetHandMemberHonour(unsigned int);
-	
-	void buyAndAssign(unsigned int, unsigned int);
-	void buyAndUse(unsigned int);
+		unsigned int HandCardsNo();
+		unsigned int ArmyCardsNo();
+		unsigned int HoldingCardsNo();
+		unsigned int ActiveArmyCardsNo();
+		
+		unsigned int GetHandCardCost(unsigned int);
+		unsigned int GetProvinceCardCost(unsigned int);
+		void pay_cost(int );
 
-	bool CheckPersonalityCapacity(unsigned int,unsigned int);
+		unsigned int GetArmyMemberHonour(unsigned int);
+		unsigned int GetHandMemberHonour(unsigned int);
+		
+		void buyAndAssign(unsigned int, unsigned int);
+		void buyAndUse(unsigned int);
 
-	void AddToAttackForce(unsigned int);
-	void attack(Player &, unsigned int);
-	void dcasualties(unsigned int);
-	void destroyProvince(unsigned int);
-	void celebrate();
-	void acasualties(unsigned int);
+		bool CheckPersonalityCapacity(unsigned int,unsigned int);
 
-	void TapArmyCard(unsigned int);
-	void ChainCreation(Holding *);
-	void discardSurplusFateCards();
+		void AddToAttackForce(unsigned int);
+		void attack(Player &, unsigned int);
+		void dcasualties(unsigned int);
+		void destroyProvince(unsigned int);
+		void returnHome();
+		void acasualties(unsigned int);
+		void damage();
 
-protected:
-	unsigned int numberOfProvinces;
-	std::list<GreenCard *>* fateDeck;
-	std::list<BlackCard *>* dynastyDeck;
+		int TapArmyCard(unsigned int);
+		void ChainCreation(Holding *);
+		void discardSurplusFateCards();
 
-	std::list<BlackCard *> provinces;
-	GreenCard *hand[7];
-	std::list<Holding *> holdings;
-	std::list<Personality *> army;
-	Stronghold stronghold;
+	protected:
+		Stronghold stronghold;	// The Player's Stronghold
 
-	std::list<Personality *> attackForce;
+		// Player's Provinces
+		unsigned int numberOfProvinces;		// The number of the Provinces the Player has
+		std::list<BlackCard *> provinces; 	// A list of those Provinces
+		
+		// Player's Holdings
+		std::list<Holding *> holdings; // A list of the player's holdings
 
-private:
-	DeckBuilder my_deck;
+		// Player's Army
+		std::list<Personality *> army;			// All the available army of Personalities
+		std::list<Personality *> attackForce;	// A list of the attack army troops
+
+		// Player's Hand Cards
+		GreenCard *hand[7];
+
+		// Player's Card Decks
+		std::list<GreenCard *>* fateDeck;
+		std::list<BlackCard *>* dynastyDeck;
+
+	private:
+		DeckBuilder my_deck;	// The player's Deckbuilder to provide deck building and shuffle functionality
 };
 
 #endif

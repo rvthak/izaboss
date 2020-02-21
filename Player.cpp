@@ -123,19 +123,6 @@ void Player::printArmy(){
 		i++;
 	}
 }
-
-void Player::printArena(){
-	list<Personality *>::iterator ita;
-	int i=1;
-	cout<<"\t\t<> Cards on Army: ";
-	if( army.begin()==army.end() ){ cout << "NONE" << endl; return;}
-	for(ita = army.begin(); ita != army.end(); ita++){
-		cout << endl << " " << i << ".";
-		(*ita)->printFull();
-		i++;
-	}
-}
-
 void Player::printProvinces(){
 	cout<<"\t\t<> Provinces available:"<<endl;
 	int i=1;
@@ -183,20 +170,35 @@ void Player::printHoldings(){
 
 void Player::printTapArmy(){
 	list<Personality *>::iterator ita;
+	int i=0;
 	for(ita = army.begin(); ita != army.end(); ita++){
+		i++;
+		cout << " " << i << ". ";
 		(*ita)->print();
 		cout<<'\t';
 		if((*ita)->tapped())
-			cout<<"Tapped"<<endl;
+			cout<<"(!) Tapped"<<endl;
 		else
-			cout<<"Not Tapped"<<endl;
+			cout<<"(!) Not Tapped"<<endl;
 	}
 }
-void Player::printUntappedArmy(){
+int Player::printUntappedArmy(){
+	int i=0; // counts untapped army members
 	list<Personality *>::iterator ita;
-	for(ita = army.begin();ita != army.end();ita++)
-		if(!((*ita)->tapped()))
+	for(ita = army.begin();ita != army.end();ita++){
+
+		if(!((*ita)->tapped())){ // if its not tapped print it
+			i++;
+			cout << " " << i << ". ";
 			(*ita)->print();
+		}
+	}
+
+	if(i==0){ // All the remaining army members are tapped
+		return 1;
+	}
+
+	return 0;
 }
 
 // =================================
@@ -357,10 +359,17 @@ void Player::pay_cost(int cost){
 				if((*ith)->hasUpper()){
 					i++;
 					if(i>=index){
-						h= (*ith)->getUpperHolding();
-						break;
+						if( !((*ith)->getUpperHolding()->tapped()) ){
+							h= (*ith)->getUpperHolding();
+							break;
+						}
+						else{
+							cout << " > This Card is already tapped. Choose another:" << endl;
+							flag=1;
+							break;
+						}
+						
 					}
-
 				}
 			
 				i++;
@@ -377,33 +386,34 @@ void Player::pay_cost(int cost){
 					}
 				}
 			}
-			if(h->tapped())
-				cout<<"You can't use the same card to pay your debt!"<<endl;
-			else{
+
+			if(!flag){
 				cout << " ($) Payed using Holding!" << endl;
 				cost -= h->getHarvestValue();
 				h->tap();
-			}	
+			}
+			
 		}
 		else{
-			if(stronghold.tapped())
-				cout<<"Stronghold income arleady used can't use it again"<<endl;
-			else{
-				cout << " ($) Payed using stronghold!" << endl;
-				cost -= stronghold.getMoney();
-				stronghold.tap();
-			}
+			cout << " ($) Payed using stronghold!" << endl;
+			cost -= stronghold.getMoney();
+			stronghold.tap();
 		}
 	}
 }
 
-void Player::TapArmyCard(unsigned int ano){
+int Player::TapArmyCard(unsigned int ano){
 	list<Personality *>::iterator ita;
 	ita = army.begin();
 	for(int i=1;i<ano && ita != army.end();i++)
 		ita++;
 	if((*ita)->tapped()){
-		cout<<"This card is already tapped"<<endl;
+		//cout<<"This card is already tapped"<<endl;
+		return 1;
+	}
+	else{
+		(*ita)->tap();
+		return 0;
 	}
 }
 
@@ -471,26 +481,82 @@ bool Player::CheckPersonalityCapacity(unsigned int ano,unsigned int hno){
 }
 
 void Player::attack(Player &target, unsigned int pno){
-	if(this->getPlayerAttack()-target.getPlayerDefence() >= target.getInitialDefense()){
+	if(this->getPlayerAttack()-target.getPlayerDefence() > target.getInitialDefense()){
 		target.dcasualties(0);
 		target.destroyProvince(pno);
-		this->celebrate();
-		cout<<"Attacker's absolute victory"<<endl;
+		
+		this->returnHome();
+		
+		cout << endl <<"\t<^> Attacker's absolute Victory <^>" << endl << endl;
 	}else if(this->getPlayerAttack() > target.getPlayerDefence()){
 		target.dcasualties(0);
 		target.destroyProvince(pno);
 		this->acasualties(this->getPlayerAttack()-target.getPlayerDefence());
-		this->celebrate();
-		cout<<"Attacker's victory"<<endl;
+		
+		this->damage();
+
+		this->returnHome();
+		
+		cout << endl <<"\t<^> Attacker's Victory with casualties <^>" << endl << endl;
 	}else if(this->getPlayerAttack() == target.getPlayerDefence()){
 		target.dcasualties(0);
 		this->acasualties(0);
-		cout<<"Battle ended with a draw"<<endl;
+		
+		cout << endl <<"\t<^> Battle ended in a draw <^>" << endl << endl;
 	}else{
 		target.dcasualties(target.getPlayerDefence() - this->getPlayerAttack());
 		this->acasualties(0);
-		cout<<"Defender's victory"<<endl;
+		
+		cout << endl <<"\t<^> Defender's victory <^>" << endl << endl;
 	}
+}
+
+void Player::dcasualties(unsigned int limit){
+	list<Personality *>::iterator ita;
+	for(ita = army.begin(); ita != army.end();ita++)
+		if(!((*ita)->tapped()) && (*ita)->getAttack()>=limit){
+			army.remove(*ita);
+			delete *ita;
+			ita = army.begin();
+		}
+}
+
+void Player::acasualties(unsigned int limit){
+	list<Personality *>::iterator ita;
+	for(ita = attackForce.begin(); ita != attackForce.end();ita++)
+		if((*ita)->getAttack()>=limit){
+			attackForce.remove(*ita);
+			delete *ita;
+			ita = attackForce.begin();
+		}
+}
+
+void Player::returnHome(){
+	list<Personality *>::iterator ita;
+	for(ita = attackForce.begin(); ita != attackForce.end();ita++){
+		(*ita)->tap();
+		army.push_back(*ita);
+		attackForce.remove(*ita);
+		ita = attackForce.begin();
+	}
+}
+
+void Player::damage(){
+	list<Personality *>::iterator ita;
+	// For all remaining personalities in attack force
+	for(ita = attackForce.begin(); ita != attackForce.end();ita++){
+		// Decrease their honnor and damage their items
+		(*ita)->damage();
+
+		// if honnor reaches 0 SEPPUKU TIME
+		if( (*ita)->getHonour()==0 ){
+			cout << " (!) Personality dishonored. Performing Seppuku..." << endl;
+			attackForce.remove(*ita);
+			(*ita)->performSeppuku();
+			ita = attackForce.begin();
+		}
+	}
+
 }
 
 void Player::destroyProvince(unsigned int pno){
@@ -503,41 +569,6 @@ void Player::destroyProvince(unsigned int pno){
 	numberOfProvinces--;
 	cout<<"Provinces left: "<<numberOfProvinces<<endl;
 	this->printProvinces();
-}
-
-void Player::dcasualties(unsigned int limit){
-	list<Personality *>::iterator ita;
-	for(ita = army.begin(); ita != army.end();ita++){
-		if(!((*ita)->tapped()) && (*ita)->getAttack()>=limit){
-			army.remove(*ita);
-			delete *ita;
-			ita = army.begin();
-		}
-		if(!((*ita)->tapped()))
-			(*ita)->follower_cas(limit);
-	}
-}
-
-void Player::celebrate(){
-	list<Personality *>::iterator ita;
-	for(ita = attackForce.begin(); ita != attackForce.end();ita++){
-		(*ita)->tap();
-		army.push_back(*ita);
-		attackForce.remove(*ita);
-		ita = attackForce.begin();
-	}
-}
-
-void Player::acasualties(unsigned int limit){
-	list<Personality *>::iterator ita;
-	for(ita = attackForce.begin(); ita != attackForce.end();ita++){
-		if((*ita)->getAttack()>=limit){
-			attackForce.remove(*ita);
-			delete *ita;
-			ita = attackForce.begin();
-		}
-		(*ita)->follower_cas(limit);
-	}
 }
 
 unsigned int Player::GetProvinceCardCost(unsigned int pno){
@@ -598,7 +629,7 @@ void Player::ChainCreation(Holding *nhold){
 			if(toChain==NULL)
 				holdings.push_back(nhold);
 			else
-				nhold->chain(toChain);
+				toChain->chain(nhold);
 			break;
 		}
 		case 2:{
@@ -618,7 +649,6 @@ void Player::ChainCreation(Holding *nhold){
 								nhold->chain(toChain2);
 								holdings.remove(toChain);
 								holdings.remove(toChain2);
-								holdings.push_back(nhold);
 								break;
 							}else{
 								flag = 1;
@@ -666,17 +696,14 @@ void Player::ChainCreation(Holding *nhold){
 					}
 			if(toChain2==NULL && toChain==NULL)
 				holdings.push_back(nhold);
-			else if(toChain2==NULL && toChain!=NULL){
+			else if(toChain2==NULL && toChain!=NULL)
 				nhold->chain(toChain);
-				holdings.push_back(nhold);
-				holdings.remove(toChain);
-			}
 			break;
 		}
 		case 3:{
 			for(ith = holdings.begin(); ith != holdings.end(); ith++)
 				if((*ith)->getMineType()==2){
-					if(!((*ith)->hasUpper()) && (*ith)->hasSub()){
+					if(!(*ith)->hasUpper() && (*ith)->hasSub()){
 						toChain = *ith;
 						break;
 					}
@@ -690,7 +717,7 @@ void Player::ChainCreation(Holding *nhold){
 			if(toChain==NULL)
 				holdings.push_back(nhold);
 			else
-				nhold->chain(toChain);
+				toChain->chain(nhold);
 			break;
 		}
 	}
@@ -702,9 +729,7 @@ void Player::discardSurplusFateCards(){
 		if(hand[i]!=NULL)
 			k++;
 	if(k==7){
-		printHand();
-		k=choosefrom(7)-1;
+		k=choosefrom(7);
 		delete hand[k];
-		hand[k]=NULL;
 	}
 }

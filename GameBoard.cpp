@@ -1,10 +1,12 @@
 #include <cstdlib>
+#include "ui.hpp"
 #include "inputMgr.hpp"
 #include "GameBoard.hpp"
 #include "TypeConverter.hpp"
-#include <limits>
 
 using namespace std;
+
+void SplashScreen2();
 
 void swap(unsigned int *x, unsigned int *y){  
     unsigned int temp = *x;
@@ -67,16 +69,11 @@ void GameBoard::printGameStatistics(){
 	print(); // Print the game board state/stats
 
 	// Print each player's stats 
-    cout << "   Player\tProvinces\tAttack\t\tDefence\t\tCurrent Income\t\tHoldings" << endl;
-    for(unsigned int j=0; j<player_amount; j++){
-            cout << " " << j+1 << ". Player " << j+1 << ": "
-             << "\t    " << player[buf[j]].GetProvinceAmount()
-             << "\t\t   "<< player[buf[j]].getPlayerAttack()
-             << "\t\t   "<< player[buf[j]].getPlayerDefence()
-             << "\t\t      "<< player[buf[j]].getMoney()
-             << "\t\t  "<< player[buf[j]].HoldingCardsNo()
-             << endl;
-    }
+	for(unsigned int i=0; i<player_amount; i++){
+		cout << "		> --- Player " << i+1 << " ---" << endl;
+		player[i].print();
+		cout << endl;
+	}
 }
 void GameBoard::print(){
 	if(player==NULL){
@@ -97,7 +94,7 @@ void GameBoard::gameplay(){
 	while(running){
 		startingPhase();
 		equipPhase();
-		//battlePhase();
+		battlePhase();
 		if(!running){break;}
 		economyPhase();
 		finalPhase();
@@ -115,7 +112,7 @@ void GameBoard::startingPhase(){
 	#endif
 	for(unsigned int i=0; i<player_amount; i++){
 		#ifdef UI
-		system("clear");
+		uiClear();
 		cout << " ================================================ " << endl;
 		cout << "                   Starting Phase                 " << endl;
 		cout << " ================================================ " << endl;
@@ -131,7 +128,7 @@ void GameBoard::startingPhase(){
     	cout << endl;
     	#ifdef UI
     	cout << " > Phase ended for Player " << i+1 << " : Press Enter key to continue" << endl;
-		cin.get();
+		pause();
 		#endif
     }
 }
@@ -143,7 +140,7 @@ void GameBoard::equipPhase(){
 	#endif
 	for(unsigned int i=0; i<player_amount; i++){
 		#ifdef UI
-		system("clear");
+		uiClear();
 		cout << " ================================================ " << endl;
 		cout << "                    Equip Phase                   " << endl;
 		cout << " ================================================ " << endl;
@@ -161,10 +158,6 @@ void GameBoard::equipPhase(){
 
 			while(getDesision(" > Do you want continue on transactions(y) or pass(n)? (y/n)")){
 				// Get user input for the requested move
-				if(player[buf[i]].HandCardsNo()==0){
-					cout<<"You don't have any cards on your hand!"<<endl;
-					break;
-				}
 				cout << " > Please choose a card from your hand:" << endl;
 				unsigned int handCard = choosefrom(player[buf[i]].HandCardsNo());
 
@@ -191,11 +184,9 @@ void GameBoard::equipPhase(){
 				}
 
 				#ifdef UI
-				cin.clear();
-				cin.ignore(numeric_limits<streamsize>::max(), '\n');
 				cout << " > Press Enter key to continue" << endl;
-				cin.get();
-				system("clear");
+				pause();
+				uiClear();
 				cout << " ================================================ " << endl;
 				cout << "                    Equip Phase                   " << endl;
 				cout << " ================================================ " << endl;
@@ -215,108 +206,186 @@ void GameBoard::equipPhase(){
     	}
     	#ifdef UI
     	cout << " > Phase ended for Player " << i+1 << " : Press Enter key to continue" << endl;
-		cin.get();
+		pause();
 		#endif
     }
 }
 void GameBoard::battlePhase(){
+	bool flag;
+	int k;
 	#ifndef UI
 	cout << " ================================================ " << endl;
 	cout << "                   Battle Phase                   " << endl;
 	cout << " ================================================ " << endl;
 	#endif
 	for(unsigned int i=0; i<player_amount; i++){	// for each player in the correct order
+		flag=0;
 		#ifdef UI
-		system("clear");
+		uiClear();
 		cout << " ================================================ " << endl;
 		cout << "                   Battle Phase                   " << endl;
 		cout << " ================================================ " << endl;
 		#endif
 		cout << endl << " > Player " << i+1 << "'s turn: " << endl;
 		if(player[buf[i]].hasArmy()){ 		// check if he has an army
+			
+
+			// ======= Stage 1 =======
+			// Let the player decide which of his army cards does he wants tapped and safe
+			#ifdef UI
+			uiClear();
+			#endif
+			cout << "\t\t~-~ War Preparations ~-~" << endl << endl;
+			cout << " > Available Player " << i+1 << " Army:" << endl;
 			player[buf[i]].printTapArmy();	// Show the player his army + tap status
 
-			cout << " --- War Preparations ---" << endl;
-
-			// Let the player decide which of his army cards does he want tapped
 			while( getDesision(" > Do you want to tap any/more of your army members to leave them aside? (y/n)") ){
 				cout << " > Which one of your army members do you want to tap?" << endl;
 				unsigned int armyCard = choosefrom(player[buf[i]].ArmyCardsNo());
-				player[buf[i]].TapArmyCard(armyCard);
+				
+				if(player[buf[i]].TapArmyCard(armyCard)){
+					cout<<" (!) This card is already tapped"<<endl;
+					cout << " > Press Enter key to continue..." << endl;
+					pause();
+				}
+
+				#ifdef UI
+				uiClear();
+				cout << "\t\t~-~ War Preparations ~-~" << endl << endl;
+				cout << " > Available Player " << i+1 << " Army:" << endl;
+				#endif
+
 				player[buf[i]].printTapArmy();
 			}
 
-			// Let the player decide which of his army cards does he want for attack
-			player[buf[i]].printUntappedArmy();
-			while( getDesision(" > Do you want to use any/more soldier to perform an attack? (y/n)") ){
-				if(!player[buf[i]].hasArmy()){
-					cout << " > No Army left to lead to battle. Moving on..." << endl;
-					break;
+
+			// ======= Stage 2 =======
+			// Let the player choose his attack/defense force soldiers
+			#ifdef UI
+			uiClear();
+			#endif
+			cout << "\t\t~-~ War Preparations ~-~" << endl << endl;
+			cout << " > Available Player " << i+1 << " Army:" << endl;
+			cout << " > Choose soldiers for your Attack force. The remaining troops " << endl;
+			cout << "   will stay behind to defend our homes:" << endl;
+			
+			if(player[buf[i]].printUntappedArmy()){
+				cout << " (!) No soldiers ready to battle left. Moving on..." << endl;
+			}
+			else{
+				while( getDesision(" > Do you want to use any/more soldier to perform an attack? (y/n)") ){
+					flag=1;
+					if(!player[buf[i]].hasArmy()){
+						cout << " > No Army left to lead to battle. Moving on..." << endl;
+						break;
+					}
+					cout << " > Which one of your army members do you want to add to your attack force?" << endl;
+					unsigned int sol = choosefrom(player[buf[i]].ActiveArmyCardsNo());
+					player[buf[i]].AddToAttackForce(sol);
+
+					#ifdef UI
+					uiClear();
+					cout << "\t\t~-~ War Preparations ~-~" << endl << endl;
+					cout << " > Available Player " << i+1 << " Army:" << endl;
+					cout << " > Choose soldiers for your Attack force. The remaining troops " << endl;
+					cout << "   will stay behind to defend our homes:" << endl;
+					#endif
+
+					if(player[buf[i]].printUntappedArmy()){
+						cout << endl << " (!) No soldiers ready to battle left. Moving on..." << endl;
+						cout << " > Press Enter key to continue..." << endl;
+						pause();
+						break;
+					}
 				}
-				cout << " > Which one of your army members do you want to tap?" << endl;
-				unsigned int sol = choosefrom(player[buf[i]].ActiveArmyCardsNo());
-				player[buf[i]].AddToAttackForce(sol);
-				player[buf[i]].printUntappedArmy();
 			}
 
-			cout << endl << " > Army Ready! " << endl;
-			cout << " <> ------ WAR ------ <> " << endl;
+			// ======= Stage 2 =======
+			// Actual Attack
+			while(flag){ // Player Selected at least one soldier for attack => Attack possible
+				#ifdef UI
+				uiClear();
+				#endif
+				cout << endl << "\t\t> Army Ready < " << endl;
+				cout << "\t    <> ------ WAR ------ <> " << endl << endl;
+				cout << " > Total player attack: " << player[buf[i]].getPlayerAttack() << endl << endl;
 
-			// Calculate player attack
-
-			while(1){
-				if( getDesision(" > Do you want to perform an attack? (y/n)") ){
-					// Print the available players to attack
-					cout << " > Choose a player to attack " << endl;
-					for(unsigned int j=0; j<player_amount; j++){
-						if(j!=i){ // we dont print the current player
-							cout << " Player " << j+1 << endl;
-							player[buf[j]].print();			
+				while(1){
+					if( getDesision(" > Do you want to perform an attack? (y/n)") ){
+						// Print the available players to attack
+						cout << endl << " > Choose a player to attack:" << endl;
+						cout << "   _Player_\tProvinces\tDefence\t    Income" << endl;
+						k=0;
+						for(unsigned int j=0; j<player_amount; j++){
+							if(j!=i){ // we dont print the current player
+								k++;
+								cout << " " << k << ". Player " << j+1 << ": ";
+								cout << "\t    " << player[buf[j]].GetProvinceAmount();
+								cout << "\t\t   " << player[buf[j]].getPlayerDefence();
+								cout << "\t      " << player[buf[j]].getMoney();
+								cout << endl;
+							}
 						}
-					}
 
-					// let him choose his attack
-					cout << " > Which one of the available players do you want to attack?" << endl;
-					unsigned int target = choosefrom(player_amount-1);
-					while(target==i){
-						cout << " > You cant attack yourself... " << endl;
-						cout << " > Which one of the available players do you want to attack?" << endl;
-						target = choosefrom(player_amount-1);
-					}
+						// let him choose his attack target
+						cout << endl << " > Which one of the available players do you want to attack?" << endl;
+						unsigned int target = choosefrom(player_amount-1);
+						if(target>=i){ target++; }
 
-					// let him choose his enemy's province-target
-					player[buf[target]].printProvinces();
-					player[buf[target]].printArmy();
-					unsigned int tmp=player[buf[target]].GetProvinceAmount();
-					cout << " > Which one of the available provinces do you want to attack?" << endl;
-					cout << " - Type " << tmp+1 << " to go back if you change your mind" << endl;
-					unsigned int targetprov = choosefrom(tmp+1);
-					if(target==tmp+1){
-						cout << " Going back..." << endl;
-						break;
+						// let him spectate the target's provinces and choose a province
+						#ifdef UI
+						uiClear();
+						#endif
+						cout << " > Targeting Player " << target << ":" << endl << endl;
+						player[buf[target]].printProvinces();
+						cout << endl;
+						player[buf[target]].printArmy();
+						cout << endl;
+						unsigned int tmp=player[buf[target]].GetProvinceAmount();
+						cout << " > Which one of the available provinces do you want to attack?" << endl;
+						cout << " - Type " << tmp+1 << " to go back if you change your mind" << endl;
+						unsigned int targetprov = choosefrom(tmp+1);
+						if(targetprov==tmp+1){
+							cout << " Going back..." << endl;
+							cout << " > Press Enter key to continue" << endl;
+							pause();
+							break;
+						}
+						else{
+							cout << endl << "\t\t<><><><> ATTACK <><><><>" << endl << endl;
+							player[buf[i]].attack(player[buf[target]], targetprov); // remember to print the attack results
+							if( checkWinningCondition(i) ){ // exit if someone wins
+								#ifdef UI
+								uiClear();
+								#endif
+								cout << endl << endl << "\t\t> Player " << i+1 << " WON! < " << endl;
+								#ifdef UI
+						    	SplashScreen2();
+						    	cout << endl << " > Press Enter key to continue" << endl;
+						    	pause();
+								#endif
+								return; 
+							}
+							flag=0;
+							break;
+						}
 					}
 					else{
-						cout << " > ATTACK " << endl;
-						player[buf[i]].attack(player[buf[target]], targetprov); // remember to print the attack results
-						if( checkWinningCondition(i) ){ // exit if someone wins
-							cout << "    > Player " << i+1 << " WON! < " << endl;
-							return; 
-						}
+						cout << " (!) No attack performed" << endl;
+						player[buf[i]].returnHome();
+						flag=0;
 						break;
 					}
 				}
-				else{
-					cout << " > No attack perform" << endl;
-					break;
-				}
 			}
+			
 		}
 		else{
     		cout << " > Player has no army. He is unable to battle." << endl;
     	}
     	#ifdef UI
     	cout << " > Phase ended for Player " << i+1 << " : Press Enter key to continue" << endl;
-		cin.get();
+    	pause();
 		#endif
 	}
 }
@@ -328,13 +397,13 @@ void GameBoard::economyPhase(){
 	#endif
 	for(unsigned int i=0; i<player_amount; i++){ // !!! each player can buy only one card in this phase
 		#ifdef UI
-		system("clear");
+		uiClear();
 		cout << " ================================================ " << endl;
 		cout << "                   Economy Phase                  " << endl;
 		cout << " ================================================ " << endl;
 		#endif
 		cout << endl << " > Player " << i+1 << "'s turn: " << endl;	
-		while(getDesision(" > Do you want continue on transactions(y) or pass(n)? (y/n)")){
+		while(1){
 			// Print his army and holdings
 			player[buf[i]].printArmy();
 			cout << endl;
@@ -350,30 +419,29 @@ void GameBoard::economyPhase(){
 			unsigned int tmp=player[buf[i]].GetProvinceAmount();
 			cout << " > Choose one of the available options:" << endl;
 			cout << " - Province number to choose it [1, " << tmp << "]" << endl;
-			//cout << " - Type " << tmp+1 << " to pass this phase " << endl;
-			unsigned int choice=choosefrom(tmp);	//tmp+1
-			//if(choice!=tmp+1){
-			if( player[buf[i]].getMoney() >= player[buf[i]].GetProvinceCardCost(choice) ){
-				player[buf[i]].buyAndUse(choice);
-				cout << " ($) Transaction succesful!" << endl;
+			cout << " - Type " << tmp+1 << " to pass this phase " << endl;
+			unsigned int choice=choosefrom(tmp+1);
+			if(choice!=tmp+1){
+				if( player[buf[i]].getMoney() >= player[buf[i]].GetProvinceCardCost(choice) ){
+					player[buf[i]].buyAndUse(choice);
+					cout << " ($) Transaction succesful!" << endl;
+					break;
+				}
+				else{
+					#ifdef UI
+			    	uiClear();
+					#endif
+					cout << " > Not enough money please try something else or pass" << endl;
+				}
 			}
 			else{
-				#ifdef UI
-		    	system("clear");
-				#endif
-				cout << " > Not enough money please try something else or pass" << endl;
+				cout << " > Phase passed!" << endl;
+				break;
 			}
-			//}
-			//else{
-			//	cout << " > Phase passed!" << endl;
-			//	break;
-			//}
 		}
 		#ifdef UI
-		cin.clear();
-		cin.ignore(numeric_limits<streamsize>::max(), '\n');
     	cout << " > Phase Ended for Player " << i+1 << " : Press Enter key to continue" << endl;
-		cin.get();
+		pause();
 		#endif
 	}
 }
@@ -385,7 +453,7 @@ void GameBoard::finalPhase(){
 	#endif
 	for(unsigned int i=0; i<player_amount; i++){
 		#ifdef UI
-		system("clear");
+		uiClear();
 		cout << " ================================================ " << endl;
 		cout << "                    Final Phase                   " << endl;
 		cout << " ================================================ " << endl;
@@ -399,19 +467,17 @@ void GameBoard::finalPhase(){
 		cout << endl;
 		player[buf[i]].printProvinces();
 		cout << endl;
-		player[buf[i]].printArena(); // TO CHANGE ptrint attack force ?
+		player[buf[i]].printArmy(); // TO CHANGE ptrint attack force ?
 		cout << endl;
 		player[buf[i]].printHoldings();
 		cout << endl;
 		#ifdef UI
-    	cout << " > Phase ended for Player " << i+1 << " : Press Enter key to continue" << endl;
-    	cin.clear(); 
-    	cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		cin.get();
+    	cout << " > Phase ended for Player " << i+1 << " : Press Enter key to continue" << endl;	
+    	pause();
 		#endif
 	}
 	#ifdef UI
-	system("clear");
+	uiClear();
 	#endif
 	cout << " > Round ended: Printing Game Statistics..." << endl << endl;
 	printGameStatistics();
@@ -421,7 +487,7 @@ void GameBoard::finalPhase(){
 	cout << " ================================================ " << endl;
 	#ifdef UI
 	cout << " > Press Enter key to start next game Round:" << endl;
-	cin.get();
+	pause();
 	#endif
 }
 
@@ -443,4 +509,37 @@ bool GameBoard::checkWinningCondition(unsigned int i){
 		}
 	}
 	return 0;
+}
+
+void SplashScreen2(){
+	uiClear();
+	cout << endl;
+	cout << "   `,.      .   .        *   .    .      .  _    ..          ." << endl;
+	cout << "     ,~-.         *           .    .       ))       *    ." << endl;
+	cout << "            *          .   .   |    *  . .  ~    .      .  .  ," << endl;
+	cout << " ,           `-.  .            :               *           ,-" << endl;
+	cout << " -             `-.         *._/_\\_.       .       .   ,-'" << endl;
+	cout << " -                 `-_.,      |n|     .      .       ;" << endl;
+	cout << "    -                    \\ ._/_._\\_.  .          . ,'         ," << endl;
+	cout << "     -                    `-.|.n.|      .   ,-.__,'         -" << endl;
+	cout << "      -                   ._/_,_,_\\_.    ,-'              -" << endl;
+	cout << "      -                     |..n..|-`'-'                -" << endl;
+	cout << "       -                 ._/_,_,_,_\\_.                 -" << endl;
+	cout << "         -               ,-|...n...|                  -" << endl;
+	cout << "           -         ,-'._/_,_,_,_,_\\_.              -" << endl;
+	cout << "             -  ,-=-'     |....n....|              -" << endl;
+	cout << "              -;       ._/_,_,_,_,_,_\\_.         -" << endl;
+	cout << "             ,-          |.....n.....|          -" << endl;
+	cout << "           ,;         ._/_,_,_,_,_,_,_\\_.         -" << endl;
+	cout << "  `,  '.  `.   .  `,  '.| n   ,-.   n |  ,  `.  `,  '.  `,  '," << endl;
+	cout << ",.:;..;;..;;.,:;,.;:,o__|__o !.|.! o__|__o;,.:;.,;;,,:;,.:;,;;:" << endl;
+	cout << " ][  ][  ][  ][  ][  |_i_i_H_|_|_|_H_i_i_|  ][  ][  ][  ][  ][" << endl;
+	cout << "                     |     //=====/\\     |" << endl;
+	cout << "                     |____//=======/\\____|" << endl;
+	cout << "                         //=========/\\    " << endl;
+	cout << "\t\t    ~~~ Art by Glory Moon ~~~" << endl << endl;
+
+	cout << "\t\t  Press Enter key to continue" << endl;
+	pause();
+	uiClear();
 }

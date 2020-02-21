@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <iostream>
 #include "Holding.hpp"
 
@@ -11,7 +12,11 @@ void Holding::print()const{
 }
 
 int Holding::getMineType(){
-	return isMine;
+	if(isMine==0){ return 0; }
+	else if(harvestValue==3){ return 1; }
+	else if(harvestValue==5){ return 2; }
+	else if(harvestValue==10){ return 3; }
+	else{ return -1; }
 }
 
 void Holding::chain(Holding *target){
@@ -26,14 +31,29 @@ void Holding::chain(Holding *target){
 
 		if(target->upperHolding!=NULL){ // full chain complete
 			upperHolding->harvestValue=(upperHolding->harvestValue-5)*2;
-			upperHolding->upperHolding->harvestValue=(upperHolding->upperHolding->harvestValue/2)*3;
+			upperHolding->upperHolding->harvestValue=upperHolding->upperHolding->harvestValue/2*3;
 		}
 		else{ // chain with gold mine only
 			upperHolding->harvestValue=upperHolding->harvestValue+4;
 		}
 	}
 	else if(type==2){ // Gold Mine
-		target->chain(this);
+		if(target->getMineType()==1){ // chain to a mine
+			subHolding=target;
+			target->upperHolding=this;
+
+			// Handle chain income benefits
+			harvestValue=harvestValue+4;
+			subHolding->harvestValue=subHolding->harvestValue+2;
+		}
+		else{ // chain to a crystal mine
+			upperHolding=target;
+			target->subHolding=this;
+
+			// Handle chain income benefits
+			harvestValue=harvestValue+5;
+			upperHolding->harvestValue=upperHolding->harvestValue*2;
+		}
 	}
 	else if(type==3){ // Crystal Mine
 		subHolding=target;
@@ -111,7 +131,7 @@ GoldMine::GoldMine(const string n){
 	cost=7;
 	isTapped=0;
 
-	isMine=2;
+	isMine=1;
 	isRevealed=0;
 
 	harvestValue=5;
@@ -124,7 +144,7 @@ CrystalMine::CrystalMine(const string n){
 	cost=12;
 	isTapped=0;
 
-	isMine=3;
+	isMine=1;
 	isRevealed=0;
 
 	harvestValue=10;

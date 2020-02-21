@@ -48,11 +48,12 @@
 #define NO_NINJATO        2
 #define NO_WAKIZASHI      1
 
-class DeckBuilder
-{
+class DeckBuilder {
+	
 	private:
 		std::list<GreenCard*>* green;
 		std::list<BlackCard*>* black;
+
 	public:
 		DeckBuilder();
 		~DeckBuilder();

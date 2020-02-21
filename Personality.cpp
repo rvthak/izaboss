@@ -13,17 +13,6 @@ Personality::~Personality(){
 		delete (*iti);
 }
 
-void Personality::usedItems(){
-	list<Item *>::iterator itm;
-	for(itm = items.begin(); itm != items.end(); itm++){
-		if( (*itm)->loseDurability() ){
-			items.remove(*itm);
-			delete *itm;
-			itm=items.begin();
-		}
-	}
-}
-
 unsigned int Personality::followerAmount(){
 	unsigned int count=0;
 	list<Follower *>::iterator flr;
@@ -40,6 +29,49 @@ unsigned int Personality::itemAmount(){
 		count++;
 	}
 	return count;
+}
+
+void Personality::damage(){
+	list<Item *>::iterator iti;
+
+	// Personality loses honnor
+	honour--;
+
+	// Items lose durability
+	for(iti = items.begin(); iti != items.end(); iti++){
+		if( (*iti)->loseDurability() ){ // durability reaches 0 => detach
+			cout << " (!) Item destroyed..." << endl;
+			items.remove(*iti);
+			(*iti)->detach();
+			iti=items.begin();
+		}
+	}
+}
+
+void Personality::performSeppuku(){
+	list<Follower *>::iterator itf;
+	list<Item *>::iterator iti;
+
+	// Personality dies
+	isDead=1;
+
+	// detach followers
+	for(itf = followers.begin(); itf != followers.end(); itf++){
+		followers.remove(*itf);
+		(*itf)->detach();
+		itf=followers.begin();
+		
+	}
+
+	// detach items
+	for(iti = items.begin(); iti != items.end(); iti++){
+		items.remove(*iti);
+		(*iti)->detach();
+		iti=items.begin();
+		
+	}
+
+	delete this;
 }
 
 void Personality::equip(Follower *f){
@@ -59,53 +91,6 @@ void Personality::print()const{
 	cout<< "\t" << "Attack: "<< attack
 		<< "\n\t" << "Defence: " << defence
 		<< "\n\t" << "Honour: " << honour<<endl;
-}
-
-void Personality::printFull(){
-	cout<<"Personality Card: ";
-	BlackCard::print();
-	cout<< "\t"<<"Attack: "<< attack
-		<< "\n\t" << "Defence: " <<defence
-		<< "\n\t" << "Honour: " << honour
-		<< "\n\t" << "Followers: ";
-	
-	int i=0;
-	if(followers.begin()==followers.end()){
-		cout<<"NONE\n\t";
-	}else{
-		cout<<endl;
-		list<Follower *>::iterator itf;
-		for(itf = followers.begin();itf != followers.end();itf++){
-			i++;
-			cout<< "\t\t" << i << ".";
-			(*itf)->print();
-		}
-	}
-	cout<<"\n\tItems: ";
-	if(items.begin()==items.end()){
-		cout<<"NONE"<<endl;
-	}else{
-		cout<<endl;
-		list<Item *>::iterator iti;
-		i=0;
-		for(iti = items.begin();iti != items.end();iti++){
-			i++;
-			cout<< "\t\t" << i << ".";
-			(*iti)->print();
-		}
-	}
-
-}
-
-void Personality::follower_cas(unsigned int limit){
-	list<Follower *>::iterator itf;
-	for(itf = followers.begin();itf != followers.end();itf++){
-		if((*itf)->getAttackBonus()>=limit){
-			followers.remove(*itf);
-			delete *itf;
-			itf = followers.begin();
-		}
-	}
 }
 
 Attacker::Attacker(const string n){
