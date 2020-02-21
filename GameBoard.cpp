@@ -96,7 +96,7 @@ void GameBoard::gameplay(){
 	// Main game loop
 	while(running){
 		startingPhase();
-		//equipPhase();
+		equipPhase();
 		//battlePhase();
 		if(!running){break;}
 		economyPhase();
@@ -161,6 +161,10 @@ void GameBoard::equipPhase(){
 
 			while(getDesision(" > Do you want continue on transactions(y) or pass(n)? (y/n)")){
 				// Get user input for the requested move
+				if(player[buf[i]].HandCardsNo()==0){
+					cout<<"You don't have any cards on your hand!"<<endl;
+					break;
+				}
 				cout << " > Please choose a card from your hand:" << endl;
 				unsigned int handCard = choosefrom(player[buf[i]].HandCardsNo());
 
@@ -330,7 +334,7 @@ void GameBoard::economyPhase(){
 		cout << " ================================================ " << endl;
 		#endif
 		cout << endl << " > Player " << i+1 << "'s turn: " << endl;	
-		while(1){
+		while(getDesision(" > Do you want continue on transactions(y) or pass(n)? (y/n)")){
 			// Print his army and holdings
 			player[buf[i]].printArmy();
 			cout << endl;
@@ -346,25 +350,24 @@ void GameBoard::economyPhase(){
 			unsigned int tmp=player[buf[i]].GetProvinceAmount();
 			cout << " > Choose one of the available options:" << endl;
 			cout << " - Province number to choose it [1, " << tmp << "]" << endl;
-			cout << " - Type " << tmp+1 << " to pass this phase " << endl;
-			unsigned int choice=choosefrom(tmp+1);
-			if(choice!=tmp+1){
-				if( player[buf[i]].getMoney() >= player[buf[i]].GetProvinceCardCost(choice) ){
-					player[buf[i]].buyAndUse(choice);
-					cout << " ($) Transaction succesful!" << endl;
-					break;
-				}
-				else{
-					#ifdef UI
-			    	system("clear");
-					#endif
-					cout << " > Not enough money please try something else or pass" << endl;
-				}
+			//cout << " - Type " << tmp+1 << " to pass this phase " << endl;
+			unsigned int choice=choosefrom(tmp);	//tmp+1
+			//if(choice!=tmp+1){
+			if( player[buf[i]].getMoney() >= player[buf[i]].GetProvinceCardCost(choice) ){
+				player[buf[i]].buyAndUse(choice);
+				cout << " ($) Transaction succesful!" << endl;
 			}
 			else{
-				cout << " > Phase passed!" << endl;
-				break;
+				#ifdef UI
+		    	system("clear");
+				#endif
+				cout << " > Not enough money please try something else or pass" << endl;
 			}
+			//}
+			//else{
+			//	cout << " > Phase passed!" << endl;
+			//	break;
+			//}
 		}
 		#ifdef UI
 		cin.clear();
@@ -396,7 +399,7 @@ void GameBoard::finalPhase(){
 		cout << endl;
 		player[buf[i]].printProvinces();
 		cout << endl;
-		player[buf[i]].printArmy(); // TO CHANGE ptrint attack force ?
+		player[buf[i]].printArena(); // TO CHANGE ptrint attack force ?
 		cout << endl;
 		player[buf[i]].printHoldings();
 		cout << endl;

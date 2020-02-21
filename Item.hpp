@@ -11,6 +11,7 @@ class Item : public GreenCard
 		int loseDurability(){ durability--; return (durability==0); }
 		unsigned int getDurability();
 		virtual int getType()const{ return 4; }
+		void print()const;
 	protected:
 		unsigned int durability;
 };

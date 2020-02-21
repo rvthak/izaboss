@@ -123,6 +123,19 @@ void Player::printArmy(){
 		i++;
 	}
 }
+
+void Player::printArena(){
+	list<Personality *>::iterator ita;
+	int i=1;
+	cout<<"\t\t<> Cards on Army: ";
+	if( army.begin()==army.end() ){ cout << "NONE" << endl; return;}
+	for(ita = army.begin(); ita != army.end(); ita++){
+		cout << endl << " " << i << ".";
+		(*ita)->printFull();
+		i++;
+	}
+}
+
 void Player::printProvinces(){
 	cout<<"\t\t<> Provinces available:"<<endl;
 	int i=1;
@@ -494,12 +507,15 @@ void Player::destroyProvince(unsigned int pno){
 
 void Player::dcasualties(unsigned int limit){
 	list<Personality *>::iterator ita;
-	for(ita = army.begin(); ita != army.end();ita++)
+	for(ita = army.begin(); ita != army.end();ita++){
 		if(!((*ita)->tapped()) && (*ita)->getAttack()>=limit){
 			army.remove(*ita);
 			delete *ita;
 			ita = army.begin();
 		}
+		if(!((*ita)->tapped()))
+			(*ita)->follower_cas(limit);
+	}
 }
 
 void Player::celebrate(){
@@ -514,12 +530,14 @@ void Player::celebrate(){
 
 void Player::acasualties(unsigned int limit){
 	list<Personality *>::iterator ita;
-	for(ita = attackForce.begin(); ita != attackForce.end();ita++)
+	for(ita = attackForce.begin(); ita != attackForce.end();ita++){
 		if((*ita)->getAttack()>=limit){
 			attackForce.remove(*ita);
 			delete *ita;
 			ita = attackForce.begin();
 		}
+		(*ita)->follower_cas(limit);
+	}
 }
 
 unsigned int Player::GetProvinceCardCost(unsigned int pno){

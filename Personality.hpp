@@ -31,6 +31,9 @@ class Personality : public BlackCard
 		void equip(Item *i);
 
 		void print()const;
+		void printFull();
+
+		void follower_cas(unsigned int);
 		
 		virtual int getType()const{ return 1; }
     
