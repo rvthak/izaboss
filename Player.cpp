@@ -359,16 +359,8 @@ void Player::pay_cost(int cost){
 				if((*ith)->hasUpper()){
 					i++;
 					if(i>=index){
-						if( !((*ith)->getUpperHolding()->tapped()) ){
-							h= (*ith)->getUpperHolding();
-							break;
-						}
-						else{
-							cout << " > This Card is already tapped. Choose another:" << endl;
-							flag=1;
-							break;
-						}
-						
+						h= (*ith)->getUpperHolding();
+						break;
 					}
 				}
 			
@@ -387,17 +379,22 @@ void Player::pay_cost(int cost){
 				}
 			}
 
-			if(!flag){
+			if(h->tapped())
+				cout<<"You can't use the same card to pay your debt!"<<endl;
+			else{
 				cout << " ($) Payed using Holding!" << endl;
 				cost -= h->getHarvestValue();
 				h->tap();
 			}
-			
 		}
 		else{
-			cout << " ($) Payed using stronghold!" << endl;
-			cost -= stronghold.getMoney();
-			stronghold.tap();
+			if(stronghold.tapped())
+				cout<<" (!) Stronghold income arleady used can't use it again"<<endl;
+			else{
+				cout << " ($) Payed using stronghold!" << endl;
+				cost -= stronghold.getMoney();
+				stronghold.tap();
+			}
 		}
 	}
 }
@@ -629,7 +626,7 @@ void Player::ChainCreation(Holding *nhold){
 			if(toChain==NULL)
 				holdings.push_back(nhold);
 			else
-				toChain->chain(nhold);
+				nhold->chain(toChain);
 			break;
 		}
 		case 2:{
@@ -696,14 +693,17 @@ void Player::ChainCreation(Holding *nhold){
 					}
 			if(toChain2==NULL && toChain==NULL)
 				holdings.push_back(nhold);
-			else if(toChain2==NULL && toChain!=NULL)
+			else if(toChain2==NULL && toChain!=NULL){
 				nhold->chain(toChain);
+				holdings.push_back(nhold);
+				holdings.remove(toChain);
+			}
 			break;
 		}
 		case 3:{
 			for(ith = holdings.begin(); ith != holdings.end(); ith++)
 				if((*ith)->getMineType()==2){
-					if(!(*ith)->hasUpper() && (*ith)->hasSub()){
+					if(!((*ith)->hasUpper()) && (*ith)->hasSub()){
 						toChain = *ith;
 						break;
 					}
@@ -717,7 +717,7 @@ void Player::ChainCreation(Holding *nhold){
 			if(toChain==NULL)
 				holdings.push_back(nhold);
 			else
-				toChain->chain(nhold);
+				nhold->chain(toChain);
 			break;
 		}
 	}
@@ -729,7 +729,8 @@ void Player::discardSurplusFateCards(){
 		if(hand[i]!=NULL)
 			k++;
 	if(k==7){
-		k=choosefrom(7);
+		printHand();
+		k=choosefrom(7)-1;
 		delete hand[k];
 		hand[k]=NULL;
 	}
