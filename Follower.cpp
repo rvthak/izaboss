@@ -23,7 +23,7 @@ Footsoldier::Footsoldier(const string n){
 	min_honour=1;
 	effectBonus=1;
 	effectCost=2;
-	cardText=""; 
+	cardText="Each scar teaches him more than a library"; 
 }
 
 Archer::Archer(const string n){
@@ -35,7 +35,7 @@ Archer::Archer(const string n){
 	min_honour=1;
 	effectBonus=1;
 	effectCost=2;
-	cardText="";
+	cardText="Precise and effective on defending the province from long distances";
 }
 
 Cavalry::Cavalry(const string n){
@@ -47,7 +47,7 @@ Cavalry::Cavalry(const string n){
 	min_honour=3;
 	effectBonus=3;
 	effectCost=4;
-	cardText="";
+	cardText="Dont worry tha Cavalry is here";
 }
 
 Bushido::Bushido(const string n){
@@ -59,7 +59,7 @@ Bushido::Bushido(const string n){
 	min_honour=6;
 	effectBonus=3;
 	effectCost=8;
-	cardText="";
+	cardText="The way of the samurai";
 }
 
 Sieger::Sieger(const string n){
@@ -71,7 +71,7 @@ Sieger::Sieger(const string n){
 	min_honour=2;
 	effectBonus=2;
 	effectCost=3;
-	cardText="";
+	cardText="CHAAAAARGE";
 }
 
 Atakebune::Atakebune(const string n){
@@ -83,5 +83,5 @@ Atakebune::Atakebune(const string n){
 	min_honour=3;
 	effectBonus=3;
 	effectCost=4;
-	cardText="";
+	cardText="Their structure above the surface is fully covered by iron,and they are worth admiring";
 }
