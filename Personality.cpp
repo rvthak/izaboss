@@ -134,7 +134,7 @@ void Personality::follower_cas(unsigned int limit){
 	for(itf = followers.begin();itf != followers.end();itf++){
 		if((*itf)->getAttackBonus()>=limit){
 			followers.remove(*itf);
-			delete *itf;
+			(*itf)->detach();
 			itf = followers.begin();
 		}
 	}
