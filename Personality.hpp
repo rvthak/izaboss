@@ -12,9 +12,10 @@ class Personality : public BlackCard {
 		Personality(){}
 		~Personality();
 
-		void damage();			// Damage the personality (reduce honour + damage items)
-		void performSeppuku();	// Personality kills itself (deletes personality)
-
+		void damage();			 // Damage the personality (reduce honour + damage items)
+		void performSeppuku();		 // Personality kills itself (deletes personality)
+		void follower_cas(unsigned int); // Upon Victory with casualties some followers get casted away
+	
 		// Basic getters
 		unsigned int getAttack()const{ return attack; }
 		unsigned int getDefence()const{ return defence; }
@@ -32,6 +33,9 @@ class Personality : public BlackCard {
 		// Equip the parameter item/follower 
 		void equip(Item *i);
 		void equip(Follower *f);
+	
+		// Print Personality ( ! including equipped Items and followers )
+		void printFull();
 
 		virtual void print()const;
 		virtual int getType()const{ return 1; }
