@@ -38,7 +38,7 @@ class Holding : public BlackCard {
 		virtual int getType()const{ return 2; }
 
 	protected:
-		int isMine;					// Depending on its value it indicates if a card is a mine + its exact type
+		unsigned int isMine;		// Depending on its value it indicates if a card is a mine + its exact type
 		unsigned int harvestValue;	// The harvest value of the holding
 		Holding *upperHolding;		// For mines only: its upper chain
 		Holding *subHolding;		// For mines only: its lower chain
