@@ -1,6 +1,7 @@
+#include <cstdlib>
 #include <string.h>
-#include "ui.hpp"
 #include <iostream>
+#include "ui.hpp"
 
 using namespace std;
 
@@ -29,7 +30,6 @@ void uiClear(){
 		uiInit();
 	}
 	// make the system call to clear the screen
-
 	system(param);
 }
 
