@@ -18,6 +18,7 @@ public:
 	void printHand();
 	void printProvinces();
 	void printArmy();
+	void printArena();
 	void printTapArmy();
 	void printUntappedArmy();
 	void printHoldings();

@@ -31,7 +31,7 @@ class Holding : public BlackCard
 		int getMineType();
 
 	protected:
-		bool isMine;
+		unsigned int isMine;
 		unsigned int harvestValue;
 		Holding *upperHolding;
 		Holding *subHolding;

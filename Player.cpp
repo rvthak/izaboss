@@ -123,6 +123,19 @@ void Player::printArmy(){
 		i++;
 	}
 }
+
+void Player::printArena(){
+	list<Personality *>::iterator ita;
+	int i=1;
+	cout<<"\t\t<> Cards on Army: ";
+	if( army.begin()==army.end() ){ cout << "NONE" << endl; return;}
+	for(ita = army.begin(); ita != army.end(); ita++){
+		cout << endl << " " << i << ".";
+		(*ita)->printFull();
+		i++;
+	}
+}
+
 void Player::printProvinces(){
 	cout<<"\t\t<> Provinces available:"<<endl;
 	int i=1;
@@ -344,17 +357,10 @@ void Player::pay_cost(int cost){
 				if((*ith)->hasUpper()){
 					i++;
 					if(i>=index){
-						if( !((*ith)->getUpperHolding()->tapped()) ){
-							h= (*ith)->getUpperHolding();
-							break;
-						}
-						else{
-							cout << " > This Card is already tapped. Choose another:" << endl;
-							flag=1;
-							break;
-						}
-						
+						h= (*ith)->getUpperHolding();
+						break;
 					}
+
 				}
 			
 				i++;
@@ -371,18 +377,22 @@ void Player::pay_cost(int cost){
 					}
 				}
 			}
-
-			if(!flag){
+			if(h->tapped())
+				cout<<"You can't use the same card to pay your debt!"<<endl;
+			else{
 				cout << " ($) Payed using Holding!" << endl;
 				cost -= h->getHarvestValue();
 				h->tap();
-			}
-			
+			}	
 		}
 		else{
-			cout << " ($) Payed using stronghold!" << endl;
-			cost -= stronghold.getMoney();
-			stronghold.tap();
+			if(stronghold.tapped())
+				cout<<"Stronghold income arleady used can't use it again"<<endl;
+			else{
+				cout << " ($) Payed using stronghold!" << endl;
+				cost -= stronghold.getMoney();
+				stronghold.tap();
+			}
 		}
 	}
 }
@@ -497,12 +507,15 @@ void Player::destroyProvince(unsigned int pno){
 
 void Player::dcasualties(unsigned int limit){
 	list<Personality *>::iterator ita;
-	for(ita = army.begin(); ita != army.end();ita++)
+	for(ita = army.begin(); ita != army.end();ita++){
 		if(!((*ita)->tapped()) && (*ita)->getAttack()>=limit){
 			army.remove(*ita);
 			delete *ita;
 			ita = army.begin();
 		}
+		if(!((*ita)->tapped()))
+			(*ita)->follower_cas(limit);
+	}
 }
 
 void Player::celebrate(){
@@ -517,12 +530,14 @@ void Player::celebrate(){
 
 void Player::acasualties(unsigned int limit){
 	list<Personality *>::iterator ita;
-	for(ita = attackForce.begin(); ita != attackForce.end();ita++)
+	for(ita = attackForce.begin(); ita != attackForce.end();ita++){
 		if((*ita)->getAttack()>=limit){
 			attackForce.remove(*ita);
 			delete *ita;
 			ita = attackForce.begin();
 		}
+		(*ita)->follower_cas(limit);
+	}
 }
 
 unsigned int Player::GetProvinceCardCost(unsigned int pno){
@@ -583,7 +598,7 @@ void Player::ChainCreation(Holding *nhold){
 			if(toChain==NULL)
 				holdings.push_back(nhold);
 			else
-				toChain->chain(nhold);
+				nhold->chain(toChain);
 			break;
 		}
 		case 2:{
@@ -603,6 +618,7 @@ void Player::ChainCreation(Holding *nhold){
 								nhold->chain(toChain2);
 								holdings.remove(toChain);
 								holdings.remove(toChain2);
+								holdings.push_back(nhold);
 								break;
 							}else{
 								flag = 1;
@@ -650,14 +666,17 @@ void Player::ChainCreation(Holding *nhold){
 					}
 			if(toChain2==NULL && toChain==NULL)
 				holdings.push_back(nhold);
-			else if(toChain2==NULL && toChain!=NULL)
+			else if(toChain2==NULL && toChain!=NULL){
 				nhold->chain(toChain);
+				holdings.push_back(nhold);
+				holdings.remove(toChain);
+			}
 			break;
 		}
 		case 3:{
 			for(ith = holdings.begin(); ith != holdings.end(); ith++)
 				if((*ith)->getMineType()==2){
-					if(!(*ith)->hasUpper() && (*ith)->hasSub()){
+					if(!((*ith)->hasUpper()) && (*ith)->hasSub()){
 						toChain = *ith;
 						break;
 					}
@@ -671,7 +690,7 @@ void Player::ChainCreation(Holding *nhold){
 			if(toChain==NULL)
 				holdings.push_back(nhold);
 			else
-				toChain->chain(nhold);
+				nhold->chain(toChain);
 			break;
 		}
 	}
@@ -683,7 +702,8 @@ void Player::discardSurplusFateCards(){
 		if(hand[i]!=NULL)
 			k++;
 	if(k==7){
-		k=choosefrom(7);
+		printHand();
+		k=choosefrom(7)-1;
 		delete hand[k];
 		hand[k]=NULL;
 	}
