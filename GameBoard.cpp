@@ -162,6 +162,12 @@ void GameBoard::equipPhase(){
 			cout << endl << " ($) Player money: " << player[buf[i]].getMoney() << endl << endl;
 
 			while(getDesision(" > Do you want continue on transactions(y) or pass(n)? (y/n)")){
+				// Check if he has any cards in his hand to use
+				if(player[buf[i]].HandCardsNo()==0){
+					cout<<"You don't have any cards on your hand!"<<endl;
+					break;
+				}
+				
 				// Get user input for the requested move
 				cout << " > Please choose a card from your hand:" << endl;
 				unsigned int handCard = choosefrom(player[buf[i]].HandCardsNo());
@@ -424,24 +430,18 @@ void GameBoard::economyPhase(){
 			unsigned int tmp=player[buf[i]].GetProvinceAmount();
 			cout << " > Choose one of the available options:" << endl;
 			cout << " - Province number to choose it [1, " << tmp << "]" << endl;
-			cout << " - Type " << tmp+1 << " to pass this phase " << endl;
-			unsigned int choice=choosefrom(tmp+1);
-			if(choice!=tmp+1){
-				if( player[buf[i]].getMoney() >= player[buf[i]].GetProvinceCardCost(choice) ){
-					player[buf[i]].buyAndUse(choice);
-					cout << " ($) Transaction succesful!" << endl;
-					break;
-				}
-				else{
-					#ifdef UI
-			    	uiClear();
-					#endif
-					cout << " > Not enough money please try something else or pass" << endl;
-				}
+			
+			unsigned int choice=choosefrom(tmp);
+
+			if( player[buf[i]].getMoney() >= player[buf[i]].GetProvinceCardCost(choice) ){
+				player[buf[i]].buyAndUse(choice);
+				cout << " ($) Transaction succesful!" << endl;
 			}
 			else{
-				cout << " > Phase passed!" << endl;
-				break;
+				#ifdef UI
+		    		pause();
+				#endif
+				cout << " > Not enough money please try something else or pass" << endl;
 			}
 		}
 		#ifdef UI
@@ -472,7 +472,7 @@ void GameBoard::finalPhase(){
 		cout << endl;
 		player[buf[i]].printProvinces();
 		cout << endl;
-		player[buf[i]].printArmy(); // TO CHANGE ptrint attack force ?
+		player[buf[i]].printArena();
 		cout << endl;
 		player[buf[i]].printHoldings();
 		cout << endl;
