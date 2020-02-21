@@ -12,11 +12,7 @@ void Holding::print()const{
 }
 
 int Holding::getMineType(){
-	if(isMine==0){ return 0; }
-	else if(harvestValue==3){ return 1; }
-	else if(harvestValue==5){ return 2; }
-	else if(harvestValue==10){ return 3; }
-	else{ return -1; }
+	return isMine;
 }
 
 void Holding::chain(Holding *target){
