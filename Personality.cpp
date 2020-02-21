@@ -42,6 +42,7 @@ void Personality::damage(){
 		if( (*iti)->loseDurability() ){ // durability reaches 0 => detach
 			cout << " (!) Item destroyed..." << endl;
 			items.remove(*iti);
+			this->removeBuffs(*iti);
 			(*iti)->detach();
 			iti=items.begin();
 		}
@@ -134,9 +135,32 @@ void Personality::follower_cas(unsigned int limit){
 	for(itf = followers.begin();itf != followers.end();itf++){
 		if((*itf)->getAttackBonus()>=limit){
 			followers.remove(*itf);
+			this->removeBuffs(*itf);
 			(*itf)->detach();
 			itf = followers.begin();
 		}
+	}
+}
+
+void Personality::removeBuffs(Follower *f){
+	if(f->checkUpgraded()){
+		attack-= (f->getAttackBonus() + f->getEffectBonus());
+		defence-= (f->getDefenceBonus()+ f->getEffectBonus());
+	}
+	else{
+		attack-= f->getAttackBonus();
+		defence-= f->getDefenceBonus();
+	}
+}
+
+void Personality::removeBuffs(Item *it){
+	if(it->checkUpgraded()){
+		attack-= (it->getAttackBonus() + it->getEffectBonus());
+		defence-= (it->getDefenceBonus()+ it->getEffectBonus());
+	}
+	else{
+		attack-= it->getAttackBonus();
+		defence-= it->getDefenceBonus();
 	}
 }
 
