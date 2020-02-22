@@ -70,7 +70,7 @@ void GameBoard::printGameStatistics(){
 	print(); // Print the game board state/stats
 
 	// Print each player's stats 
-	cout << "   _Player_        Provinces      Attack      Defence      Current Income      Holdings" << endl;
+	cout << "   _Player_        Provinces    Holdings   Attack      Defence      Potential Income   Money Left  " << endl;
 	for(unsigned int j=0; j<player_amount; j++){
 		cout << " " << j+1 << ". Player " << j+1 << ": "
 		<< "         " << player[buf[j]].GetProvinceAmount()
@@ -78,6 +78,8 @@ void GameBoard::printGameStatistics(){
 		<< "            "<< player[buf[j]].getPlayerDefence()
 		<< "               "<< player[buf[j]].getMoney()
 		<< "               "<< player[buf[j]].HoldingCardsNo()
+		<< "\t\t   "<< player[buf[j]].getPlayerManPower()
+		<< "\t\t\t     "<< player[buf[j]].getPotentialIncome()
 		<< endl;
 	}
 }
