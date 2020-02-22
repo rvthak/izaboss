@@ -82,7 +82,9 @@ void SplashScreen(){
 	cout << " --'           / |__________________________________| \\" << endl;
 
 	cout << "\t\t      ~~~ Art by Glory Moon ~~~" << endl << endl;
-
+	cout << "\t\t   ~ The Legend of the five rings ~" << endl;
+	cout << "\t\t          5つのリングの伝説 " << endl << endl;
+	//cout << "\t\t   o       o       o       o       o" << endl << endl;
 	cout << "\t\t    Press Enter key to get started" << endl;
 	pause();
 	uiClear();

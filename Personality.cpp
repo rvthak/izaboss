@@ -5,12 +5,18 @@
 using namespace std;
 
 Personality::~Personality(){
+	// Personality dies
+	isDead=1;
+
+	// detach followers
 	list<Follower *>::iterator itf;
 	for(itf = followers.begin(); itf !=followers.end();itf++)
-		delete(*itf);
+		(*itf)->detach();
+
+	// detach items
 	list<Item *>::iterator iti;
 	for(iti = items.begin(); iti != items.end();iti++)
-		delete (*iti);
+		(*iti)->detach();
 }
 
 unsigned int Personality::followerAmount(){
@@ -50,28 +56,6 @@ void Personality::damage(){
 }
 
 void Personality::performSeppuku(){
-	list<Follower *>::iterator itf;
-	list<Item *>::iterator iti;
-
-	// Personality dies
-	isDead=1;
-
-	// detach followers
-	for(itf = followers.begin(); itf != followers.end(); itf++){
-		followers.remove(*itf);
-		(*itf)->detach();
-		itf=followers.begin();
-		
-	}
-
-	// detach items
-	for(iti = items.begin(); iti != items.end(); iti++){
-		items.remove(*iti);
-		(*iti)->detach();
-		iti=items.begin();
-		
-	}
-
 	delete this;
 }
 

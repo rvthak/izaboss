@@ -428,7 +428,8 @@ void Player::buyAndAssign(unsigned int hno, unsigned int ano){
 	}
 
 	// Give the player the info needed to take further decisions
-	cout << endl << " ($) Player money: " << getMoney() << endl;
+	cout << endl << " (i) Upgrade boosts unit's Attack and Defense by: " << hand[j-1]->getEffectBonus() << endl;
+	cout << " ($) Player money: " << getMoney() << endl;
 	cost = hand[j-1]->getEffectCost();
 	cout << " ($) Upgrade Cost: " << cost << endl;
 
@@ -479,10 +480,10 @@ void Player::pay_cost(int cost){
 		#ifdef UI
 		uiClear();
 		#endif
-		cout << " (!) Transaction screen:" << endl << endl;
+		cout << endl << "\t ~ ~ ~ ($) Transaction screen ($) ~ ~ ~" << endl << endl << endl;
 		printTapHoldings();
 		cout << endl;
-		cout << " > Choose a Card to use for payment: " << endl;
+		cout << endl << " > Choose a Card to use for payment: " << endl;
 		cout << " (!) The machine gives no change (!) => choose wisely" << endl;
 		if(!stronghold.tapped()){
 			cout << " > Type the number of the holding you want to use:" << endl;
@@ -694,6 +695,9 @@ void Player::returnHome(){
 		army.push_back(*ita);
 		attackForce.remove(*ita);
 		ita = attackForce.begin();
+	}
+	if(attackForce.begin()==attackForce.end() ){
+		cout << " > Attack force successfully returned home" << endl;
 	}
 }
 
