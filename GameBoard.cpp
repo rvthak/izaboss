@@ -79,6 +79,7 @@ void GameBoard::printGameStatistics(){
 		<< "\t\t   "<< player[buf[j]].getPlayerDefence()
 		<< "\t\t      "<< player[buf[j]].getMoney()
 		<< "\t\t  "<< player[buf[j]].HoldingCardsNo()
+		<< "\t\t\t     "<< player[buf[j]].getPotentialIncome()
 		<< endl;
 	}
 }
