@@ -69,18 +69,12 @@ void GameBoard::printGameStatistics(){
 	}
 	print(); // Print the game board state/stats
 
-	// Print each player's stats 
-	cout << "   _Player_        Provinces    Holdings   Attack      Defence      Potential Income   Money Left  " << endl;
+	// Print each player's stats
+	cout << "   _Player_    Provinces    Holdings    Attack    Defence    Potential Income    Money Left  " << endl;
 	for(unsigned int j=0; j<player_amount; j++){
-		cout << " " << j+1 << ". Player " << j+1 << ": "
-		<< "         " << player[buf[j]].GetProvinceAmount()
-		<< "            "<< player[buf[j]].getPlayerAttack()
-		<< "            "<< player[buf[j]].getPlayerDefence()
-		<< "               "<< player[buf[j]].getMoney()
-		<< "               "<< player[buf[j]].HoldingCardsNo()
-		<< "\t\t   "<< player[buf[j]].getPlayerManPower()
-		<< "\t\t\t     "<< player[buf[j]].getPotentialIncome()
-		<< endl;
+		printf("%d. Player %d:    %4u        %4u       %4u       %4u            %4u             %4u\n", j+1, j+1,
+		player[buf[j]].GetProvinceAmount(), player[buf[j]].HoldingCardsNo(), player[buf[j]].getPlayerManPower(), 
+		player[buf[j]].getPlayerDefence(), player[buf[j]].getPotentialIncome(), player[buf[j]].getMoney());
 	}
 }
 void GameBoard::print(){
@@ -156,7 +150,7 @@ void GameBoard::equipPhase(){
 		cout << endl << " > Player " << i+1 << "'s turn: " << endl;
 		if( player[buf[i]].getMoney()==0 ){
 			cout << " > Player has no money left. He cannot do any transaction. Moving on.." << endl;
-			break;
+			continue;
 		}
 		if(player[buf[i]].hasArmy()){ // if the player has army
 			
