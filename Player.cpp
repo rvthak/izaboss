@@ -308,6 +308,26 @@ unsigned int Player::getMoney(){
 	return money;
 }
 
+unsigned int Player::getPotentialIncome(){
+	list<Holding *>::iterator ith;
+	Holding *another;
+	unsigned int money;
+	money=stronghold.getMoney();
+
+	for(ith = holdings.begin();ith != holdings.end();ith++){
+		money += (*ith)->getHarvestValue();
+		if((*ith)->hasUpper()){
+			another = (*ith)->getUpperHolding();
+			money += another->getHarvestValue();
+		}
+		if((*ith)->hasSub()){
+			another = (*ith)->getSubHolding();
+			money += another->getHarvestValue();
+		}
+	}
+	return money;
+}
+
 void Player::buyAndAssign(unsigned int hno, unsigned int ano){
 	int j=0;
 	int cost = GetHandCardCost(hno);
@@ -433,6 +453,14 @@ unsigned int Player::ActiveArmyCardsNo(){
 		if(!((*ita)->tapped()))
 			k++;
 	return k;
+}
+
+unsigned int Player::getPlayerManPower(){
+	list<Personality *>::iterator ita;
+	unsigned int sum=0;
+	for(ita = army.begin(); ita != army.end();ita++)
+		sum+=(*ita)->getAttack();
+	return sum;
 }
 
 void Player::AddToAttackForce(unsigned int ano){
