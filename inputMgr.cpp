@@ -8,6 +8,7 @@ using namespace std;
 unsigned int choosefrom(unsigned int n){
 	cout << " > Type a number in [1, " << n << "]" << endl;
 	unsigned int input;
+	cout << " ";
 	cin >> input;
 	if (cin.fail()){
     	cin.clear(); 
@@ -15,6 +16,7 @@ unsigned int choosefrom(unsigned int n){
 	}
 	while(input<1 || input>n){
 		cout << " > Type a number in [1, " << n << "]" << endl;
+		cout << " ";
 		cin >> input;
 		if (cin.fail()){
     		cin.clear(); 
@@ -30,6 +32,7 @@ bool getDesision(const string msg){
 	cout << msg << endl;
 	
 	while(1){
+		cout << " ";
 		cin >> str;
 
 		if (cin.fail()){

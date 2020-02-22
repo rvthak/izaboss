@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <cstdlib>
 #include "ui.hpp"
 #include "inputMgr.hpp"
@@ -69,17 +70,14 @@ void GameBoard::printGameStatistics(){
 	print(); // Print the game board state/stats
 
 	// Print each player's stats 
-	cout << "   Player\tProvinces\tAttack\t\tDefence\t\tCurrent Income\t\tHoldings" << endl;
-	cout << "   _Player_        Provinces  Holdings    Attack      Defence      Potential Income      Money Left " << endl;
+	cout << "   _Player_        Provinces      Attack      Defence      Current Income      Holdings" << endl;
 	for(unsigned int j=0; j<player_amount; j++){
 		cout << " " << j+1 << ". Player " << j+1 << ": "
-		<< "\t    " << player[buf[j]].GetProvinceAmount()
-		<< "\t\t   "<< player[buf[j]].getPlayerAttack()
-		<< "\t\t   "<< player[buf[j]].getPlayerManPower()
-		<< "\t\t   "<< player[buf[j]].getPlayerDefence()
-		<< "\t\t      "<< player[buf[j]].getMoney()
-		<< "\t\t  "<< player[buf[j]].HoldingCardsNo()
-		<< "\t\t\t     "<< player[buf[j]].getPotentialIncome()
+		<< "         " << player[buf[j]].GetProvinceAmount()
+		<< "            "<< player[buf[j]].getPlayerAttack()
+		<< "            "<< player[buf[j]].getPlayerDefence()
+		<< "               "<< player[buf[j]].getMoney()
+		<< "               "<< player[buf[j]].HoldingCardsNo()
 		<< endl;
 	}
 }
@@ -88,7 +86,7 @@ void GameBoard::print(){
 		cout << " > Game Error: Game board not initialized. Terminating print..." << endl;
 		return;
 	}
-	cout << "	- Number of players: " << player_amount << endl;
+	cout << "	<> Number of players: " << player_amount << endl;
 	return;
 }
 void GameBoard::gameplay(){
@@ -154,6 +152,10 @@ void GameBoard::equipPhase(){
 		cout << " ================================================ " << endl;
 		#endif
 		cout << endl << " > Player " << i+1 << "'s turn: " << endl;
+		if( player[buf[i]].getMoney()==0 ){
+			cout << " > Player has no money left. He cannot do any transaction. Moving on.." << endl;
+			break;
+		}
 		if(player[buf[i]].hasArmy()){ // if the player has army
 			
 			// Print his hand and army to allow him to choose his next move
@@ -172,7 +174,7 @@ void GameBoard::equipPhase(){
 				}
 				
 				// Get user input for the requested move
-				cout << " > Please choose a card from your hand:" << endl;
+				cout << " > Please choose a card from your Hand:" << endl;
 				unsigned int handCard = choosefrom(player[buf[i]].HandCardsNo());
 
 				cout << " > Please choose a card from your Army:" << endl;
@@ -206,6 +208,11 @@ void GameBoard::equipPhase(){
 				cout << " ================================================ " << endl;
 				cout << endl << " > Player " << i+1 << "'s turn: " << endl;
 				#endif
+
+				if( player[buf[i]].getMoney()==0 ){
+					cout << " > Player has no money left. He cannot do any transaction. Moving on.." << endl;
+					break;
+				}
 
 				// Print his hand and army to allow him to choose his next move
 				player[buf[i]].printHand();
@@ -416,8 +423,59 @@ void GameBoard::economyPhase(){
 		cout << "                   Economy Phase                  " << endl;
 		cout << " ================================================ " << endl;
 		#endif
-		cout << endl << " > Player " << i+1 << "'s turn: " << endl;	
+		cout << endl << " > Player " << i+1 << "'s turn: " << endl;
+
+		if( player[buf[i]].getMoney()==0 ){
+			cout << " > Player has no money left. He cannot do any transaction. Moving on.." << endl;
+			break;
+		}
+
+		// Print his army and holdings
+		player[buf[i]].printArmy();
+		cout << endl;
+		player[buf[i]].printTapHoldings();
+		cout << endl;
+		// Then print the provinces he can choose from
+		player[buf[i]].printProvinces();
+		cout << endl;
+
+		// Print player's money
+		cout << " ($) Player money: " << player[buf[i]].getMoney() << endl << endl;
+
 		while(getDesision(" > Do you want continue on transactions(y) or pass(n)? (y/n)")){
+
+			unsigned int tmp=player[buf[i]].GetProvinceAmount();
+			cout << " > Choose one of the available provinces to buy:" << endl;
+			cout << " - Province number to choose it [1, " << tmp << "]" << endl;
+			
+			unsigned int choice=choosefrom(tmp);
+
+			if( player[buf[i]].ProvinceHidden(choice) ){
+				cout << " (!) Cant select a hidden Province. Please choose again..." << endl;
+			}
+			else if( player[buf[i]].getMoney() >= player[buf[i]].GetProvinceCardCost(choice) ){
+				player[buf[i]].buyAndUse(choice);
+				cout << " ($) Transaction succesful!" << endl;
+			}
+			else{
+				cout << " > Not enough money please try something else or pass" << endl;
+			}
+
+			#ifdef UI
+			cout << " > Press Enter key to continue" << endl;
+			pause();
+			uiClear();
+			cout << " ================================================ " << endl;
+			cout << "                   Economy Phase                  " << endl;
+			cout << " ================================================ " << endl;
+			cout << endl << " > Player " << i+1 << "'s turn: " << endl;
+			#endif
+
+			if( player[buf[i]].getMoney()==0 ){
+				cout << " > Player has no money left. He cannot do any transaction. Moving on.." << endl;
+				break;
+			}
+
 			// Print his army and holdings
 			player[buf[i]].printArmy();
 			cout << endl;
@@ -429,23 +487,6 @@ void GameBoard::economyPhase(){
 
 			// Print player's money
 			cout << " ($) Player money: " << player[buf[i]].getMoney() << endl << endl;
-
-			unsigned int tmp=player[buf[i]].GetProvinceAmount();
-			cout << " > Choose one of the available options:" << endl;
-			cout << " - Province number to choose it [1, " << tmp << "]" << endl;
-			
-			unsigned int choice=choosefrom(tmp);
-
-			if( player[buf[i]].getMoney() >= player[buf[i]].GetProvinceCardCost(choice) ){
-				player[buf[i]].buyAndUse(choice);
-				cout << " ($) Transaction succesful!" << endl;
-			}
-			else{
-				#ifdef UI
-		    		pause();
-				#endif
-				cout << " > Not enough money please try something else or pass" << endl;
-			}
 		}
 		#ifdef UI
     	cout << " > Phase Ended for Player " << i+1 << " : Press Enter key to continue" << endl;
@@ -489,7 +530,7 @@ void GameBoard::finalPhase(){
 	#endif
 	cout << " > Round ended: Printing Game Statistics..." << endl << endl;
 	printGameStatistics();
-	cout << "             Game statistics printed " << endl;
+	cout << endl;
 	cout << " ================================================ " << endl;
 	cout << "                   End of Round                   " << endl;
 	cout << " ================================================ " << endl;
