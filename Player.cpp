@@ -633,14 +633,19 @@ bool Player::CheckPersonalityCapacity(unsigned int ano,unsigned int hno){
 }
 
 void Player::attack(Player &target, unsigned int pno){
+	//cout << " attack: " << this->getPlayerAttack() << " defence:" << target.getPlayerDefence() << " initial: " << target.getInitialDefense() << endl;
+	//if((int)this->getPlayerAttack()-(int)target.getPlayerDefence() > (int)target.getInitialDefense()){
 	if(this->getPlayerAttack()-target.getPlayerDefence() > target.getInitialDefense()){
+		cout << endl <<"\t<^> Attacker's absolute Victory <^>" << endl << endl;
+
 		target.dcasualties(0);
 		target.destroyProvince(pno);
 		
 		this->returnHome();
-		
-		cout << endl <<"\t<^> Attacker's absolute Victory <^>" << endl << endl;
-	}else if(this->getPlayerAttack() > target.getPlayerDefence()){
+	}
+	else if(this->getPlayerAttack() > target.getPlayerDefence()){
+		cout << endl <<"\t<^> Attacker's Victory with casualties <^>" << endl << endl;
+
 		target.dcasualties(0);
 		target.destroyProvince(pno);
 		this->acasualties(this->getPlayerAttack()-target.getPlayerDefence());
@@ -648,18 +653,16 @@ void Player::attack(Player &target, unsigned int pno){
 		this->damage();
 
 		this->returnHome();
-		
-		cout << endl <<"\t<^> Attacker's Victory with casualties <^>" << endl << endl;
-	}else if(this->getPlayerAttack() == target.getPlayerDefence()){
+	}
+	else if(this->getPlayerAttack() == target.getPlayerDefence()){
+		cout << endl <<"\t<^> Battle ended in a draw <^>" << endl << endl;
 		target.dcasualties(0);
 		this->acasualties(0);
-		
-		cout << endl <<"\t<^> Battle ended in a draw <^>" << endl << endl;
-	}else{
+	}
+	else{
+		cout << endl <<"\t<^> Defender's victory <^>" << endl << endl;
 		target.dcasualties(target.getPlayerDefence() - this->getPlayerAttack());
 		this->acasualties(0);
-		
-		cout << endl <<"\t<^> Defender's victory <^>" << endl << endl;
 	}
 }
 

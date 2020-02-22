@@ -347,13 +347,13 @@ void GameBoard::battlePhase(){
 						// let him choose his attack target
 						cout << endl << " > Which one of the available players do you want to attack?" << endl;
 						unsigned int target = choosefrom(player_amount-1);
-						if(target>=i){ target++; }
+						if(target>=i-1){ target++; }
 
 						// let him spectate the target's provinces and choose a province
 						#ifdef UI
 						uiClear();
 						#endif
-						cout << " > Targeting Player " << target << ":" << endl << endl;
+						cout << " > Targeting Player " << target+1 << ":" << endl << endl;
 						player[buf[target]].printProvinces();
 						cout << endl;
 						player[buf[target]].printArmy();
@@ -378,7 +378,7 @@ void GameBoard::battlePhase(){
 								#ifdef UI
 								uiClear();
 								#endif
-								cout << endl << endl << "\t\t> Player " << i+1 << " WON! < " << endl;
+								cout << endl << endl << "\t\t       > Player " << 1 << " WON! < " << endl;
 								#ifdef UI
 						    	SplashScreen2();
 						    	cout << endl << " > Press Enter key to continue" << endl;
@@ -560,7 +560,6 @@ bool GameBoard::checkWinningCondition(unsigned int i){
 }
 
 void SplashScreen2(){
-	uiClear();
 	cout << endl;
 	cout << "   `,.      .   .        *   .    .      .  _    ..          ." << endl;
 	cout << "     ,~-.         *           .    .       ))       *    ." << endl;
