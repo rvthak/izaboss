@@ -1,5 +1,6 @@
 #include <ctime>
 #include <cstdlib>
+#include "ui.hpp"
 #include "Player.hpp"
 #include "inputMgr.hpp"
 #include "TypeConverter.hpp"
@@ -168,7 +169,7 @@ void Player::printHoldings(){
 			h = *ith;
 			i++;
 		}
-		cout<< i <<".";
+		cout<< " " << i <<".";
 		h->print();
 		if((*ith)->hasSub()){
 			i++;
@@ -177,6 +178,66 @@ void Player::printHoldings(){
 			h->print();
 		}
 		ith++;
+	}
+}
+
+void Player::printTapHoldings(){
+	cout<<"\t\t<> Holdings available: "<< endl;
+	if( holdings.begin()==holdings.end() ){
+		if( stronghold.tapped()){
+			cout << "NONE" << endl;
+		}
+		else{
+			cout << " 1. Stronghold:\n\t(!) Not Tapped" <<endl;
+		}
+		return;
+	}else{
+		cout<<endl;
+	}
+
+	list<Holding *>::iterator ith;
+	Holding *h;
+	ith = holdings.begin();
+	int i;
+	for(i=1; ith != holdings.end(); i++){
+		h = *ith;
+
+		if((*ith)->hasUpper()){
+			cout<< " " << i << ".";
+			h = (*ith)->getUpperHolding();
+			h->print();
+			if( !((*ith)->getUpperHolding()->tapped()))
+				cout<<"\t(!) Tapped"<<endl;
+			else
+				cout<<"\t(!) Not Tapped"<<endl;
+			h = *ith;
+			i++;
+		}
+
+		cout << " " << i <<".";
+		h->print();
+		if((*ith)->tapped())
+			cout<<"\t(!) Tapped"<<endl;
+		else
+			cout<<"\t(!) Not Tapped"<<endl;
+		
+		if((*ith)->hasSub()){
+			i++;
+			cout<< " " << i <<".";
+			h = (*ith)->getSubHolding();
+			h->print();
+			if( !((*ith)->getSubHolding()->tapped()))
+				cout<<"\t(!) Tapped"<<endl;
+			else
+				cout<<"\t(!) Not Tapped"<<endl;
+		}
+		ith++;
+	}
+	if( stronghold.tapped()){
+		cout << " " << i << ". Stronghold:\n\t(!) Tapped" <<endl;
+	}
+	else{
+		cout << " " << i << ". Stronghold:\n\t(!) Not Tapped" <<endl;
 	}
 }
 
@@ -255,6 +316,30 @@ unsigned int Player::HoldingCardsNo(){
 	return k;
 }
 
+/*
+unsigned int Player::AvailableHoldingsNo(){
+	int k=0;
+	list<Holding *>::iterator ith;
+	for(ith = holdings.begin();ith != holdings.end();ith++){
+		if( !(*ith)->tapped() ){
+			k++;
+		}
+		
+		if((*ith)->hasUpper()){
+			if( !((*ith)->getUpperHolding()->tapped())){
+				k++;
+			}
+		}
+		if((*ith)->hasSub()){
+			if( !((*ith)->getSubHolding()->tapped())){
+				k++;
+			}
+		}
+	}
+	return k;
+}
+*/
+
 unsigned int Player::GetHandCardCost(unsigned int no){
 	int j=0;
 	for(int i=0;i<no && j<7;j++){
@@ -308,26 +393,6 @@ unsigned int Player::getMoney(){
 	return money;
 }
 
-unsigned int Player::getPotentialIncome(){
-	list<Holding *>::iterator ith;
-	Holding *another;
-	unsigned int money;
-	money=stronghold.getMoney();
-
-	for(ith = holdings.begin();ith != holdings.end();ith++){
-		money += (*ith)->getHarvestValue();
-		if((*ith)->hasUpper()){
-			another = (*ith)->getUpperHolding();
-			money += another->getHarvestValue();
-		}
-		if((*ith)->hasSub()){
-			another = (*ith)->getSubHolding();
-			money += another->getHarvestValue();
-		}
-	}
-	return money;
-}
-
 void Player::buyAndAssign(unsigned int hno, unsigned int ano){
 	int j=0;
 	int cost = GetHandCardCost(hno);
@@ -367,17 +432,40 @@ void Player::buyAndAssign(unsigned int hno, unsigned int ano){
 	delete item;
 }
 
+bool Player::ProvinceHidden(int trg){
+	list<BlackCard *>::iterator itp;
+	int i=1;
+	for(itp=provinces.begin(); itp!=provinces.end(); itp++){
+		if(i==trg){
+			if((*itp)->getRevealed()){ // card is revealed
+				return 0;
+			}
+			else{
+				return 1;
+			}
+		}
+		i++;
+	}
+	return 0; // default termination (will never reach that return point)
+}
+
 void Player::pay_cost(int cost){
 	list<Holding *>::iterator ith;
 	Holding *h;
 	int index;
 	int flag=0;
+
 	while(cost >0){
+		#ifdef UI
+		uiClear();
+		#endif
+		cout << " (!) Transaction screen:" << endl << endl;
+		printTapHoldings();
+		cout << endl;
 		cout << " > Choose a Card to use for payment: " << endl;
 		cout << " (!) The machine gives no change (!) => choose wisely" << endl;
 		if(!stronghold.tapped()){
-			cout << " > Type the number of the holding you want to use," << endl;
-			cout << "   or max possible value to pay with your stronghold:" << endl;
+			cout << " > Type the number of the holding you want to use:" << endl;
 			index = choosefrom(HoldingCardsNo()+1);
 		}
 		else{
@@ -416,6 +504,9 @@ void Player::pay_cost(int cost){
 			else{
 				cout << " ($) Payed using Holding!" << endl;
 				cost -= h->getHarvestValue();
+				if(cost>0){
+					cout << " (!) Money still owed:" << cost << endl;
+				}
 				h->tap();
 			}
 		}
@@ -425,6 +516,9 @@ void Player::pay_cost(int cost){
 			else{
 				cout << " ($) Payed using stronghold!" << endl;
 				cost -= stronghold.getMoney();
+				if(cost>0){
+					cout << " (!) Money still owed:" << cost << endl;
+				}
 				stronghold.tap();
 			}
 		}
@@ -453,14 +547,6 @@ unsigned int Player::ActiveArmyCardsNo(){
 		if(!((*ita)->tapped()))
 			k++;
 	return k;
-}
-
-unsigned int Player::getPlayerManPower(){
-	list<Personality *>::iterator ita;
-	unsigned int sum=0;
-	for(ita = army.begin(); ita != army.end();ita++)
-		sum+=(*ita)->getAttack();
-	return sum;
 }
 
 void Player::AddToAttackForce(unsigned int ano){

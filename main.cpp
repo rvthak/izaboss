@@ -8,17 +8,20 @@ using namespace std;
 #define NUMBER_OF_PLAYERS 2
 
 void SplashScreen();
+void SplashScreen3();
+void SplashScreen4();
 
 int main(){
 
 	#ifdef UI
 	SplashScreen();
+	SplashScreen3();
 	#endif
 
 	cout << " <> --- Lidl Heartstone ALPHA (v0.1) --- <>" << endl;
 
 	// Create a game board
-	cout << " > Creating Game Board..." << endl;
+	cout << endl << " > Creating Game Board..." << endl;
 	GameBoard board;
 
 	// Initialize it to prepare for the game
@@ -26,11 +29,12 @@ int main(){
 	board.initializeGameBoard(NUMBER_OF_PLAYERS);
 
 	// Print initial game state and statistics
-	cout << " > Printing Game Stats:" << endl;
+	cout << endl << " > Printing Game Stats:" << endl;
 	board.printGameStatistics();
+	SplashScreen4();
 
 	#ifdef UI
-	cout << " > Press Enter key to start a game:" << endl;
+	cout << endl << " > Press Enter key to start a game:" << endl;
 	pause();
 	#endif
 
@@ -82,4 +86,18 @@ void SplashScreen(){
 	cout << "\t\t    Press Enter key to get started" << endl;
 	pause();
 	uiClear();
+}
+
+void SplashScreen3(){
+	cout << endl;
+	cout << ",_._._._._._._._._|__________________________________________________________," << endl;
+	cout << "|_|_|_|_|_|_|_|_|_|_________________________________________________________/" << endl;
+	cout << "                  !" << endl << endl;
+}
+
+void SplashScreen4(){
+	cout << endl;
+	cout << "._______________________________________________________|_._._._._._._._._._." << endl;
+	cout << " \\______________________________________________________|_#_#_#_#_#_#_#_#_#_|" << endl;
+	cout << "                                                        l" << endl;
 }

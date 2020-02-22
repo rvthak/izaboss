@@ -8,7 +8,7 @@ unsigned int Item::getDurability(){ return durability; }
 void Item::print()const{
 	cout << "Item: ";
 	GreenCard::print();
-	cout << "\n\t" << "Card Durability: "<< durability <<endl;
+	cout << "\t" << "Card Durability: "<< durability <<endl;
 }
 
 void Item::detach(){
