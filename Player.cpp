@@ -685,9 +685,7 @@ void Player::acasualties(unsigned int limit){
 }
 
 void Player::returnHome(){
-	cout<<"\tAttack Casualties:"<<endl;
 	list<Personality *>::iterator ita;
-	Personality *tod = NULL;
 	for(ita = attackForce.begin(); ita != attackForce.end();ita++){
 		(*ita)->tap();
 		army.push_back(*ita);
