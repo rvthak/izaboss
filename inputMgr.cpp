@@ -18,12 +18,12 @@ unsigned int choosefrom(unsigned int n){
 		cout << " > Type a number in [1, " << n << "]" << endl;
 		cout << " ";
 		cin >> input;
-		if (cin.fail()){
+		if (cin.fail()){ // in case the user gives wrong input
     		cin.clear(); 
     		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 		}
 	}
-	cin.get();
+	cin.get(); // get the remaining \n left from >> operator to keep the buffer safe
 	return input;
 }
 

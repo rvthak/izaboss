@@ -56,7 +56,7 @@ class GreenCard : public Card {
 	  	unsigned int min_honour;	// The minimum honour a unit must have to be able to take advantage of this card
 		unsigned int effectBonus;	// The Card upgrade bonus provided extra upon upgrading
 		unsigned int effectCost;	// The Card upgrade cost
-		bool upgraded;
+		bool upgraded;				// Flag that indicates if a card has been upgraded or not
 		std::string cardText;		// A small text description of the Card
 };
 

@@ -316,30 +316,6 @@ unsigned int Player::HoldingCardsNo(){
 	return k;
 }
 
-/*
-unsigned int Player::AvailableHoldingsNo(){
-	int k=0;
-	list<Holding *>::iterator ith;
-	for(ith = holdings.begin();ith != holdings.end();ith++){
-		if( !(*ith)->tapped() ){
-			k++;
-		}
-		
-		if((*ith)->hasUpper()){
-			if( !((*ith)->getUpperHolding()->tapped())){
-				k++;
-			}
-		}
-		if((*ith)->hasSub()){
-			if( !((*ith)->getSubHolding()->tapped())){
-				k++;
-			}
-		}
-	}
-	return k;
-}
-*/
-
 unsigned int Player::GetHandCardCost(unsigned int no){
 	int j=0;
 	for(int i=0;i<no && j<7;j++){

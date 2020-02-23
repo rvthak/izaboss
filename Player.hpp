@@ -28,8 +28,6 @@ class Player {
 		unsigned int getHonour(){ return stronghold.getHonour(); }					// Get the player's Honour
 		unsigned int getInitialDefense(){ return stronghold.getInitialDefense(); }	// Get the player's initial defense
 		unsigned int HoldingCardsNo();												// Returns how many holdings the player has								
-		//unsigned int AvailableHoldingsNo();											// Returns how many untapped holdings the player has
-		
 
 		// Starting Phase
 		unsigned int getPlayerManPower(); 	// Returns the total attack power of all the Player's personalities

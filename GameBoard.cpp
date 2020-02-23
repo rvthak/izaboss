@@ -379,6 +379,7 @@ void GameBoard::battlePhase(){
 								uiClear();
 								#endif
 								cout << endl << endl << "\t\t       > Player " << 1 << " WON! < " << endl;
+								cout << endl << "\t\t             勝って兜の緒を締めよ" << endl << endl;
 								#ifdef UI
 						    	SplashScreen2();
 						    	cout << endl << " > Press Enter key to continue" << endl;
