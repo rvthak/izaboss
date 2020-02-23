@@ -669,7 +669,9 @@ void Player::dcasualties(unsigned int limit){
 }
 
 void Player::acasualties(unsigned int limit){
+	cout<<"\t > Attack Casualties:"<<endl;
 	list<Personality *>::iterator ita;
+	Personality *tod = NULL;
 	for(ita = attackForce.begin(); ita != attackForce.end();ita++){
 		if((*ita)->getAttack()>=limit){
 			(*ita)->print();
