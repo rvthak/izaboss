@@ -258,7 +258,12 @@ void GameBoard::battlePhase(){
 
 			while( getDesision("\n > Do you want to tap any/more of your army members to leave them aside (Protected)? (y/n)") ){
 				cout << " > Which one of your army members do you want to tap?" << endl;
-				unsigned int armyCard = choosefrom(player[buf[i]].ArmyCardsNo());
+				cout << " > Type: " << player[buf[i]].ArmyCardsNo()+1 << " to cancel and move on" << endl;
+				unsigned int armyCard = choosefrom(player[buf[i]].ArmyCardsNo()+1);
+
+				if(armyCard==player[buf[i]].ArmyCardsNo()+1){
+					break;
+				}
 				
 				if(player[buf[i]].TapArmyCard(armyCard)){
 					cout<<" (!) This card is already tapped"<<endl;
