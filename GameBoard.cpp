@@ -427,7 +427,7 @@ void GameBoard::economyPhase(){
 
 		if( player[buf[i]].getMoney()==0 ){
 			cout << " > Player has no money left. He cannot do any transaction. Moving on.." << endl;
-			break;
+			continue;
 		}
 
 		// Print his army and holdings
