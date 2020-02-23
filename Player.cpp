@@ -188,7 +188,9 @@ void Player::printTapHoldings(){
 			cout << "NONE" << endl;
 		}
 		else{
-			cout << " 1. Stronghold:\n\t(!) Not Tapped" <<endl;
+			cout << " 1. Stronghold:" <<endl;
+			cout << "\tHavest value: " << stronghold.getMoney() << endl;
+			cout << "\t(!) Not Tapped" << endl;
 		}
 		return;
 	}else{
@@ -234,10 +236,14 @@ void Player::printTapHoldings(){
 		ith++;
 	}
 	if( stronghold.tapped()){
-		cout << " " << i << ". Stronghold:\n\t(!) Tapped" <<endl;
+		cout << " " << i << ". Stronghold:" <<endl;
+		cout << "\tHavest value: " << stronghold.getMoney() << endl;
+		cout << "\t(!) Tapped" << endl;
 	}
 	else{
-		cout << " " << i << ". Stronghold:\n\t(!) Not Tapped" <<endl;
+		cout << " " << i << ". Stronghold:" <<endl;
+		cout << "\tHavest value: " << stronghold.getMoney() << endl;
+		cout << "\t(!) Not Tapped" << endl;
 	}
 }
 
@@ -459,6 +465,7 @@ void Player::pay_cost(int cost){
 		cout << endl << "\t ~ ~ ~ ($) Transaction screen ($) ~ ~ ~" << endl << endl << endl;
 		printTapHoldings();
 		cout << endl;
+		cout << " (i) Pending cost: " << cost << endl;
 		cout << endl << " > Choose a Card to use for payment: " << endl;
 		cout << " (!) The machine gives no change (!) => choose wisely" << endl;
 		if(!stronghold.tapped()){
@@ -496,8 +503,9 @@ void Player::pay_cost(int cost){
 				}
 			}
 
-			if(h->tapped())
-				cout<<"You can't use the same card to pay your debt!"<<endl;
+			if(h->tapped()){
+				cout<<" > You can't use the same card to pay your debt!"<<endl;
+			}
 			else{
 				cout << " ($) Payed using Holding!" << endl;
 				cost -= h->getHarvestValue();
@@ -508,8 +516,9 @@ void Player::pay_cost(int cost){
 			}
 		}
 		else{
-			if(stronghold.tapped())
+			if(stronghold.tapped()){
 				cout<<" (!) Stronghold income arleady used can't use it again"<<endl;
+			}
 			else{
 				cout << " ($) Payed using stronghold!" << endl;
 				cost -= stronghold.getMoney();
@@ -519,6 +528,7 @@ void Player::pay_cost(int cost){
 				stronghold.tap();
 			}
 		}
+		pause();
 	}
 }
 
