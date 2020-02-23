@@ -317,7 +317,7 @@ void GameBoard::battlePhase(){
 				}
 			}
 
-			// ======= Stage 2 =======
+			// ======= Stage 3 =======
 			// Actual Attack
 			while(flag){ // Player Selected at least one soldier for attack => Attack possible
 				#ifdef UI
@@ -347,7 +347,8 @@ void GameBoard::battlePhase(){
 						// let him choose his attack target
 						cout << endl << " > Which one of the available players do you want to attack?" << endl;
 						unsigned int target = choosefrom(player_amount-1);
-						if(target>=i-1){ target++; }
+						target--;
+						if(i<=target){ target++; }
 
 						// let him spectate the target's provinces and choose a province
 						#ifdef UI
