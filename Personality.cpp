@@ -115,7 +115,10 @@ void Personality::printFull(){
 
 }
 
-void Personality::follower_cas(unsigned int limit){
+int Personality::follower_cas(unsigned int limit){
+	if( followers.begin()==followers.end() ){
+		return 1;
+	}
 	cout<<"\tFollower casualties:"<<endl;
 	list<Follower *>::iterator itf;
 	Follower *tod = NULL;
@@ -130,6 +133,7 @@ void Personality::follower_cas(unsigned int limit){
 		}else
 			itf++;
 	}
+	return 0;
 }
 
 void Personality::removeBuffs(Follower *f){

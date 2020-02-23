@@ -653,38 +653,56 @@ void Player::attack(Player &target, unsigned int pno){
 }
 
 void Player::dcasualties(unsigned int limit){
-	cout<<"\t > Defence Casualties:"<<endl;
+	cout<<"\t > Defence Casualties: "<<endl;
+	if( army.begin()==army.end() ){
+		cout << "\t\tNONE" << endl << endl;
+		return;
+	}
+	bool none=1;
 	list<Personality *>::iterator ita;
 	Personality *tod = NULL;
 	for(ita = army.begin(); ita != army.end();){
 		if(!((*ita)->tapped()) && (*ita)->getAttack()>=limit){
+			none=0;
 			(*ita)->print();
 			tod = *ita;
 			army.remove((*ita));
 			delete (tod);
 			ita = army.begin();
 		}else if(!((*ita)->tapped())){
-			(*ita)->follower_cas(limit);
+			if( !(*ita)->follower_cas(limit) ){
+				none=0;
+			}
 			ita++;
 		}
+	}
+	if(none){
+		cout << "\t\tNONE" << endl << endl;
 	}
 }
 
 void Player::acasualties(unsigned int limit){
-	cout<<"\t > Attack Casualties:"<<endl;
+	cout<<"\t > Attack Casualties: "<<endl;
+	bool none=1;
 	list<Personality *>::iterator ita;
 	Personality *tod = NULL;
 	for(ita = attackForce.begin(); ita != attackForce.end();){
 		if((*ita)->getAttack()>=limit){
+			none=0;
 			(*ita)->print();
 			tod = *ita;
 			attackForce.remove((*ita));
 			delete (tod);
 			ita = attackForce.begin();
 		}else{
-			(*ita)->follower_cas(limit);
+			if( !(*ita)->follower_cas(limit) ){
+				none=0;
+			}
 			ita++;
 		}
+	}
+	if(none){
+		cout << "\t\tNONE" << endl << endl;
 	}
 }
 

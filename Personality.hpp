@@ -12,9 +12,9 @@ class Personality : public BlackCard {
 		Personality(){}
 		~Personality();
 
-		void damage();			 // Damage the personality (reduce honour + damage items)
-		void performSeppuku();		 // Personality kills itself (deletes personality)
-		void follower_cas(unsigned int); // Upon Victory with casualties some followers get casted away
+		void damage();			 		// Damage the personality (reduce honour + damage items)
+		void performSeppuku();		 	// Personality kills itself (deletes personality)
+		int follower_cas(unsigned int); // Upon Victory with casualties some followers get casted away returns 1 if none where deleted
 	
 		// Basic getters
 		unsigned int getAttack()const{ return attack; }
