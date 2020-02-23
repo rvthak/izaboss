@@ -675,6 +675,9 @@ void Player::dcasualties(unsigned int limit){
 			}
 			ita++;
 		}
+		else{
+			ita++;
+		}
 	}
 	if(none){
 		cout << "\t\tNONE" << endl << endl;
