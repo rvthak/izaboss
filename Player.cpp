@@ -528,6 +528,7 @@ void Player::pay_cost(int cost){
 				stronghold.tap();
 			}
 		}
+		cout << " > Press Enter key to continue" << endl;
 		pause();
 	}
 }
