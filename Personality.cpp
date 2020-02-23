@@ -19,6 +19,32 @@ Personality::~Personality(){
 		(*iti)->detach();
 }
 
+unsigned int Personality::getAttack(bool flag){
+	unsigned int sum = attack;
+	if(flag)
+		return sum;
+	list<Follower *>::iterator itf;
+	for(itf = followers.begin(); itf != followers.end();itf++)
+		sum+=(*itf)->getAttackBonus();
+	list<Item *>::iterator iti;
+	for(iti = items.begin(); iti != items.end();iti++)
+		sum+=(*iti)->getAttackBonus(); 
+	return sum; 
+}
+
+unsigned int Personality::getDefence(bool flag){
+	unsigned int sum = defence;
+	if(flag)
+		return sum;
+	list<Follower *>::iterator itf;
+	for(itf = followers.begin(); itf != followers.end();itf++)
+		sum+=(*itf)->getDefenceBonus();
+	list<Item *>::iterator iti;
+	for(iti = items.begin(); iti != items.end();iti++)
+		sum+=(*iti)->getDefenceBonus(); 
+	return sum; 
+}
+
 unsigned int Personality::followerAmount(){
 	unsigned int count=0;
 	list<Follower *>::iterator flr;
@@ -48,7 +74,6 @@ void Personality::damage(){
 		if( (*iti)->loseDurability() ){ // durability reaches 0 => detach
 			cout << " (!) Item destroyed..." << endl;
 			items.remove(*iti);
-			this->removeBuffs(*iti);
 			(*iti)->detach();
 			iti=items.begin();
 		}else
@@ -61,13 +86,9 @@ void Personality::performSeppuku(){
 }
 
 void Personality::equip(Follower *f){
-	attack+=f->getAttackBonus();
-	defence+=f->getDefenceBonus();
 	followers.push_back(f);
 }
 void Personality::equip(Item *i){
-	attack+=i->getAttackBonus();
-	defence+=i->getDefenceBonus();
 	items.push_back(i);
 }
 
@@ -127,35 +148,12 @@ int Personality::follower_cas(unsigned int limit){
 			(*itf)->print();
 			tod = *itf;
 			followers.remove(*itf);
-			this->removeBuffs(*itf);
 			(*itf)->detach();
 			itf = followers.begin();
 		}else
 			itf++;
 	}
 	return 0;
-}
-
-void Personality::removeBuffs(Follower *f){
-	if(f->checkUpgraded()){
-		attack-= (f->getAttackBonus() + f->getEffectBonus());
-		defence-= (f->getDefenceBonus()+ f->getEffectBonus());
-	}
-	else{
-		attack-= f->getAttackBonus();
-		defence-= f->getDefenceBonus();
-	}
-}
-
-void Personality::removeBuffs(Item *it){
-	if(it->checkUpgraded()){
-		attack-= (it->getAttackBonus() + it->getEffectBonus());
-		defence-= (it->getDefenceBonus()+ it->getEffectBonus());
-	}
-	else{
-		attack-= it->getAttackBonus();
-		defence-= it->getDefenceBonus();
-	}
 }
 
 Attacker::Attacker(const string n){

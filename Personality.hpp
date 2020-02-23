@@ -17,8 +17,8 @@ class Personality : public BlackCard {
 		int follower_cas(unsigned int); // Upon Victory with casualties some followers get casted away returns 1 if none where deleted
 	
 		// Basic getters
-		unsigned int getAttack()const{ return attack; }
-		unsigned int getDefence()const{ return defence; }
+		unsigned int getAttack(bool);
+		unsigned int getDefence(bool);
 		unsigned int getHonour()const{ return honour; }
 		bool getIsDead()const{ return isDead; }
 
@@ -36,9 +36,6 @@ class Personality : public BlackCard {
 	
 		// Print Personality ( ! including equipped Items and followers )
 		void printFull();
-
-		void removeBuffs(Follower*);
-		void removeBuffs(Item *);
 
 		virtual void print()const;
 		virtual int getType()const{ return 1; }
