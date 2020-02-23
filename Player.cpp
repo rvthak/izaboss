@@ -107,9 +107,9 @@ void Player::printHand(){
 	int j=0;
 	for(int i=0; i<7 ;i++){
 		if(hand[i]!=NULL){
+			j++;
 			cout << endl << " " << i+1 << ".";
 			hand[i]->print();
-			j++;
 		}
 	}
 	if(j==0){ cout << "NONE" << endl; }	
@@ -206,7 +206,7 @@ void Player::printTapHoldings(){
 			cout<< " " << i << ".";
 			h = (*ith)->getUpperHolding();
 			h->print();
-			if( !((*ith)->getUpperHolding()->tapped()))
+			if((*ith)->getUpperHolding()->tapped())
 				cout<<"\t(!) Tapped"<<endl;
 			else
 				cout<<"\t(!) Not Tapped"<<endl;
@@ -226,7 +226,7 @@ void Player::printTapHoldings(){
 			cout<< " " << i <<".";
 			h = (*ith)->getSubHolding();
 			h->print();
-			if( !((*ith)->getSubHolding()->tapped()))
+			if( (*ith)->getSubHolding()->tapped())
 				cout<<"\t(!) Tapped"<<endl;
 			else
 				cout<<"\t(!) Not Tapped"<<endl;
@@ -643,14 +643,17 @@ void Player::attack(Player &target, unsigned int pno){
 }
 
 void Player::dcasualties(unsigned int limit){
+	cout<<"\t > Defence Casualties:"<<endl;
 	list<Personality *>::iterator ita;
+	Personality *tod = NULL;
 	for(ita = army.begin(); ita != army.end();ita++){
 		if(!((*ita)->tapped()) && (*ita)->getAttack()>=limit){
-			army.remove(*ita);
-			delete *ita;
+			(*ita)->print();
+			tod = *ita;
+			army.remove((*ita));
+			delete (tod);
 			ita = army.begin();
-		}
-		if(!((*ita)->tapped()))
+		}else if(!((*ita)->tapped()))
 			(*ita)->follower_cas(limit);
 	}
 }
@@ -659,16 +662,20 @@ void Player::acasualties(unsigned int limit){
 	list<Personality *>::iterator ita;
 	for(ita = attackForce.begin(); ita != attackForce.end();ita++){
 		if((*ita)->getAttack()>=limit){
-			attackForce.remove(*ita);
-			delete *ita;
+			(*ita)->print();
+			tod = *ita;
+			attackForce.remove((*ita));
+			delete (tod);
 			ita = attackForce.begin();
-		}
-		(*ita)->follower_cas(limit);
+		}else
+			(*ita)->follower_cas(limit);
 	}
 }
 
 void Player::returnHome(){
+	cout<<"\tAttack Casualties:"<<endl;
 	list<Personality *>::iterator ita;
+	Personality *tod = NULL;
 	for(ita = attackForce.begin(); ita != attackForce.end();ita++){
 		(*ita)->tap();
 		army.push_back(*ita);
@@ -700,11 +707,13 @@ void Player::damage(){
 
 void Player::destroyProvince(unsigned int pno){
 	list<BlackCard *>::iterator itp;
+	BlackCard *tod = NULL;
 	itp = provinces.begin();
 	for(int i=1;i<pno && i<numberOfProvinces;i++)
 		itp++;
-	provinces.remove(*itp);
-	delete *itp;
+	tod = *itp;
+	provinces.remove((*itp));
+	delete (tod);
 	numberOfProvinces--;
 	cout<<"Provinces left: "<<numberOfProvinces<<endl;
 	this->printProvinces();
