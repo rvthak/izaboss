@@ -42,7 +42,7 @@ int main(){
 	cout << endl << " --- Starting game... ---" << endl;
 	board.gameplay();
 
-	cout << " > Quitting game..." << endl;
+	cout << " > Quitting game..." << endl << endl;
 	cout << " ___Game made for glory by azuran and pigeon___" << endl;
 	uiTerminate(); // Garbage collect ui
 	return 0;
