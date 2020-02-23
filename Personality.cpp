@@ -44,14 +44,15 @@ void Personality::damage(){
 	honour--;
 
 	// Items lose durability
-	for(iti = items.begin(); iti != items.end(); iti++){
+	for(iti = items.begin(); iti != items.end();){
 		if( (*iti)->loseDurability() ){ // durability reaches 0 => detach
 			cout << " (!) Item destroyed..." << endl;
 			items.remove(*iti);
 			this->removeBuffs(*iti);
 			(*iti)->detach();
 			iti=items.begin();
-		}
+		}else
+			iti++;
 	}
 }
 
