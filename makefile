@@ -1,4 +1,4 @@
-OUT=izaboss
+OUT=l5r
 OBJS=main.o GameBoard.o Player.o Card.o Item.o Follower.o Holding.o Personality.o DeckBuilder.o TypeConverter.o inputMgr.o ui.o
 CXX=g++ 
 CXXFLAGS=-std=c++11
