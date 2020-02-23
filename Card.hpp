@@ -30,7 +30,7 @@ class GreenCard : public Card {
 // Follower + Item sub-classes go at their own files
 
 	public:
-		GreenCard():upgraded(0){}
+		GreenCard(){}
 		~GreenCard(){}
 
 		// Data Member Getters
@@ -43,9 +43,7 @@ class GreenCard : public Card {
 
 		void upgrade(){ // Add the Upgrade bonuses
 			attackBonus+=effectBonus; defenceBonus+=effectBonus;
-			upgraded=1;
-		}	
-		bool checkUpgraded(){return upgraded;}
+		}
 		
 		virtual void print()const;
 		virtual int getType()const=0;
@@ -56,7 +54,6 @@ class GreenCard : public Card {
 	  	unsigned int min_honour;	// The minimum honour a unit must have to be able to take advantage of this card
 		unsigned int effectBonus;	// The Card upgrade bonus provided extra upon upgrading
 		unsigned int effectCost;	// The Card upgrade cost
-		bool upgraded;				// Flag that indicates if a card has been upgraded or not
 		std::string cardText;		// A small text description of the Card
 };
 
