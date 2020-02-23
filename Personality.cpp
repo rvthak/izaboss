@@ -119,7 +119,7 @@ void Personality::follower_cas(unsigned int limit){
 	cout<<"\tFollower casualties:"<<endl;
 	list<Follower *>::iterator itf;
 	Follower *tod = NULL;
-	for(itf = followers.begin();itf != followers.end();itf++){
+	for(itf = followers.begin();itf != followers.end();){
 		if((*itf)->getAttackBonus()>=limit){
 			(*itf)->print();
 			tod = *itf;
@@ -127,7 +127,8 @@ void Personality::follower_cas(unsigned int limit){
 			this->removeBuffs(*itf);
 			(*itf)->detach();
 			itf = followers.begin();
-		}
+		}else
+			itf++;
 	}
 }
 
