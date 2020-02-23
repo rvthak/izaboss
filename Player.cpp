@@ -610,8 +610,8 @@ bool Player::CheckPersonalityCapacity(unsigned int ano,unsigned int hno){
 
 void Player::attack(Player &target, unsigned int pno){
 	//cout << " attack: " << this->getPlayerAttack() << " defence:" << target.getPlayerDefence() << " initial: " << target.getInitialDefense() << endl;
-	//if((int)this->getPlayerAttack()-(int)target.getPlayerDefence() > (int)target.getInitialDefense()){
-	if(this->getPlayerAttack()-target.getPlayerDefence() > target.getInitialDefense()){
+	if( this->getPlayerAttack() > target.getPlayerDefence() + target.getInitialDefense()){
+	//if(this->getPlayerAttack()-target.getPlayerDefence() > target.getInitialDefense()){
 		cout << endl <<"\t<^> Attacker's absolute Victory <^>" << endl << endl;
 
 		target.dcasualties(0);
