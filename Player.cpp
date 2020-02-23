@@ -108,7 +108,7 @@ void Player::printHand(){
 	for(int i=0; i<7 ;i++){
 		if(hand[i]!=NULL){
 			j++;
-			cout << endl << " " << i+1 << ".";
+			cout << endl << " " << j << ".";
 			hand[i]->print();
 		}
 	}
@@ -656,15 +656,17 @@ void Player::dcasualties(unsigned int limit){
 	cout<<"\t > Defence Casualties:"<<endl;
 	list<Personality *>::iterator ita;
 	Personality *tod = NULL;
-	for(ita = army.begin(); ita != army.end();ita++){
+	for(ita = army.begin(); ita != army.end();){
 		if(!((*ita)->tapped()) && (*ita)->getAttack()>=limit){
 			(*ita)->print();
 			tod = *ita;
 			army.remove((*ita));
 			delete (tod);
 			ita = army.begin();
-		}else if(!((*ita)->tapped()))
+		}else if(!((*ita)->tapped())){
 			(*ita)->follower_cas(limit);
+			ita++;
+		}
 	}
 }
 
@@ -672,26 +674,29 @@ void Player::acasualties(unsigned int limit){
 	cout<<"\t > Attack Casualties:"<<endl;
 	list<Personality *>::iterator ita;
 	Personality *tod = NULL;
-	for(ita = attackForce.begin(); ita != attackForce.end();ita++){
+	for(ita = attackForce.begin(); ita != attackForce.end();){
 		if((*ita)->getAttack()>=limit){
 			(*ita)->print();
 			tod = *ita;
 			attackForce.remove((*ita));
 			delete (tod);
 			ita = attackForce.begin();
-		}else
+		}else{
 			(*ita)->follower_cas(limit);
+			ita++;
+		}
 	}
 }
 
 void Player::returnHome(){
 	list<Personality *>::iterator ita;
-	for(ita = attackForce.begin(); ita != attackForce.end();ita++){
+	for(ita = attackForce.begin(); ita != attackForce.end();){
 		(*ita)->tap();
 		army.push_back(*ita);
 		attackForce.remove(*ita);
 		ita = attackForce.begin();
 	}
+	
 	if(attackForce.begin()==attackForce.end() ){
 		cout << " > Attack force successfully returned home" << endl;
 	}
@@ -700,7 +705,7 @@ void Player::returnHome(){
 void Player::damage(){
 	list<Personality *>::iterator ita;
 	// For all remaining personalities in attack force
-	for(ita = attackForce.begin(); ita != attackForce.end();ita++){
+	for(ita = attackForce.begin(); ita != attackForce.end();){
 		// Decrease their honnor and damage their items
 		(*ita)->damage();
 
@@ -710,7 +715,8 @@ void Player::damage(){
 			attackForce.remove(*ita);
 			(*ita)->performSeppuku();
 			ita = attackForce.begin();
-		}
+		}else
+			ita++;
 	}
 
 }
