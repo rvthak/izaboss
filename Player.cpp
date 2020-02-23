@@ -572,7 +572,7 @@ unsigned int Player::getPlayerAttack(){
 	list<Personality *>::iterator ita;
 	unsigned int sum=0;
 	for(ita = attackForce.begin(); ita != attackForce.end();ita++)
-		sum += (*ita)->getAttack();
+		sum += (*ita)->getAttack(0);
 	return sum;
 }
 
@@ -580,7 +580,7 @@ unsigned int Player::getPlayerManPower(){
 	list<Personality *>::iterator ita;
 	unsigned int sum=0;
 	for(ita = army.begin(); ita != army.end();ita++)
-		sum+=(*ita)->getAttack();
+		sum+=(*ita)->getAttack(0);
 	return sum;
 }
 
@@ -589,7 +589,7 @@ unsigned int Player::getPlayerDefence(){
 	unsigned int sum=getInitialDefense();
 	for(ita = army.begin(); ita != army.end();ita++)
 		if(!((*ita)->tapped()))
-			sum += (*ita)->getDefence();
+			sum += (*ita)->getDefence(0);
 	return sum;
 }
 
@@ -663,7 +663,7 @@ void Player::dcasualties(unsigned int limit){
 	list<Personality *>::iterator ita;
 	Personality *tod = NULL;
 	for(ita = army.begin(); ita != army.end();){
-		if(!((*ita)->tapped()) && (*ita)->getAttack()>=limit){
+		if(!((*ita)->tapped()) && (*ita)->getAttack(1)>=limit){
 			none=0;
 			(*ita)->print();
 			tod = *ita;
@@ -691,7 +691,7 @@ void Player::acasualties(unsigned int limit){
 	list<Personality *>::iterator ita;
 	Personality *tod = NULL;
 	for(ita = attackForce.begin(); ita != attackForce.end();){
-		if((*ita)->getAttack()>=limit){
+		if((*ita)->getAttack(1)>=limit){
 			none=0;
 			(*ita)->print();
 			tod = *ita;
