@@ -113,6 +113,7 @@ void GameBoard::startingPhase(){
 	cout << "\t\t ^==============================================^ " << endl;
 	#endif
 	for(unsigned int i=0; i<player_amount; i++){
+		if( !player[buf[i]].hasProvinces() ){ continue; }
 		#ifdef UI
 		uiClear();
 		cout << "\t\t ================================================ " << endl;
@@ -141,6 +142,7 @@ void GameBoard::equipPhase(){
 	cout << "\t\t ^==============================================^ " << endl;
 	#endif
 	for(unsigned int i=0; i<player_amount; i++){
+		if( !player[buf[i]].hasProvinces() ){ continue; }
 		#ifdef UI
 		uiClear();
 		cout << "\t\t ================================================ " << endl;
@@ -209,6 +211,11 @@ void GameBoard::equipPhase(){
 					cout << " > Player has no money left. He cannot do any transaction. Moving on.." << endl;
 					break;
 				}
+				
+				if(player[buf[i]].HandCardsNo()==0){
+					cout<<"You don't have any cards on your hand!"<<endl;
+					break;
+				}
 
 				// Print his hand and army to allow him to choose his next move
 				player[buf[i]].printHand();
@@ -236,6 +243,7 @@ void GameBoard::battlePhase(){
 	cout << "\t\t ^==============================================^ " << endl;
 	#endif
 	for(unsigned int i=0; i<player_amount; i++){	// for each player in the correct order
+		if( !player[buf[i]].hasProvinces() ){ continue; }
 		flag=0;
 		#ifdef UI
 		uiClear();
@@ -385,7 +393,7 @@ void GameBoard::battlePhase(){
 								uiClear();
 								#endif
 								cout << endl << endl << "\t\t       > Player " << 1 << " WON! < " << endl;
-								cout << endl << "\t\t             勝って兜の緒を締めよ" << endl << endl;
+								cout << endl << "\t\t    勝って兜の緒を締めよ" << endl << endl;
 								#ifdef UI
 						    	SplashScreen2();
 						    	cout << endl << " > Press Enter key to continue" << endl;
@@ -423,6 +431,7 @@ void GameBoard::economyPhase(){
 	cout << "\t\t ^==============================================^ " << endl;
 	#endif
 	for(unsigned int i=0; i<player_amount; i++){ // !!! each player can buy only one card in this phase
+		if( !player[buf[i]].hasProvinces() ){ continue; }
 		#ifdef UI
 		uiClear();
 		cout << "\t\t ================================================ " << endl;
@@ -507,6 +516,7 @@ void GameBoard::finalPhase(){
 	cout << "\t\t ^==============================================^ " << endl;
 	#endif
 	for(unsigned int i=0; i<player_amount; i++){
+		if( !player[buf[i]].hasProvinces() ){ continue; }
 		#ifdef UI
 		uiClear();
 		cout << "\t\t ================================================ " << endl;
