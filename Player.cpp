@@ -781,11 +781,15 @@ void Player::buyAndUse(unsigned int pno){
 	}
 	provinces.remove(*itp);
 	list<BlackCard *>::iterator itd;
+	delete person;
+	delete hold;
+	if(dynastyDeck->begin()==dynastyDeck->end()){
+		cout << " > Dynasty Deck empty. Cant draw any more" << endl;
+		return;
+	}
 	itd = dynastyDeck->begin();
 	provinces.push_back(*itd);
 	dynastyDeck->pop_front();
-	delete person;
-	delete hold;
 }
 
 void Player::ChainCreation(Holding *nhold){

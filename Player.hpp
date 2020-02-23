@@ -32,9 +32,9 @@ class Player {
 		// Starting Phase
 		unsigned int getPlayerManPower(); 	// Returns the total attack power of all the Player's personalities
 		unsigned int getPotentialIncome();	// Returns the total revenue all the holdings can provide per round
-		void untapEverything();	// Untap every card in army + holdings
-		void drawFateCard();	// Draw a new fate card
-		void revealProvinces();	// Reveal all the hidden provinces
+		void untapEverything();				// Untap every card in army + holdings
+		void drawFateCard();				// Draw a new fate card
+		void revealProvinces();				// Reveal all the hidden provinces
 		
 		// Equip Phase
 		bool hasArmy();											// Check if player has army
