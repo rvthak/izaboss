@@ -12,17 +12,17 @@ A simplified version of the Board game Legend of the five Rings (LOT5R) for linu
 __The program was Developed on pop!_os 19.10 64-bit__
 __The compiler used during development is g++__
 
- => For simplicity we chose to build the program using a makefile
+=> For simplicity we chose to build the program using a makefile
 > Compile the program using command:
-make
+    make
 
 > Debug the program using commands:
-make gdb 	// for gdb
-make vg		// for valgrind
+    make gdb 	// for gdb
+    make vg		// for valgrind
 ( There are more sophisticated options available for memory leaks, read the makefile itself )
 
 > Clean the object files with:
-make clean
+    make clean
 
 > Run the program with:
-./l5r
+    ./l5r
