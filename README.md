@@ -1,7 +1,7 @@
 # izaboss
 Epic Izabo boss battle (Ναι? Ποιος ειναι?)
 
-Object Oriented Programming Final Assignment 2019-2020
+__Object Oriented Programming Final Assignment 2019-2020__
 A simplified version of the Board game Legend of the five Rings (LOT5R) for linux terminal
 
 ## team:
