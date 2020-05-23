@@ -1,5 +1,4 @@
 # izaboss
-Epic Izabo boss battle (Ναι? Ποιος ειναι?)
 
 __Object Oriented Programming Final Assignment 2019-2020__
 
@@ -15,3 +14,6 @@ A simplified version of the Board game Legend of the five Rings (LOT5R) for linu
     cd izaboss
     make
     ./l5r
+    
+--------------------------------------------------------------------------------------
+Epic Izabo boss battle (Ναι? Ποιος ειναι?)
