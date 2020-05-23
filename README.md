@@ -1,6 +1,6 @@
 # izaboss
 
-__Object Oriented Programming Final Assignment 2019-2020__
+##Object Oriented Programming Final Assignment 2019-2020
 
 A simplified version of the Board game Legend of the five Rings (LOT5R) for linux terminal
 
