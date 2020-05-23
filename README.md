@@ -14,15 +14,18 @@ __The compiler used during development is g++__
 
 => For simplicity we chose to build the program using a makefile
 > Compile the program using command:
+    
     make
 
 > Debug the program using commands:
+    
     make gdb 	// for gdb
     make vg		// for valgrind
-( There are more sophisticated options available for memory leaks, read the makefile itself )
 
 > Clean the object files with:
+    
     make clean
 
 > Run the program with:
+    
     ./l5r
