@@ -14,6 +14,4 @@ A simplified version of the Board game Legend of the five Rings (LOT5R) for linu
     cd izaboss
     make
     ./l5r
-    
---------------------------------------------------------------------------------------
-Epic Izabo boss battle (Ναι? Ποιος ειναι?)
+   
